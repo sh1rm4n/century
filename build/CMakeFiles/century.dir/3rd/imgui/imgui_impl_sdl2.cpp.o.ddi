@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

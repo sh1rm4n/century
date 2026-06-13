@@ -1,0 +1,4 @@
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/opt/clion/bin/ninja/linux/x64/ninja -DCMAKE_TOOLCHAIN_FILE=/home/sh1rm4n/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja -S /home/sh1rm4n/CLionProjects/century -B /home/sh1rm4n/CLionProjects/century/build
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/sh1rm4n/CLionProjects/century/build

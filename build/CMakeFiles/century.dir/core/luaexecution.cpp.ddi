@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles/century.dir/core/luaexecution.cpp.o",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

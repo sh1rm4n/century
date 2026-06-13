@@ -1,0 +1,43 @@
+Package: vcpkg-cmake-config
+Version: 2024-05-23
+Architecture: x64-linux
+Multi-Arch: same
+Abi: d93c61bad32bdfa80b6ba07c454de496e3e8310c4278964ca4b9860646f71edb
+Status: install ok installed
+
+Package: vcpkg-cmake
+Version: 2024-04-23
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 2e9e4d3373ad7b928f88753830ea145ed7b8cc33f8e76c46f2d46358dfb9dc6c
+Status: install ok installed
+
+Package: zycore
+Version: 1.5.2
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 896e4b2a7fe6541fec2656713a8e050d71e2449f0cac6739d9714f7322e511af
+Description: Provides platform independent types, macros and a fallback for environments without LibC.
+Status: install ok installed
+
+Package: zydis
+Version: 4.1.1
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config, zycore
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 65c24021f11bdfbdfdbbcab591dff56265155c2ac6fe094a6f021aa152b3bfe8
+Description: Fast and lightweight x86/x86-64 disassembler library.
+Status: install ok installed
+
+Package: safetyhook
+Version: 0.6.9
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config, zydis
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 5d3c88b66ee895df739aca24899a35e23c7059aa95684acdb9421fbdd67c8155
+Description: C++23 procedure hooking library.
+Status: install ok installed
+

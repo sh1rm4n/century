@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles/century.dir/core/interfaces.cpp.o",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

@@ -1,0 +1,120 @@
+{
+	"abstract" : true,
+	"backtrace" : 13,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_library",
+			"add_library",
+			"_find_package",
+			"find_package",
+			"include",
+			"__find_dependency_common",
+			"find_dependency"
+		],
+		"files" : 
+		[
+			"/home/sh1rm4n/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"/usr/share/cmake/Modules/FindBZip2.cmake",
+			"/home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/vcpkg-cmake-wrapper.cmake",
+			"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
+			"/home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-config.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 5,
+				"line" : 146,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 910,
+				"parent" : 1
+			},
+			{
+				"file" : 4,
+				"parent" : 2
+			},
+			{
+				"command" : 6,
+				"file" : 4,
+				"line" : 54,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 3,
+				"line" : 125,
+				"parent" : 4
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 93,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 864,
+				"parent" : 6
+			},
+			{
+				"file" : 2,
+				"parent" : 7
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 43,
+				"parent" : 8
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 910,
+				"parent" : 9
+			},
+			{
+				"file" : 1,
+				"parent" : 10
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 156,
+				"parent" : 11
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 655,
+				"parent" : 12
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"id" : "BZip2::BZip2::@6890427a1f51a3e7e1df",
+	"imported" : true,
+	"local" : true,
+	"name" : "BZip2::BZip2",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sources" : [],
+	"type" : "UNKNOWN_LIBRARY"
+}
