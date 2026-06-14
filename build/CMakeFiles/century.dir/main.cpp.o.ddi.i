@@ -379149,8 +379149,6 @@ int dtRenderCapture(void* luaState) {
 
 std::thread thread;
 
-void __attribute__((destructor)) detach();
-
 static void mainThread() {
     modules->Prepare();
     utils::ColorPrint(Color(189, 0, 255),"[century] modules init!");
@@ -379226,6 +379224,8 @@ static void mainThread() {
 
     utils::Print("[century] unloaded!");
 }
+
+
 
 void __attribute__((constructor)) attach() {
     thread = std::thread(mainThread);

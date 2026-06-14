@@ -25,8 +25,6 @@
 
 std::thread thread;
 
-void __attribute__((destructor)) detach();
-
 static void mainThread() {
     modules->Prepare();
     utils::ColorPrint(Color(189, 0, 255),"[century] modules init!");
@@ -103,6 +101,8 @@ static void mainThread() {
     utils::Print("[century] unloaded!");
 }
 
+#if defined(__linux__)
+
 void __attribute__((constructor)) attach() {
     thread = std::thread(mainThread);
     thread.detach();
@@ -111,3 +111,15 @@ void __attribute__((constructor)) attach() {
 void __attribute__((destructor)) detach() {
     thread.join();
 }
+
+#elif defined(_WIN32)
+
+int __stdcall DllMain(void*, std::uint32_t reason, void*) {
+    if (reason == DLL_PROCESS_ATTACH) {
+        thread = std::thread(mainThread);
+        thread.detach();
+    }
+    return 1;
+}
+
+#endif

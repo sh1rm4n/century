@@ -10,7 +10,12 @@ void *Modules::GetModule(const std::string &moduleName) noexcept {
     if (moduleName.empty())
         return nullptr;
 
+#if defined(__linux__)
     const auto moduleAddr = dlopen(moduleName.c_str(), RTLD_NOW | RTLD_NOLOAD);
+#elif defined(_WIN32)
+    const auto moduleAddr = GetModuleHandleA(moduleName.c_str());
+#endif
+
     if (!moduleAddr)
         return nullptr;
 
@@ -21,7 +26,12 @@ void *Modules::GetExport(void *module, const std::string &exportName) noexcept {
     if (exportName.empty())
         return nullptr;
 
+#if defined(__linux__)
     const auto exportAddr = dlsym(module, exportName.c_str());
+#elif defined(_WIN32)
+    const auto exportAddr = static_cast<void*>(GetProcAddress(module, exportName.c_str()));
+#endif
+
     if (!exportAddr)
         return nullptr;
 
