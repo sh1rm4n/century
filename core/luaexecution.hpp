@@ -26,7 +26,7 @@ private:
     lua_settop_ lua_settop = nullptr;
 public:
     void Prepare() noexcept;
-    void Execute(LuaInterfaceType realm, const std::string& script) noexcept;
+    void Execute(const int realm, const std::string& script) noexcept;
 };
 
 inline auto luaExecution = std::make_shared<LuaExecution>();

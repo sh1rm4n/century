@@ -18,21 +18,19 @@ void LuaExecution::Prepare() noexcept {
     lua_pcall = reinterpret_cast<lua_pcall_>(modules->GetExport(modules->luaShared, "lua_pcall"));
     lua_settop = reinterpret_cast<lua_settop_>(modules->GetExport(modules->luaShared, "lua_settop"));
 
-    utils::Warn("[century][lua execution] luaL_loadbufferx: {}", reinterpret_cast<std::uintptr_t>(luaL_loadbufferx));
-    utils::Warn("[century][lua execution] lua_pcall: {}", reinterpret_cast<std::uintptr_t>(lua_pcall));
-    utils::Warn("[century][lua execution] lua_settop: {}", reinterpret_cast<std::uintptr_t>(lua_settop));
-
-    utils::Warn("[century][lua execution] cl state: {}", interfaces->luaShared->GetLuaInterface(LUA_CLIENT));
+    //utils::Warn("[century][lua execution] luaL_loadbufferx: {}", reinterpret_cast<std::uintptr_t>(luaL_loadbufferx));
+    //utils::Warn("[century][lua execution] lua_pcall: {}", reinterpret_cast<std::uintptr_t>(lua_pcall));
+    //utils::Warn("[century][lua execution] lua_settop: {}", reinterpret_cast<std::uintptr_t>(lua_settop));
 }
 
-void LuaExecution::Execute(const LuaInterfaceType realm, const std::string& script) noexcept {
+void LuaExecution::Execute(const int realm, const std::string& script) noexcept {
     if (script.empty())
         return;
 
-    utils::Warn("{}", SDL_GetClipboardText());
+    const auto luaInterface = interfaces->luaShared->GetLuaInterface(realm);
 
     const auto state = *reinterpret_cast<lua_State**>(
-        reinterpret_cast<std::uint64_t>(interfaces->luaShared->GetLuaInterface(realm)) + 0x8);
+        reinterpret_cast<std::uint64_t>(luaInterface) + 0x8);
 
     if (!state)
         return;

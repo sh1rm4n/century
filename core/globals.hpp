@@ -35,6 +35,11 @@ enum PlayerESPRenderingType {
 #define CHAMS_WIREFRAME (1 << 7)
 #define CHAMS_NOCULL (1 << 8)
 
+struct RealmEntry {
+    std::string_view name;
+    int              value;
+};
+
 namespace globals {
     namespace core {
         inline C_BaseEntity *localPlayer = nullptr;
@@ -45,6 +50,8 @@ namespace globals {
         inline float screenHeight = 0.f;
 
         inline bool shouldUnload = false;
+
+        inline int luaRealm = 0;
     }
 
     namespace menu {

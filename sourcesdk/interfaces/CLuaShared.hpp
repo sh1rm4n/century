@@ -8,13 +8,6 @@
 #include <string>
 #include <vector>
 
-enum LuaInterfaceType
-{
-    LUA_CLIENT = 0,
-    LUA_SERVER = 1,
-    LUA_MENU = 2
-};
-
 class CLuaShared
 {
 public:
@@ -25,7 +18,7 @@ public:
     virtual int DumpStats(void) = 0; // 4
     virtual int CreateLuaInterface(bool,bool) = 0; // 5
     virtual void CloseLuaInterface(void *) = 0; // 6
-    virtual void* GetLuaInterface(LuaInterfaceType) = 0; // 7
+    virtual void* GetLuaInterface(int) = 0; // 7
     virtual int LoadFile(std::string const&,std::string const&,bool,bool) = 0; // 8
     virtual void GetCache(std::string const&) = 0; // 9
     virtual int MountLua(char const*) = 0; // 10
