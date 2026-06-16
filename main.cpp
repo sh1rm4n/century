@@ -81,6 +81,8 @@ static void mainThread() {
         hk->hook();
     }
 
+    utils::Warn("movehelper: {}", (void*)interfaces->moveHelper);
+
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/morphine_shot.wav");
 
     while (!interfaces->inputSystem->IsButtonDown(KEY_END) && !globals::core::shouldUnload) {

@@ -7,6 +7,7 @@
 
 #include <polyhook2/Detour/x64Detour.hpp>
 
+#include "../core/engineprediction.hpp"
 #include "../core/globals.hpp"
 
 #include "../sourcesdk/UserCmd.hpp"
@@ -28,8 +29,12 @@ bool dtCreateMove(ClientModeGModNormal* vmt, UserCmd* cmd, float inputSampleTime
 
     bhop->Run(cmd);
 
+    enginePrediction->Begin(cmd);
+
     if (globals::hacks::aimbot::enabled)
         aimbot->Run(cmd);
+
+    enginePrediction->End();
 
     return false;
 };

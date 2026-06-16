@@ -25,6 +25,9 @@
 #include "../sourcesdk/interfaces/CModelRender.hpp"
 #include "../sourcesdk/interfaces/CEngineTrace.hpp"
 #include "../sourcesdk/interfaces/CLuaShared.hpp"
+#include "../sourcesdk/interfaces/CGMODPrediction.hpp"
+#include "../sourcesdk/interfaces/CGameMovement.hpp"
+#include "../sourcesdk/interfaces/CMoveHelperClient.hpp"
 
 class Interfaces {
 public:
@@ -50,6 +53,9 @@ public:
     CModelRender *modelRender = nullptr;
     CEngineTrace *engineTrace = nullptr;
     CLuaShared *luaShared = nullptr;
+    CGMODPrediction *prediction = nullptr;
+    CGameMovement *gameMovement = nullptr;
+    CMoveHelperClient *moveHelper = nullptr;
 };
 
 inline auto interfaces = std::make_shared<Interfaces>();

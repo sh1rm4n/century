@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <fstream>
 #include <vector>
+#include <dlfcn.h>
+#include <link.h>
 
 namespace memory {
     struct Region {
@@ -117,40 +119,42 @@ namespace memory {
         return 0;
     }
 
-    // Resolves the actual function address from an x86_64 PLT stub
     inline std::uintptr_t ResolvePLT(const std::uintptr_t &pltAddress) noexcept {
         if (!pltAddress)
             return 0;
 
         auto *ptr = reinterpret_cast<uint8_t *>(pltAddress);
 
-        // Check for standard PLT jmp instruction: FF 25 ?? ?? ?? ??
         if (ptr[0] == 0xFF && ptr[1] == 0x25) {
-            // The offset is located 2 bytes into the instruction
             auto offset = *reinterpret_cast<std::int32_t *>(ptr + 2);
 
-            // RIP is the address of the next instruction (jmp is 6 bytes long)
             std::uintptr_t gotEntryAddress = pltAddress + 6 + offset;
 
-            // Dereference the GOT entry to get the actual function address
             std::uintptr_t realAddress = *reinterpret_cast<std::uintptr_t *>(gotEntryAddress);
-
-            // Note on Lazy Binding:
-            // If the function has NEVER been called by the program yet, the GOT entry
-            // will point back to the PLT resolver (usually pltAddress + 6).
-            // You can optionally check for this:
-            // if (realAddress == pltAddress + 6) { /* unresolved */ }
 
             return realAddress;
         }
 
-        // If it's an endbr64 instruction (Intel CET), skip it (4 bytes) and read the jmp
-        // endbr64 is F3 0F 1E FA
         if (ptr[0] == 0xF3 && ptr[1] == 0x0F && ptr[2] == 0x1E && ptr[3] == 0xFA) {
             return ResolvePLT(pltAddress + 4);
         }
 
-        return 0; // Not a recognized PLT stub
+        return 0;
+    }
+
+    inline std::uint64_t ResolveGOT( const char* module, uintptr_t gotOffset )
+    {
+        const auto handle = dlopen( module, RTLD_NOW | RTLD_NOLOAD );
+        if (!handle)
+            return 0;
+
+        link_map* lm;
+        dlinfo( handle, RTLD_DI_LINKMAP, &lm );
+
+        std::uint64_t base = lm->l_addr;
+        dlclose( handle );
+
+        return *reinterpret_cast<std::uint64_t*>( base + gotOffset );
     }
 }
 

@@ -14,8 +14,8 @@ void Aimbot::Run(UserCmd* cmd) noexcept {
     if (!globals::core::localPlayer || !globals::core::localPlayer->IsAlive())
         return;
 
-    constexpr float smoothFactor = 5.0f;
-    float bestFov = 30.0f;
+    constexpr float smoothFactor = 1.0f;
+    float bestFov = 10.0f;
     Angle bestAimAngles = {};
     C_BaseEntity* bestTarget = nullptr; // This acts as our tracking flag
 
@@ -38,8 +38,8 @@ void Aimbot::Run(UserCmd* cmd) noexcept {
 
         const auto bone = bones[7].GetOrigin();
 
-        if (!utils::VisCheck(eyePosition, bone))
-            continue;
+        //if (!utils::VisCheck(eyePosition, bone))
+        //    continue;
 
         const auto aimAngles = math::CalculateAngle(eyePosition, bone);
         const auto fov = math::GetFov(currentViewAngles, aimAngles);
@@ -59,8 +59,14 @@ void Aimbot::Run(UserCmd* cmd) noexcept {
         Angle smoothedAngles = currentViewAngles + (deltaAngles / smoothFactor);
         math::NormalizeAngles(smoothedAngles);
 
+        const auto oldAngles = cmd->viewAngles;
+        const auto oldForwardMove = cmd->forwardMove;
+        const auto oldSideMove = cmd->sideMove;
+
         cmd->viewAngles = smoothedAngles;
-        interfaces->engineClient->SetViewAngles(smoothedAngles);
+        //interfaces->engineClient->SetViewAngles(smoothedAngles);
+
+        utils::CorrectMovement(oldAngles, cmd, oldForwardMove, oldSideMove);
 
         if (cmd->commandNumber % 2 == 0) {
             cmd->buttons |= IN_ATTACK;  // Tick 1: Press

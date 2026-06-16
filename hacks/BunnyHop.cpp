@@ -31,9 +31,6 @@ void BunnyHop::Autostrafe(UserCmd *cmd, AutoStrafeType type) noexcept {
     if (globals::core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
         return;
 
-    if (cmd->buttons & IN_ATTACK)
-        return;
-
     if (type == Directional) {
         const auto velocity = globals::core::localPlayer->GetVelocity();
         const float speed2D = velocity.Length2D();

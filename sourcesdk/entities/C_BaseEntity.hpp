@@ -105,6 +105,10 @@ public:
         return memory::Call<const char*>(this, 244);
     }
 
+    constexpr double GetSimulationTime() noexcept {
+        return *reinterpret_cast<double*>(std::uint64_t(this) + 0xA0);
+    }
+
     constexpr void SetRenderMode() noexcept {
         *reinterpret_cast<int*>(std::uint64_t(this) + 0xB2);
     }

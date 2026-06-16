@@ -14,7 +14,6 @@
 #include "interfaces.hpp"
 
 #include <imgui.h>
-#include <imgui_internal.h>
 
 #include "../sourcesdk/math.hpp"
 #include "../sourcesdk/UserCmd.hpp"
@@ -261,6 +260,15 @@ namespace utils {
         interfaces->engineTrace->TraceRay(ray, 0, nullptr, nullptr);
 
         return trace.entity == globals::core::localPlayer || trace.fraction >= 0.98f;
+    }
+
+    static void SetPredictionSeed(const std::uint32_t& seed) noexcept {
+        static auto predictionSeedAddr = memory::ResolveGOT("client_client.so", 0x12BEFB8);
+
+        if (!predictionSeedAddr)
+            return;
+
+        *reinterpret_cast<std::uint32_t*>(predictionSeedAddr) = seed;
     }
 }
 

@@ -16,6 +16,12 @@ private:
     using lua_newthread_ = lua_State*(*)(lua_State*);
     lua_newthread_ lua_newthread = nullptr;
 
+    using luaL_ref_ = int(*)(lua_State*, int);
+    luaL_ref_ luaL_ref = nullptr;
+
+    using luaL_unref_ = void(*)(lua_State*, int, int);
+    luaL_unref_ luaL_unref = nullptr;
+
     using luaL_loadbufferx_ = int(*)(lua_State*, const char*, size_t, const char*, int);
     luaL_loadbufferx_ luaL_loadbufferx = nullptr;
 

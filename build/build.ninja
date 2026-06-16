@@ -53,7 +53,7 @@ build CMakeFiles/century.dir/cmake_pch.hxx.gch: CXX_COMPILER__century_unscanned_
   CONFIG = Release
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/cmake_pch.hxx.gch.d
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -x c++-header -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -x c++-header -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -64,7 +64,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.ddi: CXX_SCAN__cent
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.ddi.i
@@ -74,7 +74,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o: CXX_COMPILER__cent
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -86,7 +86,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.ddi: CXX_SCAN__c
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.ddi.i
@@ -96,7 +96,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o: CXX_COMPILER__c
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -108,7 +108,7 @@ build CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.ddi: CXX_SCAN__centu
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.ddi.i
@@ -118,7 +118,7 @@ build CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o: CXX_COMPILER__centu
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -130,7 +130,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.ddi: CXX_
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.ddi.i
@@ -140,7 +140,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o: CXX_COMP
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -152,7 +152,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.d
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.ddi.i
@@ -162,7 +162,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o: 
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -174,7 +174,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.d
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.ddi.i
@@ -184,7 +184,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o: 
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -196,7 +196,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.ddi.i
@@ -206,7 +206,7 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o:
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -214,143 +214,11 @@ build CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o:
   TARGET_SUPPORT_DIR = CMakeFiles/century.dir
   dyndep = CMakeFiles/century.dir/CXX.dd
 
-build CMakeFiles/century.dir/main.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/main.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/main.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/main.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  OBJ_FILE = CMakeFiles/century.dir/main.cpp.o
-  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/main.cpp.o.ddi.i
-
-build CMakeFiles/century.dir/main.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/main.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/main.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
-  CONFIG = Release
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/main.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/main.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  LAUNCHER = /usr/bin/ccache 
-  OBJECT_DIR = CMakeFiles/century.dir
-  OBJECT_FILE_DIR = CMakeFiles/century.dir
-  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
-  dyndep = CMakeFiles/century.dir/CXX.dd
-
-build CMakeFiles/century.dir/core/modules.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/modules.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/core/modules.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/modules.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  OBJ_FILE = CMakeFiles/century.dir/core/modules.cpp.o
-  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/modules.cpp.o.ddi.i
-
-build CMakeFiles/century.dir/core/modules.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/modules.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/modules.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
-  CONFIG = Release
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/core/modules.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/modules.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  LAUNCHER = /usr/bin/ccache 
-  OBJECT_DIR = CMakeFiles/century.dir
-  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
-  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
-  dyndep = CMakeFiles/century.dir/CXX.dd
-
-build CMakeFiles/century.dir/core/interfaces.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/interfaces.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  OBJ_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o
-  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.ddi.i
-
-build CMakeFiles/century.dir/core/interfaces.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/interfaces.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/interfaces.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
-  CONFIG = Release
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  LAUNCHER = /usr/bin/ccache 
-  OBJECT_DIR = CMakeFiles/century.dir
-  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
-  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
-  dyndep = CMakeFiles/century.dir/CXX.dd
-
-build CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  OBJ_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o
-  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi.i
-
-build CMakeFiles/century.dir/hacks/BunnyHop.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
-  CONFIG = Release
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  LAUNCHER = /usr/bin/ccache 
-  OBJECT_DIR = CMakeFiles/century.dir
-  OBJECT_FILE_DIR = CMakeFiles/century.dir/hacks
-  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
-  dyndep = CMakeFiles/century.dir/CXX.dd
-
-build CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  OBJ_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o
-  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi.i
-
-build CMakeFiles/century.dir/hacks/Aimbot.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
-  CONFIG = Release
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  LAUNCHER = /usr/bin/ccache 
-  OBJECT_DIR = CMakeFiles/century.dir
-  OBJECT_FILE_DIR = CMakeFiles/century.dir/hacks
-  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
-  dyndep = CMakeFiles/century.dir/CXX.dd
-
-build CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi.d
-  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  OBJ_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o
-  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi.i
-
-build CMakeFiles/century.dir/core/luaexecution.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
-  CONFIG = Release
-  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
-  DEP_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.d
-  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
-  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
-  LAUNCHER = /usr/bin/ccache 
-  OBJECT_DIR = CMakeFiles/century.dir
-  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
-  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
-  dyndep = CMakeFiles/century.dir/CXX.dd
-
 build CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextDiff.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.ddi.i
@@ -360,7 +228,7 @@ build CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o: CXX_COMPIL
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -372,7 +240,7 @@ build CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.ddi: CXX_
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.ddi
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   OBJ_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o
   PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.ddi.i
@@ -382,7 +250,7 @@ build CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o: CXX_COMP
   DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
   DEP_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.modmap
-  FLAGS = -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
   INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
   LAUNCHER = /usr/bin/ccache 
   OBJECT_DIR = CMakeFiles/century.dir
@@ -390,7 +258,161 @@ build CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o: CXX_COMP
   TARGET_SUPPORT_DIR = CMakeFiles/century.dir
   dyndep = CMakeFiles/century.dir/CXX.dd
 
-build CMakeFiles/century.dir/CXX.dd | CMakeFiles/century.dir/CXXModules.json CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.modmap CMakeFiles/century.dir/main.cpp.o.modmap CMakeFiles/century.dir/core/modules.cpp.o.modmap CMakeFiles/century.dir/core/interfaces.cpp.o.modmap CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.modmap: CXX_DYNDEP__century_Release CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.ddi CMakeFiles/century.dir/main.cpp.o.ddi CMakeFiles/century.dir/core/modules.cpp.o.ddi CMakeFiles/century.dir/core/interfaces.cpp.o.ddi CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.ddi | /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/CXXDependInfo.json
+build CMakeFiles/century.dir/core/modules.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/modules.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/modules.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/modules.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/core/modules.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/modules.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/core/modules.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/modules.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/modules.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/modules.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/modules.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/core/interfaces.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/interfaces.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/core/interfaces.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/interfaces.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/interfaces.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/interfaces.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/core/luaexecution.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/hacks/BunnyHop.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir/hacks
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/hacks/Aimbot.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir/hacks
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/main.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/main.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/main.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/main.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/main.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/main.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/main.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/main.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/main.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/main.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/main.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/core/engineprediction.cpp.o.ddi: CXX_SCAN__century_Release /home/sh1rm4n/CLionProjects/century/core/engineprediction.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch || cmake_object_order_depends_target_century
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/engineprediction.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/century.dir/core/engineprediction.cpp.o.ddi
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  OBJ_FILE = CMakeFiles/century.dir/core/engineprediction.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/century.dir/core/engineprediction.cpp.o.ddi.i
+
+build CMakeFiles/century.dir/core/engineprediction.cpp.o: CXX_COMPILER__century_scanned_Release /home/sh1rm4n/CLionProjects/century/core/engineprediction.cpp | CMakeFiles/century.dir/cmake_pch.hxx CMakeFiles/century.dir/cmake_pch.hxx.gch CMakeFiles/century.dir/core/engineprediction.cpp.o.modmap || cmake_object_order_depends_target_century CMakeFiles/century.dir/CXX.dd
+  CONFIG = Release
+  DEFINES = -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS
+  DEP_FILE = CMakeFiles/century.dir/core/engineprediction.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/century.dir/core/engineprediction.cpp.o.modmap
+  FLAGS = -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx
+  INCLUDES = -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2
+  LAUNCHER = /usr/bin/ccache 
+  OBJECT_DIR = CMakeFiles/century.dir
+  OBJECT_FILE_DIR = CMakeFiles/century.dir/core
+  TARGET_SUPPORT_DIR = CMakeFiles/century.dir
+  dyndep = CMakeFiles/century.dir/CXX.dd
+
+build CMakeFiles/century.dir/CXX.dd | CMakeFiles/century.dir/CXXModules.json CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.modmap CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.modmap CMakeFiles/century.dir/core/modules.cpp.o.modmap CMakeFiles/century.dir/core/interfaces.cpp.o.modmap CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap CMakeFiles/century.dir/main.cpp.o.modmap CMakeFiles/century.dir/core/engineprediction.cpp.o.modmap: CXX_DYNDEP__century_Release CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.ddi CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.ddi CMakeFiles/century.dir/core/modules.cpp.o.ddi CMakeFiles/century.dir/core/interfaces.cpp.o.ddi CMakeFiles/century.dir/core/luaexecution.cpp.o.ddi CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.ddi CMakeFiles/century.dir/hacks/Aimbot.cpp.o.ddi CMakeFiles/century.dir/main.cpp.o.ddi CMakeFiles/century.dir/core/engineprediction.cpp.o.ddi | /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/CXXDependInfo.json
 
 
 # =============================================================================
@@ -400,12 +422,12 @@ build CMakeFiles/century.dir/CXX.dd | CMakeFiles/century.dir/CXXModules.json CMa
 #############################################
 # Link the shared library libcentury.so
 
-build libcentury.so: CXX_SHARED_LIBRARY_LINKER__century_Release CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o CMakeFiles/century.dir/main.cpp.o CMakeFiles/century.dir/core/modules.cpp.o CMakeFiles/century.dir/core/interfaces.cpp.o CMakeFiles/century.dir/hacks/BunnyHop.cpp.o CMakeFiles/century.dir/hacks/Aimbot.cpp.o CMakeFiles/century.dir/core/luaexecution.cpp.o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o | /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libPolyHook_2.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libimgui.a /usr/lib/libSDL2main.a /usr/lib/libSDL2-2.0.so.0.3200.68 /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libgl3w.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libfreetype.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbz2.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libpng16.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libz.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlidec.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlicommon.a /usr/lib/libGL.so /usr/lib/libGLU.so
+build libcentury.so: CXX_SHARED_LIBRARY_LINKER__century_Release CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o CMakeFiles/century.dir/core/modules.cpp.o CMakeFiles/century.dir/core/interfaces.cpp.o CMakeFiles/century.dir/core/luaexecution.cpp.o CMakeFiles/century.dir/hacks/BunnyHop.cpp.o CMakeFiles/century.dir/hacks/Aimbot.cpp.o CMakeFiles/century.dir/main.cpp.o CMakeFiles/century.dir/core/engineprediction.cpp.o | /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libPolyHook_2.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libimgui.a /usr/lib/libSDL2main.a /usr/lib/libSDL2-2.0.so.0.3200.68 /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libfreetype.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbz2.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libpng16.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libz.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlidec.a /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlicommon.a
   CONFIG = Release
   DEP_FILE = CMakeFiles/century.dir/link.d
-  LANGUAGE_COMPILE_FLAGS = -O3 -g0 -flto
-  LINK_FLAGS = -shared -s -fuse-ld=mold -Wl,--dependency-file=CMakeFiles/century.dir/link.d
-  LINK_LIBRARIES = /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libPolyHook_2.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libimgui.a  /usr/lib/libSDL2main.a  /usr/lib/libSDL2-2.0.so.0.3200.68  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libgl3w.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a  -lc  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libfreetype.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbz2.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libpng16.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libz.a  -lm  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlidec.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlicommon.a  /usr/lib/libGL.so  /usr/lib/libGLU.so
+  LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
+  LINK_FLAGS = -shared -flto -s -fuse-ld=mold -Wl,--dependency-file=CMakeFiles/century.dir/link.d
+  LINK_LIBRARIES = /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libPolyHook_2.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libimgui.a  /usr/lib/libSDL2main.a  /usr/lib/libSDL2-2.0.so.0.3200.68  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZydis.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libZycore.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmtk.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libasmjit.a  -lc  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libfreetype.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbz2.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libpng16.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libz.a  -lm  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlidec.a  /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/lib/libbrotlicommon.a
   OBJECT_DIR = CMakeFiles/century.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -468,14 +490,14 @@ build all: phony libcentury.so
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja /home/sh1rm4n/CLionProjects/century/build/cmake_install.cmake: RERUN_CMAKE | /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/polyhook_2-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/gl3w/gl3wConfig-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/gl3w/gl3wConfig-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/gl3w/gl3wConfig.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/png/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zlib/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zyan-functions.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake /home/sh1rm4n/CLionProjects/century/CMakeLists.txt /usr/lib/cmake/SDL2/SDL2Config.cmake /usr/lib/cmake/SDL2/SDL2ConfigVersion.cmake /usr/lib/cmake/SDL2/SDL2Targets-none.cmake /usr/lib/cmake/SDL2/SDL2Targets.cmake /usr/lib/cmake/SDL2/SDL2mainTargets-none.cmake /usr/lib/cmake/SDL2/SDL2mainTargets.cmake /usr/share/cmake/Modules/CMakeCInformation.cmake /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeDependentOption.cmake /usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakePushCheckState.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/CheckCSourceCompiles.cmake /usr/share/cmake/Modules/CheckIncludeFile.cmake /usr/share/cmake/Modules/CheckLibraryExists.cmake /usr/share/cmake/Modules/CheckSymbolExists.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-C.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/FeatureSummary.cmake /usr/share/cmake/Modules/FindBZip2.cmake /usr/share/cmake/Modules/FindPNG.cmake /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake/Modules/FindPackageMessage.cmake /usr/share/cmake/Modules/FindThreads.cmake /usr/share/cmake/Modules/FindZLIB.cmake /usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake/Modules/Linker/GNU-C.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-C.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake CMakeCache.txt CMakeFiles/4.3.3/CMakeCCompiler.cmake CMakeFiles/4.3.3/CMakeCXXCompiler.cmake CMakeFiles/4.3.3/CMakeSystem.cmake
+build build.ninja /home/sh1rm4n/CLionProjects/century/build/cmake_install.cmake: RERUN_CMAKE | /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/polyhook_2-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/png/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zlib/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zyan-functions.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake /home/sh1rm4n/CLionProjects/century/CMakeLists.txt /usr/lib/cmake/SDL2/SDL2Config.cmake /usr/lib/cmake/SDL2/SDL2ConfigVersion.cmake /usr/lib/cmake/SDL2/SDL2Targets-none.cmake /usr/lib/cmake/SDL2/SDL2Targets.cmake /usr/lib/cmake/SDL2/SDL2mainTargets-none.cmake /usr/lib/cmake/SDL2/SDL2mainTargets.cmake /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeDependentOption.cmake /usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakePushCheckState.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake /usr/share/cmake/Modules/CheckIncludeFileCXX.cmake /usr/share/cmake/Modules/CheckLibraryExists.cmake /usr/share/cmake/Modules/CheckSymbolExists.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/FeatureSummary.cmake /usr/share/cmake/Modules/FindBZip2.cmake /usr/share/cmake/Modules/FindPNG.cmake /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake/Modules/FindPackageMessage.cmake /usr/share/cmake/Modules/FindThreads.cmake /usr/share/cmake/Modules/FindZLIB.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake CMakeCache.txt CMakeFiles/4.3.3/CMakeCXXCompiler.cmake CMakeFiles/4.3.3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/polyhook_2-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/gl3w/gl3wConfig-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/gl3w/gl3wConfig-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/gl3w/gl3wConfig.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/png/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zlib/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zyan-functions.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake /home/sh1rm4n/CLionProjects/century/CMakeLists.txt /usr/lib/cmake/SDL2/SDL2Config.cmake /usr/lib/cmake/SDL2/SDL2ConfigVersion.cmake /usr/lib/cmake/SDL2/SDL2Targets-none.cmake /usr/lib/cmake/SDL2/SDL2Targets.cmake /usr/lib/cmake/SDL2/SDL2mainTargets-none.cmake /usr/lib/cmake/SDL2/SDL2mainTargets.cmake /usr/share/cmake/Modules/CMakeCInformation.cmake /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeDependentOption.cmake /usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakePushCheckState.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/CheckCSourceCompiles.cmake /usr/share/cmake/Modules/CheckIncludeFile.cmake /usr/share/cmake/Modules/CheckLibraryExists.cmake /usr/share/cmake/Modules/CheckSymbolExists.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-C.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/FeatureSummary.cmake /usr/share/cmake/Modules/FindBZip2.cmake /usr/share/cmake/Modules/FindPNG.cmake /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake/Modules/FindPackageMessage.cmake /usr/share/cmake/Modules/FindThreads.cmake /usr/share/cmake/Modules/FindZLIB.cmake /usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake/Modules/Linker/GNU-C.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-C.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake CMakeCache.txt CMakeFiles/4.3.3/CMakeCCompiler.cmake CMakeFiles/4.3.3/CMakeCXXCompiler.cmake CMakeFiles/4.3.3/CMakeSystem.cmake: phony
+build /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/PolyHook_2-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/PolyHook_2/polyhook_2-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmjit/asmjit-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/asmtk/asmtk-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/freetype-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/freetype/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/imgui/imgui-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/png/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zlib/vcpkg-cmake-wrapper.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zyan-functions.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zycore/zycore-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config-version.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-config.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-debug.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets-release.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/share/zydis/zydis-targets.cmake /home/sh1rm4n/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake /home/sh1rm4n/CLionProjects/century/CMakeLists.txt /usr/lib/cmake/SDL2/SDL2Config.cmake /usr/lib/cmake/SDL2/SDL2ConfigVersion.cmake /usr/lib/cmake/SDL2/SDL2Targets-none.cmake /usr/lib/cmake/SDL2/SDL2Targets.cmake /usr/lib/cmake/SDL2/SDL2mainTargets-none.cmake /usr/lib/cmake/SDL2/SDL2mainTargets.cmake /usr/share/cmake/Modules/CMakeCXXInformation.cmake /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake/Modules/CMakeDependentOption.cmake /usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake /usr/share/cmake/Modules/CMakeGenericSystem.cmake /usr/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/share/cmake/Modules/CMakePushCheckState.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake /usr/share/cmake/Modules/CheckIncludeFileCXX.cmake /usr/share/cmake/Modules/CheckLibraryExists.cmake /usr/share/cmake/Modules/CheckSymbolExists.cmake /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake/Modules/Compiler/GNU.cmake /usr/share/cmake/Modules/FeatureSummary.cmake /usr/share/cmake/Modules/FindBZip2.cmake /usr/share/cmake/Modules/FindPNG.cmake /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake/Modules/FindPackageMessage.cmake /usr/share/cmake/Modules/FindThreads.cmake /usr/share/cmake/Modules/FindZLIB.cmake /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake /usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake/Modules/Linker/GNU-CXX.cmake /usr/share/cmake/Modules/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/GNU.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake/Modules/Platform/Linux-GNU.cmake /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake/Modules/Platform/Linux.cmake /usr/share/cmake/Modules/Platform/UnixPaths.cmake /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake CMakeCache.txt CMakeFiles/4.3.3/CMakeCXXCompiler.cmake CMakeFiles/4.3.3/CMakeSystem.cmake: phony
 
 
 #############################################

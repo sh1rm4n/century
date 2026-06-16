@@ -1,98 +1,104 @@
 [
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -x c++-header -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -o CMakeFiles/century.dir/cmake_pch.hxx.gch -c /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx.cxx",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -x c++-header -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -o CMakeFiles/century.dir/cmake_pch.hxx.gch -c /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx.cxx",
   "file": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx.cxx",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx.gch"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_impl_sdl2.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_impl_sdl2.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_impl_sdl2.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imgui_impl_sdl2.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_impl_opengl3.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_impl_opengl3.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_impl_opengl3.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imgui_impl_opengl3.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imanim/im_anim.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imanim/im_anim.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imanim/im_anim.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imanim/im_anim.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_palette.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_presets.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/imgui_toggle/imgui_toggle_renderer.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/main.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/main.cpp.o -c /home/sh1rm4n/CLionProjects/century/main.cpp",
-  "file": "/home/sh1rm4n/CLionProjects/century/main.cpp",
-  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/main.cpp.o"
-},
-{
-  "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/modules.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/modules.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/modules.cpp",
-  "file": "/home/sh1rm4n/CLionProjects/century/core/modules.cpp",
-  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/modules.cpp.o"
-},
-{
-  "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/interfaces.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/interfaces.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/interfaces.cpp",
-  "file": "/home/sh1rm4n/CLionProjects/century/core/interfaces.cpp",
-  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/interfaces.cpp.o"
-},
-{
-  "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/hacks/BunnyHop.cpp.o -c /home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp",
-  "file": "/home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp",
-  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/hacks/BunnyHop.cpp.o"
-},
-{
-  "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/hacks/Aimbot.cpp.o -c /home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp",
-  "file": "/home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp",
-  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/hacks/Aimbot.cpp.o"
-},
-{
-  "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/luaexecution.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp",
-  "file": "/home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp",
-  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/luaexecution.cpp.o"
-},
-{
-  "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextDiff.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextDiff.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextDiff.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextDiff.cpp.o"
 },
 {
   "directory": "/home/sh1rm4n/CLionProjects/century/build",
-  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -g0 -flto -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextEditor.cpp",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o -c /home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextEditor.cpp",
   "file": "/home/sh1rm4n/CLionProjects/century/3rd/imgui/coloredtextbox/TextEditor.cpp",
   "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/3rd/imgui/coloredtextbox/TextEditor.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/modules.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/modules.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/modules.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/core/modules.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/modules.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/interfaces.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/interfaces.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/interfaces.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/core/interfaces.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/interfaces.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/luaexecution.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/luaexecution.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/core/luaexecution.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/luaexecution.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/hacks/BunnyHop.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/hacks/BunnyHop.cpp.o -c /home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/hacks/BunnyHop.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/hacks/BunnyHop.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/hacks/Aimbot.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/hacks/Aimbot.cpp.o -c /home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/hacks/Aimbot.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/hacks/Aimbot.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/main.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/main.cpp.o -c /home/sh1rm4n/CLionProjects/century/main.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/main.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/main.cpp.o"
+},
+{
+  "directory": "/home/sh1rm4n/CLionProjects/century/build",
+  "command": "/usr/bin/c++ -DIMGUI_ENABLE_FREETYPE -DZYCORE_STATIC_BUILD -DZYDIS_STATIC_BUILD -Dcentury_EXPORTS -isystem /home/sh1rm4n/.vcpkg-clion/vcpkg/installed/x64-linux/include -isystem /usr/include/SDL2 -O3 -DNDEBUG -std=gnu++26 -fPIC -fdiagnostics-color=always -fno-gnu-unique -fno-rtti -O3 -flto -Winvalid-pch -include /home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/cmake_pch.hxx -fmodules-ts -fmodule-mapper=CMakeFiles/century.dir/core/engineprediction.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/century.dir/core/engineprediction.cpp.o -c /home/sh1rm4n/CLionProjects/century/core/engineprediction.cpp",
+  "file": "/home/sh1rm4n/CLionProjects/century/core/engineprediction.cpp",
+  "output": "/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir/core/engineprediction.cpp.o"
 }
 ]

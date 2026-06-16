@@ -59,4 +59,9 @@ void Interfaces::Prepare() noexcept {
     modelRender = GetInterface<CModelRender>(modules->engine, "VEngineModel016");
     engineTrace = GetInterface<CEngineTrace>(modules->engine, "EngineTraceClient003");
     luaShared = GetInterface<CLuaShared>(modules->luaShared, "LUASHARED003");
+    prediction = GetInterface<CGMODPrediction>(modules->client, "VClientPrediction001");
+    gameMovement = GetInterface<CGameMovement>(modules->client, "GameMovement001");
+    moveHelper = *reinterpret_cast<CMoveHelperClient **>(memory::GetAbsAddress(memory::FindPattern(
+        "client_client.so",
+        "48 C7 47 ? ? ? ? ? ? ? ? 5D 48 89 3D") + 12));
 }

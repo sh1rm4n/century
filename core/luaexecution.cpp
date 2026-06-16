@@ -14,6 +14,8 @@
 
 void LuaExecution::Prepare() noexcept {
     lua_newthread = reinterpret_cast<lua_newthread_>(modules->GetExport(modules->luaShared, "lua_newthread"));
+    luaL_ref = reinterpret_cast<luaL_ref_>(modules->GetExport(modules->luaShared, "luaL_ref"));
+    luaL_unref = reinterpret_cast<luaL_unref_>(modules->GetExport(modules->luaShared, "luaL_unref"));
     luaL_loadbufferx = reinterpret_cast<luaL_loadbufferx_>(modules->GetExport(modules->luaShared, "luaL_loadbufferx"));
     lua_pcall = reinterpret_cast<lua_pcall_>(modules->GetExport(modules->luaShared, "lua_pcall"));
     lua_settop = reinterpret_cast<lua_settop_>(modules->GetExport(modules->luaShared, "lua_settop"));
@@ -29,6 +31,9 @@ void LuaExecution::Execute(const int realm, const std::string& script) noexcept 
 
     const auto luaInterface = interfaces->luaShared->GetLuaInterface(realm);
 
+    if (!luaInterface)
+        return;
+
     const auto state = *reinterpret_cast<lua_State**>(
         reinterpret_cast<std::uint64_t>(luaInterface) + 0x8);
 
@@ -40,14 +45,16 @@ void LuaExecution::Execute(const int realm, const std::string& script) noexcept 
     if (!thread)
         return;
 
-    lua_pop(state, 1);
+    const auto threadRef = luaL_ref(state, -10000);
 
     if (luaL_loadbufferx(thread, script.c_str(), script.length(), "century", 0) == 0) {
-        if (lua_pcall(thread, -1, 0, 0) != 0) {
+        if (lua_pcall(thread, 0, 0, 0) != 0) {
             lua_pop(thread, 1);
         }
     }
     else {
         lua_pop(thread, 1);
     }
+
+    luaL_unref(state, -10000, threadRef);
 }

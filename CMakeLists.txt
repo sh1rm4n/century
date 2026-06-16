@@ -100,6 +100,12 @@ add_library(century SHARED
         hacks/Aimbot.hpp
 
         main.cpp
+        sourcesdk/interfaces/CGMODPrediction.hpp
+        core/engineprediction.cpp
+        core/engineprediction.hpp
+        sourcesdk/interfaces/CGameMovement.hpp
+        sourcesdk/interfaces/CMoveHelperClient.hpp
+        3rd/checksum_md5.h
 )
 
 set_target_properties(century PROPERTIES
