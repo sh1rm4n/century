@@ -1,13 +1,9 @@
-//
-// Created by sh1rm4n on 6/9/26.
-//
-
 #ifndef CENTURY_AIMBOT_HACK_HPP
 #define CENTURY_AIMBOT_HACK_HPP
 
-#include <memory>
+#pragma once
 
-#include "../sourcesdk/UserCmd.hpp"
+class UserCmd;
 
 class Aimbot {
 public:
@@ -16,4 +12,4 @@ public:
 
 inline auto aimbot = std::make_unique<Aimbot>();
 
-#endif //CENTURY_AIMBOT_HACK_HPP
+#endif

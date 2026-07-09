@@ -107,7 +107,7 @@ public:
 
     [[nodiscard]] auto operator<=>(const Vector&) const noexcept = default;
 
-    [[nodiscard]] float Length2D() const noexcept {
+    [[nodiscard]] constexpr float Length2D() const noexcept {
         return std::hypotf(x, y);
     }
 
@@ -115,8 +115,16 @@ public:
         return x * x + y * y + z * z;
     }
 
-    [[nodiscard]] float Length() const noexcept {
+    [[nodiscard]] constexpr float Length() const noexcept {
         return std::sqrtf(LengthSqr());
+    }
+
+    [[nodiscard]] constexpr float DistToSqr(const Vector& other) const noexcept {
+        return (*this - other).LengthSqr();
+    }
+
+    [[nodiscard]] constexpr float DistTo(const Vector& other) const noexcept {
+        return (*this - other).Length();
     }
 
     [[nodiscard]] constexpr Vector Cross(const Vector& other) const noexcept {
@@ -150,13 +158,32 @@ public:
 };
 
 class alignas(16) VectorAligned : public Vector {
-public:
+    public:
+    // Inherit base Vector constructors
     using Vector::Vector;
 
-    VectorAligned(const Vector& other) {
+    // 4th-dimensional padding initialized directly at member level
+    float w{ 0.0f };
+
+
+    // 1. Explicitly enable copying
+    constexpr VectorAligned(const VectorAligned&) noexcept = default;
+    constexpr VectorAligned& operator=(const VectorAligned&) noexcept = default;
+
+    // 2. Explicitly enable moving
+    constexpr VectorAligned(VectorAligned&&) noexcept = default;
+    constexpr VectorAligned& operator=(VectorAligned&&) noexcept = default;
+
+    // 3. Explicit baseline Vector conversion constructors
+    constexpr VectorAligned(const Vector& other) noexcept
+        : Vector{ other.x, other.y, other.z }, w{ 0.0f } {}
+
+    constexpr VectorAligned& operator=(const Vector& other) noexcept {
         x = other.x;
         y = other.y;
         z = other.z;
+        w = 0.0f;
+        return *this;
     }
 };
 
@@ -253,7 +280,7 @@ public:
     }
 
     // --- Vector Conversions ---
-    [[nodiscard]] static Angle FromVector(const Vector& vec) noexcept {
+    static Angle FromVector(const Vector& vec) noexcept {
         Angle ang;
         constexpr float rad_to_deg = 180.f / std::numbers::pi_v<float>;
 
@@ -321,80 +348,133 @@ public:
 class Matrix3x4
 {
 public:
-	Matrix3x4() {}
-	Matrix3x4(
-		float m00, float m01, float m02, float m03,
-		float m10, float m11, float m12, float m13,
-		float m20, float m21, float m22, float m23)
-	{
-		flMatVal[0][0] = m00;	flMatVal[0][1] = m01; flMatVal[0][2] = m02; flMatVal[0][3] = m03;
-		flMatVal[1][0] = m10;	flMatVal[1][1] = m11; flMatVal[1][2] = m12; flMatVal[1][3] = m13;
-		flMatVal[2][0] = m20;	flMatVal[2][1] = m21; flMatVal[2][2] = m22; flMatVal[2][3] = m23;
-	}
-	//-----------------------------------------------------------------------------
-	// Creates a matrix where the X axis = forward
-	// the Y axis = left, and the Z axis = up
-	//-----------------------------------------------------------------------------
-	void Init(const Vector& xAxis, const Vector& yAxis, const Vector& zAxis, const Vector& vecOrigin)
-	{
-		flMatVal[0][0] = xAxis.x; flMatVal[0][1] = yAxis.x; flMatVal[0][2] = zAxis.x; flMatVal[0][3] = vecOrigin.x;
-		flMatVal[1][0] = xAxis.y; flMatVal[1][1] = yAxis.y; flMatVal[1][2] = zAxis.y; flMatVal[1][3] = vecOrigin.y;
-		flMatVal[2][0] = xAxis.z; flMatVal[2][1] = yAxis.z; flMatVal[2][2] = zAxis.z; flMatVal[2][3] = vecOrigin.z;
-	}
+    constexpr Matrix3x4() noexcept = default;
 
-	//-----------------------------------------------------------------------------
-	// Creates a matrix where the X axis = forward
-	// the Y axis = left, and the Z axis = up
-	//-----------------------------------------------------------------------------
-	Matrix3x4(const Vector& xAxis, const Vector& yAxis, const Vector& zAxis, const Vector& vecOrigin)
-	{
-		Init(xAxis, yAxis, zAxis, vecOrigin);
-	}
+    constexpr Matrix3x4(
+        float m00, float m01, float m02, float m03,
+        float m10, float m11, float m12, float m13,
+        float m20, float m21, float m22, float m23) noexcept
+        : flMatVal{
+            { m00, m01, m02, m03 },
+            { m10, m11, m12, m13 },
+            { m20, m21, m22, m23 }
+        }
+    {
+    }
 
-	void SetOrigin(Vector const& p)
-	{
-		flMatVal[0][3] = p.x;
-		flMatVal[1][3] = p.y;
-		flMatVal[2][3] = p.z;
-	}
+    constexpr Matrix3x4(
+        const Vector& x,
+        const Vector& y,
+        const Vector& z,
+        const Vector& origin) noexcept
+    {
+        Init(x, y, z, origin);
+    }
 
-	Vector GetOrigin() {
-		return Vector{ flMatVal[0][3],flMatVal[1][3],flMatVal[2][3] };
-	}
+    constexpr void Init(
+        const Vector& x,
+        const Vector& y,
+        const Vector& z,
+        const Vector& origin) noexcept
+    {
+        flMatVal[0][0] = x.x;
+        flMatVal[0][1] = y.x;
+        flMatVal[0][2] = z.x;
+        flMatVal[0][3] = origin.x;
 
-	void Invalidate(void)
-	{
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 4; j++) {
-				flMatVal[i][j] = std::numeric_limits<float>::infinity();;
-			}
-		}
-	}
+        flMatVal[1][0] = x.y;
+        flMatVal[1][1] = y.y;
+        flMatVal[1][2] = z.y;
+        flMatVal[1][3] = origin.y;
 
-	float* operator[](int i) { return flMatVal[i]; }
-	const float* operator[](int i) const { return flMatVal[i]; }
-	float* Base() { return &flMatVal[0][0]; }
-	const float* Base() const { return &flMatVal[0][0]; }
+        flMatVal[2][0] = x.z;
+        flMatVal[2][1] = y.z;
+        flMatVal[2][2] = z.z;
+        flMatVal[2][3] = origin.z;
+    }
 
-	bool operator!() const
-	{
-		// 1. Check if the matrix was explicitly invalidated (contains infinity)
-		// We only need to check one element since Invalidate() sets all of them.
-		if (std::isinf(flMatVal[0][0])) {
-			return true;
-		}
+    constexpr void SetOrigin(const Vector& p) noexcept
+    {
+        flMatVal[0][3] = p.x;
+        flMatVal[1][3] = p.y;
+        flMatVal[2][3] = p.z;
+    }
 
-		// 2. Check if the origin (translation column) is completely zeroed out.
-		// A bone at exactly 0.0, 0.0, 0.0 in absolute world space is almost always an uninitialized bone cache.
-		if (flMatVal[0][3] == 0.0f && flMatVal[1][3] == 0.0f && flMatVal[2][3] == 0.0f) {
-			return true;
-		}
+    [[nodiscard]]
+    constexpr Vector GetOrigin() const noexcept
+    {
+        return {
+            flMatVal[0][3],
+            flMatVal[1][3],
+            flMatVal[2][3]
+        };
+    }
 
-		return false;
-	}
+    void Invalidate() noexcept
+    {
+        std::fill_n(&flMatVal[0][0], 12,
+                    std::numeric_limits<float>::infinity());
+    }
 
-	float flMatVal[3][4];
+    [[nodiscard]]
+    bool Invalid() const noexcept
+    {
+        return !std::isfinite(flMatVal[0][0]) ||
+               (flMatVal[0][3] == 0.f &&
+                flMatVal[1][3] == 0.f &&
+                flMatVal[2][3] == 0.f);
+    }
+
+    [[nodiscard]]
+    bool Valid() const noexcept
+    {
+        return !Invalid();
+    }
+
+    constexpr float* operator[](std::size_t i) noexcept
+    {
+        return flMatVal[i];
+    }
+
+    constexpr const float* operator[](std::size_t i) const noexcept
+    {
+        return flMatVal[i];
+    }
+
+    [[nodiscard]]
+    constexpr float* Data() noexcept
+    {
+        return &flMatVal[0][0];
+    }
+
+    [[nodiscard]]
+    constexpr const float* Data() const noexcept
+    {
+        return &flMatVal[0][0];
+    }
+
+    float flMatVal[3][4]{};
 };
+
+typedef struct color32_s
+{
+    bool operator!=( const struct color32_s &other ) const;
+    std::uint8_t r, g, b, a;
+
+    // assign and copy by using the whole register rather
+    // than byte-by-byte copy. (No, the compiler is not
+    // smart enough to do this for you. /FAcs if you
+    // don't believe me.)
+    inline unsigned *asInt(void) { return reinterpret_cast<unsigned*>(this); }
+    inline const unsigned *asInt(void) const { return reinterpret_cast<const unsigned*>(this); }
+    // This thing is in a union elsewhere, and union members can't have assignment
+    // operators, so you have to explicitly assign using this, or be slow. SUCK.
+    inline void Copy(const color32_s &rhs)
+    {
+        *asInt() = *rhs.asInt();
+    }
+
+} color32;
 
 namespace math {
     constexpr float Deg2Rad(const float deg) {
@@ -442,6 +522,113 @@ namespace math {
         Angle delta = aimAngles - currentAngles;
         NormalizeAngles(delta);
         return std::sqrt(delta.p * delta.p + delta.y * delta.y);
+    }
+
+    constexpr void AngleVectors(const Angle& angles, Vector& forward, Vector& right, Vector& up) noexcept {
+        const float sp = std::sin(Deg2Rad(angles.p));
+        const float cp = std::cos(Deg2Rad(angles.p));
+        const float sy = std::sin(Deg2Rad(angles.y));
+        const float cy = std::cos(Deg2Rad(angles.y));
+        const float sr = std::sin(Deg2Rad(angles.r));
+        const float cr = std::cos(Deg2Rad(angles.r));
+
+        forward.x =  cp * cy;
+        forward.y =  cp * sy;
+        forward.z = -sp;
+
+        right.x =  sr * sp * cy + cr * sy; // wait, standard Source right:
+        right.x =  cr * cy + sr * sp * sy; // actually:
+        // Source engine right vector (note: points LEFT in Source convention)
+        right.x =  (cr * sy) - (sr * sp * cy);  // hmm let me do this properly
+
+        // Standard Source AngleVectors:
+        forward.x =  cp * cy;
+        forward.y =  cp * sy;
+        forward.z = -sp;
+
+        right.x = (-1.f * sr * sp * cy) + (-1.f * cr * -sy);
+        right.y = (-1.f * sr * sp * sy) + (-1.f * cr *  cy);
+        right.z =  -1.f * sr * cp;
+
+        up.x = (cr * sp * cy) + (-sr * -sy);
+        up.y = (cr * sp * sy) + (-sr *  cy);
+        up.z =  cr * cp;
+    }
+
+    constexpr void VectorAngles(const Vector& forward, Angle& angles) noexcept {
+        if (forward.x == 0.f && forward.y == 0.f) {
+            // looking straight up or down
+            angles.p = (forward.z > 0.f) ? -90.f : 90.f;
+            angles.y = 0.f;
+        } else {
+            angles.p = Rad2Deg(std::atan2(-forward.z,
+                                std::sqrt(forward.x * forward.x + forward.y * forward.y)));
+            angles.y = Rad2Deg(std::atan2(forward.y, forward.x));
+        }
+        angles.r = 0.f; // no roll from a direction vector
+    }
+
+    constexpr void AngleMatrix(const Angle& angles, const Vector& origin, Matrix3x4& mat) noexcept {
+        const float sp = std::sin(Deg2Rad(angles.p));
+        const float cp = std::cos(Deg2Rad(angles.p));
+        const float sy = std::sin(Deg2Rad(angles.y));
+        const float cy = std::cos(Deg2Rad(angles.y));
+        const float sr = std::sin(Deg2Rad(angles.r));
+        const float cr = std::cos(Deg2Rad(angles.r));
+
+        // forward
+        mat[0][0] = cp * cy;
+        mat[1][0] = cp * sy;
+        mat[2][0] = -sp;
+
+        // left
+        mat[0][1] = sr * sp * cy - cr * sy;
+        mat[1][1] = sr * sp * sy + cr * cy;
+        mat[2][1] = sr * cp;
+
+        // up
+        mat[0][2] = cr * sp * cy + sr * sy;
+        mat[1][2] = cr * sp * sy - sr * cy;
+        mat[2][2] = cr * cp;
+
+        // origin
+        mat[0][3] = origin.x;
+        mat[1][3] = origin.y;
+        mat[2][3] = origin.z;
+    }
+
+    // math helper
+    constexpr void RotateBonesAroundOrigin(const Matrix3x4* src, Matrix3x4* dst,
+                                  int count, const Vector& origin,
+                                  const Angle& deltaAngles) noexcept {
+        // build rotation matrix from delta angles
+        Matrix3x4 rot;
+        AngleMatrix(deltaAngles, Vector(0,0,0), rot);
+
+        for (int i = 0; i < count; i++) {
+            // translate bone to local space (relative to origin)
+            Vector boneOrigin = src[i].GetOrigin() - origin;
+
+            // rotate
+            Vector rotated;
+            rotated.x = rot[0][0]*boneOrigin.x + rot[0][1]*boneOrigin.y + rot[0][2]*boneOrigin.z;
+            rotated.y = rot[1][0]*boneOrigin.x + rot[1][1]*boneOrigin.y + rot[1][2]*boneOrigin.z;
+            rotated.z = rot[2][0]*boneOrigin.x + rot[2][1]*boneOrigin.y + rot[2][2]*boneOrigin.z;
+
+            // translate back to world space
+            dst[i] = src[i];
+            dst[i][0][3] = rotated.x + origin.x;
+            dst[i][1][3] = rotated.y + origin.y;
+            dst[i][2][3] = rotated.z + origin.z;
+
+            // rotate the bone orientation columns too
+            for (int col = 0; col < 3; col++) {
+                Vector col_vec = { src[i][0][col], src[i][1][col], src[i][2][col] };
+                dst[i][0][col] = rot[0][0]*col_vec.x + rot[0][1]*col_vec.y + rot[0][2]*col_vec.z;
+                dst[i][1][col] = rot[1][0]*col_vec.x + rot[1][1]*col_vec.y + rot[1][2]*col_vec.z;
+                dst[i][2][col] = rot[2][0]*col_vec.x + rot[2][1]*col_vec.y + rot[2][2]*col_vec.z;
+            }
+        }
     }
 }
 

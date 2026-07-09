@@ -5,11 +5,7 @@
 #ifndef CENTURY_MEMORY_HPP
 #define CENTURY_MEMORY_HPP
 
-#include <cstdint>
-#include <fstream>
-#include <vector>
-#include <dlfcn.h>
-#include <link.h>
+#pragma once
 
 namespace memory {
     struct Region {
@@ -142,19 +138,8 @@ namespace memory {
         return 0;
     }
 
-    inline std::uint64_t ResolveGOT( const char* module, uintptr_t gotOffset )
-    {
-        const auto handle = dlopen( module, RTLD_NOW | RTLD_NOLOAD );
-        if (!handle)
-            return 0;
-
-        link_map* lm;
-        dlinfo( handle, RTLD_DI_LINKMAP, &lm );
-
-        std::uint64_t base = lm->l_addr;
-        dlclose( handle );
-
-        return *reinterpret_cast<std::uint64_t*>( base + gotOffset );
+    inline std::uint64_t ResolveGOT(const std::uint64_t gotOffset) {
+        return *reinterpret_cast<std::uint64_t*>(gotOffset);
     }
 }
 

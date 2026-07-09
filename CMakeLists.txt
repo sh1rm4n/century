@@ -71,6 +71,8 @@ add_library(century SHARED
         core/modules.cpp
         core/interfaces.hpp
         core/interfaces.cpp
+        core/netvars.cpp
+        core/netvars.hpp
         core/menu.hpp
         core/luaexecution.hpp
         core/luaexecution.cpp
@@ -79,9 +81,9 @@ add_library(century SHARED
         core/pages/visuals/entityesp.hpp
         core/pages/visuals/playeresp.hpp
         core/pages/visuals/other.hpp
-        core/pages/aiming/aimbot.hpp
-        core/pages/misc/network.hpp
-        core/pages/lua/executor.hpp
+        core/pages/accuracy.hpp
+        core/pages/miscellaneous.hpp
+        core/pages/lua.hpp
 
         hooks/CreateMove.hpp
         hooks/PumpWindowsMessageLoop.hpp
@@ -101,11 +103,26 @@ add_library(century SHARED
 
         main.cpp
         sourcesdk/interfaces/CGMODPrediction.hpp
-        core/engineprediction.cpp
-        core/engineprediction.hpp
         sourcesdk/interfaces/CGameMovement.hpp
         sourcesdk/interfaces/CMoveHelperClient.hpp
         3rd/checksum_md5.h
+        sourcesdk/interfaces/CCvar.hpp
+        sourcesdk/interfaces/CConVar.hpp
+        hooks/CLMove.hpp
+        3rd/fonts/robotoFont.hpp
+        sourcesdk/entities/C_BaseCombatWeapon.hpp
+        sourcesdk/interfaces/CUniformRandomStream.hpp
+        sourcesdk/C_MultiPlayerAnimState.hpp
+        3rd/fonts/firaCodeFont.hpp
+        sourcesdk/entities/C_BaseViewModel.hpp
+        sourcesdk/bf_write.hpp
+        sourcesdk/bf_read.hpp
+        hooks/ShouldDrawLocalPlayer.hpp
+        core/pages/visuals.hpp
+        core/pages/friends.hpp
+        hooks/CalcRenderableWorldSpaceAABB.hpp
+        hacks/AntiAim.cpp
+        hacks/AntiAim.hpp
 )
 
 set_target_properties(century PROPERTIES
@@ -117,26 +134,27 @@ set_target_properties(century PROPERTIES
 target_compile_options(century PRIVATE
         -fno-gnu-unique
         -fno-rtti
-        $<$<CONFIG:Release>:-O3>
-        $<$<CONFIG:Release>:-flto>
-)
-
-target_link_options(century PRIVATE
-        $<$<CONFIG:Release>:-flto>
-        $<$<CONFIG:Release>:-s>
+        -O3
+        -g0
+        -march=native
+        -mtune=native
 )
 
 target_precompile_headers(century PRIVATE
         <algorithm>
         <cstdint>
         <dlfcn.h>
+        <unistd.h>
+        <sys/mman.h>
         <format>
+        <random>
         <fstream>
         <memory>
         <mutex>
         <string>
         <thread>
         <unordered_map>
+        <unordered_set>
         <vector>
 )
 

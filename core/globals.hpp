@@ -5,14 +5,10 @@
 #ifndef CENTURY_GLOBALS_HPP
 #define CENTURY_GLOBALS_HPP
 
-#include <deque>
-#include <unordered_set>
-#include <vector>
-
-#include "../sourcesdk/math.hpp"
+#pragma once
 
 class C_BaseEntity;
-
+class UserCmd;
 class Matrix3x4;
 
 struct DrawEntity {
@@ -25,6 +21,12 @@ enum PlayerESPRenderingType {
     Box
 };
 
+enum FakeLagMethod {
+    bSendPacket,
+    Choking,
+    bSendPacketWithChoking
+};
+
 #define CHAMS_SELFILLUM (1 << 0)
 #define CHAMS_ADDITIVE (1 << 1)
 #define CHAMS_NOFOG (1 << 2)
@@ -35,21 +37,15 @@ enum PlayerESPRenderingType {
 #define CHAMS_WIREFRAME (1 << 7)
 #define CHAMS_NOCULL (1 << 8)
 
-struct RealmEntry {
-    std::string_view name;
-    int              value;
-};
-
 namespace globals {
     namespace core {
         inline C_BaseEntity *localPlayer = nullptr;
+        inline UserCmd* currentCmd = nullptr;
 
-        inline Matrix3x4 *viewMatrix = {};
-
-        inline float screenWidth = 0.f;
-        inline float screenHeight = 0.f;
+        inline std::unordered_map<std::string, std::string> friends = {};
 
         inline bool shouldUnload = false;
+        inline bool enginePrediction = true;
 
         inline int luaRealm = 0;
     }
@@ -91,6 +87,21 @@ namespace globals {
 
         namespace aimbot {
             inline bool enabled = false;
+
+            inline bool teamCheck = false;
+
+            inline bool silentAim = false;
+            inline bool perfectSilent = false;
+
+            inline float fov = 15.f;
+            inline float smoothness = 1.f;
+        }
+
+        namespace fakelag {
+            inline bool         enabled = true;
+
+            inline int ticks            = 1;
+            inline int method           = bSendPacket;
         }
     }
 }

@@ -4,8 +4,6 @@
 
 #include "modules.hpp"
 
-#include <dlfcn.h>
-
 void *Modules::GetModule(const std::string &moduleName) noexcept {
     if (moduleName.empty())
         return nullptr;
@@ -49,4 +47,5 @@ void Modules::Prepare() noexcept {
     sdl = GetModule("libSDL2-2.0.so.0");
     studioRender = GetModule("studiorender_client.so");
     luaShared = GetModule("lua_shared_client.so");
+    vstdlib = GetModule("libvstdlib_client.so");
 }

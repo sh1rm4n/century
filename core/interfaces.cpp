@@ -11,24 +11,24 @@
 template<typename T>
 T *Interfaces::GetInterface(void *module, const std::string &interfaceName) noexcept {
     if (!module || interfaceName.empty()) {
-        utils::Error("[century] interface finding error: no module/interface");
+        utils::Error("[century] Interface finding error: no module/interface.");
         return nullptr;
     }
 
     using _CreateInterface = void*(*)(const char *, int *);
     const auto CreateInterface = reinterpret_cast<_CreateInterface>(modules->GetExport(module, "CreateInterface"));
     if (!CreateInterface) {
-        utils::Error("[century] interface finding error: failed to get CreateInterface");
+        utils::Error("[century] Interface finding error: failed to get CreateInterface.");
         return nullptr;
     }
 
     const auto interface = CreateInterface(interfaceName.c_str(), 0);
     if (!interface) {
-        utils::Error("[century] interface finding error: interface isn't found");
+        utils::Error("[century] Interface finding error: interface isn't found.");
         return nullptr;
     }
 
-    //utils::Print("[century] interface found: {}; addr: {}", interfaceName, interface);
+    utils::Print("[century] Interface found: {}; address: {}", interfaceName, interface);
 
     return static_cast<T *>(interface);
 }
@@ -61,7 +61,9 @@ void Interfaces::Prepare() noexcept {
     luaShared = GetInterface<CLuaShared>(modules->luaShared, "LUASHARED003");
     prediction = GetInterface<CGMODPrediction>(modules->client, "VClientPrediction001");
     gameMovement = GetInterface<CGameMovement>(modules->client, "GameMovement001");
-    moveHelper = *reinterpret_cast<CMoveHelperClient **>(memory::GetAbsAddress(memory::FindPattern(
+    cvar = GetInterface<CCvar>(modules->vstdlib, "VEngineCvar007");
+    randomStream = GetInterface<CUniformRandomStream>(modules->engine, "VEngineRandom001");
+    moveHelper = *reinterpret_cast<CMoveHelperClient **>(memory::ResolveGOT(memory::GetAbsAddress(memory::FindPattern(
         "client_client.so",
-        "48 C7 47 ? ? ? ? ? ? ? ? 5D 48 89 3D") + 12));
+        "48 8B 05 ? ? ? ? 4C 89 85 ? ? ? ? 4C 8D B5"))));
 }

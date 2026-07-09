@@ -5,6 +5,8 @@
 #ifndef CENTURY_HLCLIENT_HPP
 #define CENTURY_HLCLIENT_HPP
 
+#include "../../core/memory.hpp"
+
 enum ClientFrameStage_t
 {
     FRAME_UNDEFINED=-1,			// (haven't run any frames yet)
@@ -23,12 +25,12 @@ enum ClientFrameStage_t
     FRAME_RENDER_END
 };
 
-class RecvTable
-{
+struct RecvProp;
+class RecvTable {
 public:
 
     // Properties described in a table.
-    void*		*m_pProps;
+    RecvProp*       m_pProps;
     int				m_nProps;
 
     // The decoder. NOTE: this covers each RecvTable AND all its children (ie: its children
@@ -44,19 +46,67 @@ private:
     bool			m_bInMainList;
 };
 
+enum class SendPropType : int
+{
+    INT = 0,
+    FLOAT,
+    VECTOR,
+    VECTOR2D,
+    STRING,
+    ARRAY,
+    DATATABLE,
+    INT64,
+    SENDPROPTYPEMAX
+};
+
+struct RecvProp
+{
+    char* varName;
+    SendPropType recvType;
+    int flags;
+    int stringBufferSize;
+    bool insideArray;
+    const void* extraData;
+    RecvProp* arrayProp;
+    void* arrayLengthProxyFn;
+    void* proxyFn;
+    void* dataTableProxyFn;
+    RecvTable* dataTable;
+    int offset;
+    int elementStride;
+    int elements;
+    const char* parentArrayPropName;
+};
+
 class ClientClass
 {
 public:
-    void*		m_pCreateFn;
-    void*			m_pCreateEventFn;	// Only called for event objects.
-    const char				*m_pNetworkName;
-    RecvTable				*m_pRecvTable;
-    ClientClass				*m_pNext;
-    int						m_ClassID;	// Managed by the engine.
+    void* m_pCreateFn;
+    void* m_pCreateEventFn;	// Only called for event objects.
+    int unk;
+    const char *m_pNetworkName;
+    RecvTable *m_pRecvTable;
+    ClientClass *m_pNext;
+    int	m_ClassID;	// Managed by the engine.
+
+    constexpr const char* GetNetworkedName() noexcept {
+        return *reinterpret_cast<const char **>(std::uint64_t(this) + 0x10);
+    }
+
+    constexpr RecvTable* GetRecvTable() noexcept {
+        return *reinterpret_cast<RecvTable**>(std::uint64_t(this) + 0x18);
+    }
+
+    constexpr ClientClass* GetNext() noexcept {
+        return *reinterpret_cast<ClientClass**>(std::uint64_t(this) + 0x20);
+    }
 };
 
 class HLClient {
-    public:
+public:
+    constexpr ClientClass* GetAllClasses() noexcept {
+        return memory::Call<ClientClass*>(this, 8);
+    }
 };
 
 #endif //CENTURY_HLCLIENT_HPP

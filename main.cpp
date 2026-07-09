@@ -1,17 +1,13 @@
 #include "core/memory.hpp"
 #include "core/modules.hpp"
 #include "core/interfaces.hpp"
+#include "core/netvars.hpp"
 #include "core/utils.hpp"
 #include "core/globals.hpp"
-
-#include <format>
-#include <thread>
-#include <vector>
-#include <memory>
+#include "core/luaexecution.hpp"
 
 #include <polyhook2/Detour/x64Detour.hpp>
 
-#include "core/luaexecution.hpp"
 #include "hooks/CreateMove.hpp"
 #include "hooks/SwapWindow.hpp"
 #include "hooks/PumpWindowsMessageLoop.hpp"
@@ -22,18 +18,26 @@
 #include "hooks/TakeScreenshot.hpp"
 #include "hooks/TakeJpeg.hpp"
 #include "hooks/RenderCapture.hpp"
+#include "hooks/CLMove.hpp"
+#include "hooks/ShouldDrawLocalPlayer.hpp"
+#include "hooks/CalcRenderableWorldSpaceAABB.hpp"
 
 std::thread thread;
 
 static void mainThread() {
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+
     modules->Prepare();
-    utils::ColorPrint(Color(189, 0, 255),"[century] modules init!");
+    utils::ColorPrint(Color(189, 0, 255),"[century] Modules initialized!");
 
     interfaces->Prepare();
-    utils::ColorPrint(Color(166, 255, 0),"[century] interfaces init!");
+    utils::ColorPrint(Color(166, 255, 0),"[century] Interfaces initialized!");
+
+    netVars->Prepare();
+    utils::ColorPrint(Color(166, 255, 0),"[century] Netvars initialized!");
 
     luaExecution->Prepare();
-    utils::ColorPrint(Color(50, 84, 168),"[century] lua execution init!");
+    utils::ColorPrint(Color(50, 84, 168),"[century] Lua execution initialized!");
 
     std::vector<std::unique_ptr<PLH::x64Detour>> hooks;
 
@@ -77,17 +81,34 @@ static void mainThread() {
         memory::FindPattern("client_client.so", "55 48 89 FE 48 89 E5 53 48 83 EC ? 48 8B 5F ? ? ? ? 48 89 DF FF 90 ? ? ? ? 48 83 C4 ? 48 89 DF 5B 5D E9 ? ? ? ? 90 90 90 90 90 90 55 48 89 E5 41 55"),
         reinterpret_cast<std::uint64_t>(dtRenderCapture), &ogRenderCapture));
 
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("engine_client.so", "55 48 89 E5 41 57 41 56 41 55 41 54 53 48 83 EC 48 F3 0F 11 45 9C 83 3D"),
+        reinterpret_cast<std::uint64_t>(dtCLMove), &ogCLMove));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? 48 8B 50 ? 48 3B 50 ? 74 ? 48 3B 50 ? 48 8B 48 ? 74 ? 0F B6 42"),
+        reinterpret_cast<std::uint64_t>(dtShouldDrawLocalPlayer), &ogShouldDrawLocalPlayer));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("client_client.so", "55 48 89 E5 41 56 49 89 FE 41 55 41 54 49 89 D4 53 48 89 F3"),
+        reinterpret_cast<std::uint64_t>(dtCalcRenderableWorldSpaceAABB), &ogCalcRenderableWorldSpaceAABB));
+
     for (const auto& hk : hooks) {
         hk->hook();
     }
 
-    utils::Warn("movehelper: {}", (void*)interfaces->moveHelper);
-
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/morphine_shot.wav");
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    utils::Warn("[century] Initialized in {}ms!", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 
     while (!interfaces->inputSystem->IsButtonDown(KEY_END) && !globals::core::shouldUnload) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        //utils::Warn("localplayer: {}", (void*)globals::core::localPlayer);
+
+        globals::core::localPlayer = utils::GetLocalPlayer();
+
+        utils::Warn("localPlayer: {}", (void*)globals::core::localPlayer);
     }
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/deactivated.wav");
@@ -99,6 +120,8 @@ static void mainThread() {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     hooks.clear();
+
+    utils::SetSendPacket(true);
 
     utils::Print("[century] unloaded!");
 }

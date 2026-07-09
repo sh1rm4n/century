@@ -6,6 +6,7 @@
 #define CENTURY_CENGINETRACE_HPP
 
 #include "../math.hpp"
+#include "../typedefs.hpp"
 
 #define CONTENTS_EMPTY 0
 #define CONTENTS_SOLID 0x1
@@ -92,25 +93,60 @@ enum TraceType {
 };
 
 struct Ray {
-	VectorAligned  start;	// starting point, centered within the extents
-	VectorAligned  delta;	// direction + length of the ray
-	VectorAligned  startOffset;	// Add this to m_Start to get the actual ray start
-	VectorAligned  extents;	// Describes an axis aligned box extruded along a ray
-	//const Matrix3x4* m_world_axis_transform;
-	bool	isRay;	// are the extents zero?
-	bool	isSwept;	// is delta != 0?
+	VectorAligned start{};        // starting point, centered within the extents
+	VectorAligned delta{};        // direction + length of the ray
+	VectorAligned startOffset{};  // Add this to start to get the actual ray start
+	VectorAligned extents{};      // Describes an axis aligned box extruded along a ray
+	const Matrix3x4* worldAxisTransform{ nullptr };
+	bool isRay{ false };          // are the extents zero?
+	bool isSwept{ false };        // is delta != 0?
 
-	void Init(const Vector& startPos, const Vector& endPos) {
+	// --- Lifecycle Configuration ---
+	constexpr Ray() noexcept = default;
+
+	// Manual Copy Constructor (Required because VectorAligned blocks default copying)
+	constexpr Ray(const Ray& other) noexcept
+		: isRay{ other.isRay }, isSwept{ other.isSwept }
+	{
+		start = other.start;
+		delta = other.delta;
+		startOffset = other.startOffset;
+		extents = other.extents;
+	}
+
+	// Manual Copy Assignment Operator
+	constexpr Ray& operator=(const Ray& other) noexcept {
+		if (this == &other) return *this;
+
+		start = other.start;
+		delta = other.delta;
+		startOffset = other.startOffset;
+		extents = other.extents;
+		isRay = other.isRay;
+		isSwept = other.isSwept;
+
+		return *this;
+	}
+
+	// Explicitly permit move semantics for performance optimization paths
+	constexpr Ray(Ray&&) noexcept = default;
+	constexpr Ray& operator=(Ray&&) noexcept = default;
+
+	// --- Constructors ---
+	constexpr Ray(const Vector& startPos, const Vector& endPos) noexcept {
+		Init(startPos, endPos);
+	}
+
+	// --- Logic Implementation ---
+	constexpr void Init(const Vector& startPos, const Vector& endPos) noexcept {
 		delta = endPos - startPos;
+		isSwept = (delta.LengthSqr() != 0.0f);
+		worldAxisTransform = nullptr;
 
-		isSwept = delta.LengthSqr() != 0;
-
-		extents = { 0.f,0.f,0.f };
-
-		//m_world_axis_transform = nullptr;
+		extents = VectorAligned{};
 		isRay = true;
 
-		startOffset = { 0.f,0.f,0.f };
+		startOffset = VectorAligned{};
 		start = startPos;
 	}
 };
@@ -143,7 +179,7 @@ public:
 		entity = ent;
 	}
 
-	virtual void SetCollisionGroup(std::uint32_t group) {
+	virtual void SetCollisionGroup(int group) {
 		collision_group = group;
 	}
 };
@@ -173,9 +209,9 @@ struct csurface_t
 class Trace
 {
 public:
-	Vector startPos;
+	Vector startPos; // vector sz 12
 	Vector endPos;
-	cplane_t plane;
+	cplane_t plane; // cplane_t sz 20
 
 	float fraction;
 
@@ -186,7 +222,7 @@ public:
 	bool startSolid;
 
 	float fractionLeftSolid;
-	csurface_t surface;
+	csurface_t surface; // csurface_t sz 16
 
 	int hitgroup;
 
@@ -197,9 +233,49 @@ public:
 	int hitbox;
 };
 
+class ITraceFilter {
+public:
+	virtual bool ShouldHitEntity(void* entity, int contents_mask) const = 0;
+	virtual int GetTraceType() const = 0;
+	virtual bool ShouldHitClientEntities() const = 0;
+	virtual void SetPassEntity(void* ent) = 0;
+	virtual void SetCollisionGroup(int group) = 0;
+};
+
+class CTraceFilterTest : public ITraceFilter {
+private:
+	void* entity;
+	CollisionGroups collisionGroup;
+public:
+	CTraceFilterTest(void* ent) {
+		entity = ent;
+		collisionGroup = COLLISION_GROUP_PLAYER;
+	}
+
+	virtual bool ShouldHitEntity(void* ent, int contents_mask) const {
+		return ent != entity;
+	}
+
+	virtual int GetTraceType() const {
+		return TRACE_EVERYTHING;
+	}
+
+	virtual bool ShouldHitClientEntities() const {
+		return true;
+	}
+
+	virtual void SetPassEntity(void* ent) {
+		return;
+	}
+
+	virtual void SetCollisionGroup(int group) {
+		return;
+	}
+};
+
 class CEngineTrace {
 public:
-	constexpr void TraceRay(const Ray& ray, std::uint32_t mask, TraceFilterSimple* traceFilter, Trace* trace) {
+	constexpr void TraceRay(const Ray& ray, std::uint32_t mask, ITraceFilter* traceFilter, Trace* trace) {
 		memory::Call<void>(this, 4, ray, mask, traceFilter, trace);
 	}
 };

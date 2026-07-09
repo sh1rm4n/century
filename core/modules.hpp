@@ -5,14 +5,12 @@
 #ifndef CENTURY_MODULES_HPP
 #define CENTURY_MODULES_HPP
 
-#include <memory>
+#pragma once
 
 class Modules {
 public:
     void *GetModule(const std::string &moduleName) noexcept;
-
     void *GetExport(void *module, const std::string &exportName) noexcept;
-
     void Prepare() noexcept;
 
     void *tier0 = nullptr;
@@ -25,6 +23,7 @@ public:
     void *sdl = nullptr;
     void *studioRender = nullptr;
     void *luaShared = nullptr;
+    void *vstdlib = nullptr;
 };
 
 inline auto modules = std::make_shared<Modules>();

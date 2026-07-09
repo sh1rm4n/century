@@ -5,50 +5,37 @@
 #ifndef CENTURY_CGAMEMOVEMENT_HPP
 #define CENTURY_CGAMEMOVEMENT_HPP
 
+#include "../../core/memory.hpp"
+
 class C_BaseEntity;
 
-class CMoveData
-{
+class CMoveData {
 public:
-    bool			m_bFirstRunOfFunctions : 1;
-    bool			m_bGameCodeMovedPlayer : 1;
-
-    std::uint64_t	m_nPlayerHandle;	// edict index on server, client entity handle on client
-
-    int				m_nImpulseCommand;	// Impulse command issued.
-    Angle			m_vecViewAngles;	// Command view angles (local space)
-    Angle			m_vecAbsViewAngles;	// Command view angles (world space)
-    int				m_nButtons;			// Attack buttons.
-    int				m_nOldButtons;		// From host_client->oldbuttons;
-    float			m_flForwardMove;
-    float			m_flSideMove;
-    float			m_flUpMove;
-
-    float			m_flMaxSpeed;
-    float			m_flClientMaxSpeed;
-
-    // Variables from the player edict (sv_player) or entvars on the client.
-    // These are copied in here before calling and copied out after calling.
-    Vector			m_vecVelocity;		// edict::velocity		// Current movement direction.
-    Angle			m_vecAngles;		// edict::angles
-    Angle			m_vecOldAngles;
-
-    // Output only
-    float			m_outStepHeight;	// how much you climbed this move
-    Vector			m_outWishVel;		// This is where you tried
-    Vector			m_outJumpVel;		// This is your jump velocity
-
-    // Movement constraints	(radius 0 means no constraint)
-    Vector			m_vecConstraintCenter;
-    float			m_flConstraintRadius;
-    float			m_flConstraintWidth;
-    float			m_flConstraintSpeedFactor;
-
-    void			SetAbsOrigin( const Vector &vec );
-    const Vector	&GetAbsOrigin() const;
-
-private:
-    Vector			m_vecAbsOrigin;		// edict::origin
+    bool m_bFirstRunOfFunctions : 1; //0x0000
+    bool m_bGameCodeMovedPlayer : 1; //0x0000
+    std::uint32_t m_nPlayerHandle; //0x0004
+    std::int32_t m_nImpulseCommand; //0x0008
+    Angle m_vecViewAngles; //0x000C
+    Angle m_vecAbsViewAngles; //0x0018
+    std::int32_t m_nButtons; //0x0024
+    std::int32_t m_nOldButtons; //0x0028
+    float m_flForwardMove; //0x002C
+    float m_flSideMove; //0x0030
+    float m_flUpMove; //0x0034
+    float m_flMaxSpeed; //0x0038
+    float m_flClientMaxSpeed; //0x003C
+    Vector m_vecVelocity; //0x0040
+    Angle m_vecAngles; //0x004C
+    Angle m_vecOldAngles; //0x0058
+    float m_outStepHeight; //0x0064
+    Vector m_outWishVel; //0x0068
+    Vector m_outJumpVel; //0x0074
+    Vector m_vecConstraintCenter; //0x0080
+    float m_flConstraintRadius; //0x008C
+    float m_flConstraintWidth; //0x0090
+    float m_flConstraintSpeedFactor; //0x0094
+    Vector m_vecAbsOrigin; //0x0098
+    char pad_0001[8]; //0x00A4
 };
 
 class CGameMovement {

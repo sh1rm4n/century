@@ -20,9 +20,6 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
 {
     static auto ogFunction = PLH::FnCast(ogDrawModel, dtDrawModel);
 
-    if (!globals::hacks::chams::enabled)
-        return ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
-
     if (!drawModelInfo.m_pClientEntity)
         return ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
 
@@ -30,71 +27,86 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
     const auto entity = reinterpret_cast<C_BaseEntity*>(
         reinterpret_cast<std::uint64_t>(drawModelInfo.m_pClientEntity) - 0x8);
 
-    if (!strstr(drawModelInfo.m_pClientEntity->GetModel()->strName, "weapons") &&
-        entity &&
-        entity->IsPlayer())
-    {
-        const auto chamsMaterial = interfaces->materialSystem->FindMaterial(globals::hacks::chams::material.c_str(), TEXTURE_GROUP_MODEL);
-        chamsMaterial->AddRef();
+    if (!entity)
+        return ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
 
-        if (globals::hacks::chams::flags & CHAMS_SELFILLUM)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_SELFILLUM, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_SELFILLUM, false);
+    /*if (entity == globals::core::localPlayer) {
+        static Matrix3x4 rotatedBones[256];
+        static float red[]   = { 1.f, 0.f, 0.f };
+        static float green[] = { 0.f, 1.f, 0.f };
+        static float white[] = { 1.f, 1.f, 1.f };
 
-        if (globals::hacks::chams::flags & CHAMS_ADDITIVE)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_ADDITIVE, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_ADDITIVE, false);
+        static IMaterial* antiAimMaterial = nullptr;
+        if (!antiAimMaterial) {
+            antiAimMaterial = interfaces->materialSystem->FindMaterial(
+                "models/props/cs_office/clouds", TEXTURE_GROUP_MODEL);
+            antiAimMaterial->AddRef();
+            antiAimMaterial->SetMaterialVarFlag(MATERIAL_VAR_SELFILLUM, true);
+        }
 
-        if (globals::hacks::chams::flags & CHAMS_NOFOG)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOFOG, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOFOG, false);
+        const auto origin   = entity->GetAbsOrigin();
+        const float fakeYaw = globals::core::currentCmd
+                            ? globals::core::currentCmd->viewAngles.y
+                            : entity->GetAbsAngles().y;
+        const float realYaw  = entity->GetAbsAngles().y;
+        const float deltaYaw = fakeYaw - realYaw; // ← delta, not absolute
 
-        if (globals::hacks::chams::flags & CHAMS_HALFLAMBERT)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_HALFLAMBERT, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_HALFLAMBERT, false);
+        math::RotateBonesAroundOrigin(boneToWorld, rotatedBones, 256, origin,
+                                      { 0.f, deltaYaw, 0.f });
 
-        if (globals::hacks::chams::flags & CHAMS_MULTIPASS)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_MULTIPASS, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_MULTIPASS, false);
-
-        if (globals::hacks::chams::flags & CHAMS_ENVMAP)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_ENVMAPMODE, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_ENVMAPMODE, false);
-
-        if (globals::hacks::chams::flags & CHAMS_FLAT)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_FLAT, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_FLAT, false);
-
-        if (globals::hacks::chams::flags & CHAMS_WIREFRAME)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, false);
-
-        if (globals::hacks::chams::flags & CHAMS_NOCULL)
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOCULL, true);
-        else
-            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOCULL, false);
-
-        chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
         interfaces->modelRender->SuppressEngineLighting(true);
-        interfaces->studioRender->SetColorModulation(globals::hacks::chams::hiddenColors);
-        interfaces->studioRender->ForcedMaterialOverride(chamsMaterial, OVERRIDE_NORMAL);
-        ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
+        interfaces->studioRender->ForcedMaterialOverride(antiAimMaterial, OVERRIDE_NORMAL);
 
-        chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
+        if (utils::GetSendPacket()) {
+            interfaces->studioRender->SetColorModulation(green);
+            ogFunction(vmt, results, drawModelInfo, rotatedBones, flexWeights, flexDelayedWeights, modelOrigin, flags);
+        }
+
+        if (!utils::GetSendPacket()) {
+            interfaces->studioRender->SetColorModulation(red);
+            ogFunction(vmt, results, drawModelInfo, rotatedBones, flexWeights, flexDelayedWeights, modelOrigin, flags);
+        }
+
+        interfaces->studioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL);
+        interfaces->studioRender->SetColorModulation(white);
+
         interfaces->modelRender->SuppressEngineLighting(false);
-        interfaces->studioRender->SetColorModulation(globals::hacks::chams::visibleColors);
-        interfaces->studioRender->ForcedMaterialOverride(chamsMaterial, OVERRIDE_NORMAL);
-        ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
 
-        return interfaces->studioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL);
+        return ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
+    }*/
+
+    if (globals::hacks::chams::enabled) {
+        if (!strstr(drawModelInfo.m_pClientEntity->GetModel()->strName, "weapons") &&
+            entity != globals::core::localPlayer &&
+            entity->IsPlayer())
+        {
+            const auto chamsMaterial = interfaces->materialSystem->FindMaterial(globals::hacks::chams::material.c_str(), TEXTURE_GROUP_MODEL);
+            chamsMaterial->AddRef();
+
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_SELFILLUM, globals::hacks::chams::flags & CHAMS_SELFILLUM);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_ADDITIVE, globals::hacks::chams::flags & CHAMS_ADDITIVE);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOFOG, globals::hacks::chams::flags & CHAMS_NOFOG);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_HALFLAMBERT, globals::hacks::chams::flags & CHAMS_HALFLAMBERT);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_MULTIPASS, globals::hacks::chams::flags & CHAMS_MULTIPASS);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_ENVMAPMODE, globals::hacks::chams::flags & CHAMS_ENVMAP);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_FLAT, globals::hacks::chams::flags & CHAMS_FLAT);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, globals::hacks::chams::flags & CHAMS_WIREFRAME);
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOCULL, globals::hacks::chams::flags & CHAMS_NOCULL);
+
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
+            interfaces->modelRender->SuppressEngineLighting(true);
+            interfaces->studioRender->SetColorModulation(globals::hacks::chams::hiddenColors);
+            interfaces->studioRender->ForcedMaterialOverride(chamsMaterial, OVERRIDE_NORMAL);
+            ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
+
+            chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
+            interfaces->modelRender->SuppressEngineLighting(false);
+            interfaces->studioRender->SetColorModulation(globals::hacks::chams::visibleColors);
+            interfaces->studioRender->ForcedMaterialOverride(chamsMaterial, OVERRIDE_NORMAL);
+            ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
+
+            return interfaces->studioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL);
+        }
     }
 
     ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);

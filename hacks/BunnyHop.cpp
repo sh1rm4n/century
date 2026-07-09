@@ -6,8 +6,11 @@
 
 #include "../core/globals.hpp"
 #include "../core/utils.hpp"
+
 #include "../sourcesdk/typedefs.hpp"
 #include "../sourcesdk/UserCmd.hpp"
+
+#include "../sourcesdk/entities/C_BaseEntity.hpp"
 
 void BunnyHop::Autostrafe(UserCmd *cmd, AutoStrafeType type) noexcept {
     if (!cmd || !type)
@@ -30,6 +33,11 @@ void BunnyHop::Autostrafe(UserCmd *cmd, AutoStrafeType type) noexcept {
 
     if (globals::core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
         return;
+
+    if (cmd->buttons & IN_ATTACK)
+        return;
+
+    const auto forwardSpeed = interfaces->cvar->FindCommandBase("cl_forwardspeed");
 
     if (type == Directional) {
         const auto velocity = globals::core::localPlayer->GetVelocity();

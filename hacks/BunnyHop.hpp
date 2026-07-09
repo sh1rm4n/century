@@ -5,7 +5,7 @@
 #ifndef CENTURY_BUNNYHOP_HPP
 #define CENTURY_BUNNYHOP_HPP
 
-#include <memory>
+#pragma once
 
 class UserCmd;
 
@@ -19,6 +19,6 @@ public:
     void Run(UserCmd* cmd) noexcept;
 };
 
-inline auto bhop = std::make_unique<BunnyHop>();
+inline auto bunnyhop = std::make_unique<BunnyHop>();
 
 #endif //CENTURY_BUNNYHOP_HPP

@@ -5,9 +5,7 @@
 #ifndef CENTURY_LUAEXECUTION_HPP
 #define CENTURY_LUAEXECUTION_HPP
 
-#include <memory>
-
-#include "../sourcesdk/interfaces/CLuaShared.hpp"
+#pragma once
 
 typedef struct lua_State lua_State;
 

@@ -5,8 +5,7 @@
 #ifndef CENTURY_INTERFACES_HPP
 #define CENTURY_INTERFACES_HPP
 
-#include <memory>
-#include <string>
+#pragma once
 
 #include "../sourcesdk/interfaces/InputSystem.hpp"
 #include "../sourcesdk/interfaces/HLClient.hpp"
@@ -27,6 +26,8 @@
 #include "../sourcesdk/interfaces/CLuaShared.hpp"
 #include "../sourcesdk/interfaces/CGMODPrediction.hpp"
 #include "../sourcesdk/interfaces/CGameMovement.hpp"
+#include "../sourcesdk/interfaces/CCvar.hpp"
+#include "../sourcesdk/interfaces/CUniformRandomStream.hpp"
 #include "../sourcesdk/interfaces/CMoveHelperClient.hpp"
 
 class Interfaces {
@@ -55,6 +56,8 @@ public:
     CLuaShared *luaShared = nullptr;
     CGMODPrediction *prediction = nullptr;
     CGameMovement *gameMovement = nullptr;
+    CCvar *cvar = nullptr;
+    CUniformRandomStream *randomStream = nullptr;
     CMoveHelperClient *moveHelper = nullptr;
 };
 

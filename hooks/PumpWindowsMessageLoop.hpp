@@ -12,8 +12,11 @@ inline std::uint64_t ogPumpWindowsMessageLoop = 0;
 void dtPumpWindowsMessageLoop() {
     static auto ogFunction = PLH::FnCast(ogPumpWindowsMessageLoop, dtPumpWindowsMessageLoop);
 
-    if (globals::menu::active)
+    if (globals::menu::active) {
+        interfaces->inputSystem->EnableInput(!globals::menu::active);
+
         return;
+    }
 
     ogFunction();
 }

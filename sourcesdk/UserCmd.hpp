@@ -36,27 +36,30 @@
 
 class UserCmd {
 public:
-    int			commandNumber;
-    int			tickCount;
-    Angle		viewAngles;
-    float		forwardMove;
-    float		sideMove;
-    float		upMove;
-    int			buttons;
-    char		impulse;
-    int			weaponSelect;
-    int			weaponSubtype;
-    int			randomSeed;
-    short		mouseX;
-    short		mouseY;
-    bool		hasBeenPredicted;
-    char		buttonsPressed[5];
-    char		scrollWheelSpeed;
-    bool		isWorldClicking;
-    Vector	worldClickDirection;
-    bool		isTyping;
-    Vector	motionSensorPositions[20];
-    bool		forced;
+    int commandNumber;
+    int tickCount;
+    Angle viewAngles;
+    float forwardMove;
+    float sideMove;
+    float upMove;
+    int buttons;
+    int weaponSelect;
+    int weaponSubtype;
+    int randomSeed;
+    short mouseX;
+    short mouseY;
+    bool hasBeenPredicted;
+    unsigned char impulse;
+    bool isTyping;
+    char pad_0001[6];
+    char scrollWheelSpeed;
+    bool contextMenu;
+    Vector contextNormal;
+    char pad_0002[240];
+
+    constexpr std::uint32_t GetSeed() noexcept {
+        return *reinterpret_cast<std::uint32_t*>(std::uint64_t(this) + 0x2C);
+    }
 };
 
 #endif //CENTURY_USERCMD_HPP

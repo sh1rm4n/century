@@ -15,8 +15,6 @@ class CViewSetup;
 inline std::uint64_t ogOverrideView = 0;
 
 void dtOverrideView(ClientModeGModNormal* vmt, CViewSetup* viewSetup) {
-    //utils::Warn("test frame addr: {}", __builtin_frame_address(0));
-
     static auto ogFunction = PLH::FnCast(ogOverrideView, dtOverrideView);
     static auto init = false;
 
@@ -35,12 +33,12 @@ void dtOverrideView(ClientModeGModNormal* vmt, CViewSetup* viewSetup) {
 
     Angle angles;
     interfaces->engineClient->GetViewAngles(angles);
-
-    angles.Normalize();
     viewSetup->angles = angles;
 
-    //utils::Warn("viewSetup->fov: {}", viewSetup->fov);
-    //utils::Warn("viewSetup->fovViewmodel: {}", viewSetup->fovViewmodel);
+    Vector forward, right, up;
+    angles.Vectors(forward, right, up);
+
+    viewSetup->origin = globals::core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
 
     ogFunction(vmt, viewSetup);
 }

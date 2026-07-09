@@ -10,64 +10,13 @@
 #include "../core/globals.hpp"
 
 #include "../sourcesdk/UserCmd.hpp"
-#include "../sourcesdk/typedefs.hpp"
 #include "../core/utils.hpp"
 
-#include "../hacks/BunnyHop.hpp"
 #include "../hacks/Aimbot.hpp"
+#include "../hacks/AntiAim.hpp"
+#include "../hacks/BunnyHop.hpp"
 
 inline std::uint64_t ogCreateMove = 0;
-
-void AntiAimRun(UserCmd* cmd) noexcept {
-    if (!globals::core::localPlayer || !cmd || !globals::core::localPlayer->IsAlive()) {
-        utils::SetSendPacket(true);
-        return;
-    }
-
-    // always send on attack
-    if (cmd->buttons & IN_ATTACK) {
-        utils::SetSendPacket(true);
-        return;
-    }
-
-    const auto moveType = globals::core::localPlayer->GetMoveType();
-    if (moveType == MOVETYPE_LADDER || moveType == MOVETYPE_NOCLIP) {
-        utils::SetSendPacket(true);
-        return;
-    }
-
-    const auto oldViewAngles  = cmd->viewAngles;
-    const auto oldForwardMove = cmd->forwardMove;
-    const auto oldSideMove    = cmd->sideMove;
-
-    static auto shouldDesync = false;
-    static auto danceNextTime = interfaces->globalVars->curtime + 2;
-    static float spinYaw = 0.f;
-
-    cmd->viewAngles.p = 89.f; // pitch down
-
-    spinYaw += 25.f; // spin speed — tune this
-    if (spinYaw > 180.f)
-        spinYaw -= 360.f;
-
-    if (shouldDesync) {
-        cmd->viewAngles.y = spinYaw + 180.f; // opposite side
-        utils::SetSendPacket(false);
-    } else {
-        cmd->viewAngles.y = spinYaw;
-        utils::SetSendPacket(true);
-    }
-
-    if (interfaces->globalVars->curtime >= danceNextTime) {
-        //interfaces->engineClient->ClientCmd_Unrestricted("_DarkRP_DoAnimation 1617; say gtfo");
-        danceNextTime = interfaces->globalVars->curtime + 2;
-    }
-
-    shouldDesync = !shouldDesync;
-    math::NormalizeAngles(cmd->viewAngles);
-
-    utils::CorrectMovement(oldViewAngles, cmd, oldForwardMove, oldSideMove);
-}
 
 bool dtCreateMove(ClientModeGModNormal* vmt, UserCmd* cmd, float inputSampleTime) {
     static auto ogFunction = PLH::FnCast(ogCreateMove, dtCreateMove);
@@ -89,17 +38,30 @@ bool dtCreateMove(ClientModeGModNormal* vmt, UserCmd* cmd, float inputSampleTime
 
     cmd->isTyping = true; // salut mode
 
-    bhop->Run(cmd);
+    bunnyhop->Run(cmd);
 
-    AntiAimRun(cmd);
+    antiAim->Run(cmd);
 
-    static auto fakeLagCounter = 0;
-    if (fakeLagCounter <= 14) {
-        fakeLagCounter = 0;
-    }
-    else {
-        utils::ChokePacket();
-        fakeLagCounter++;
+    if (globals::hacks::fakelag::enabled) {
+        static auto fakeLagCounter = 0;
+        if (fakeLagCounter >= globals::hacks::fakelag::ticks) {
+            utils::SetSendPacket(true);
+            fakeLagCounter = 0;
+        }
+        else {
+            if (globals::hacks::fakelag::method == bSendPacket) {
+                utils::SetSendPacket(false);
+            }
+            else if (globals::hacks::fakelag::method == Choking) {
+                utils::ChokePacket();
+            }
+            else if (globals::hacks::fakelag::method == bSendPacketWithChoking) {
+                utils::ChokePacket();
+                utils::SetSendPacket(false);
+            }
+            fakeLagCounter++;
+        }
+
     }
 
     if (globals::core::enginePrediction)

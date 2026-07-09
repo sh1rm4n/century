@@ -8,7 +8,6 @@
 
 #include "interfaces.hpp"
 #include "modules.hpp"
-#include "utils.hpp"
 
 #define lua_pop(L,n) lua_settop(L, -(n)-1)
 
@@ -47,7 +46,12 @@ void LuaExecution::Execute(const int realm, const std::string& script) noexcept 
 
     const auto threadRef = luaL_ref(state, -10000);
 
-    if (luaL_loadbufferx(thread, script.c_str(), script.length(), "century", 0) == 0) {
+    if (!threadRef)
+        return;
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    if (luaL_loadbufferx(thread, script.c_str(), script.length(), "@century", 0) == 0) {
         if (lua_pcall(thread, 0, 0, 0) != 0) {
             lua_pop(thread, 1);
         }

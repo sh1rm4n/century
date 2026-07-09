@@ -13,32 +13,38 @@
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 
 #include "../core/globals.hpp"
+#include "../sourcesdk/C_MultiPlayerAnimState.hpp"
 
 inline std::uint64_t ogFrameStageNotify = 0;
 
 void dtFrameStageNotify(HLClient* vmt, ClientFrameStage_t stage, void* unk1, void* unk2) {
     static auto ogFunction = PLH::FnCast(ogFrameStageNotify, dtFrameStageNotify);
 
+    if (!interfaces->engineClient->IsInGame() || !globals::core::localPlayer)
+        return ogFunction(vmt, stage, unk1, unk2);
+
+    ogFunction(vmt, stage, unk1, unk2);
+
     switch (stage) {
         default: break;
 
-        case FRAME_NET_UPDATE_START: {
-            for (auto i = 0; i < interfaces->globalVars->maxClients; i++) {
-                const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
+        case FRAME_NET_UPDATE_END: {
+            if (interfaces->engineClient->IsInGame()) {
 
-                if (!entity || !entity->IsPlayer())
-                    continue;
-
-                entity->SetDormant(false);
             }
         } break;
 
         case FRAME_RENDER_START: {
-            globals::core::localPlayer = utils::GetLocalPlayer();
+            globals::core::localPlayer->SetLocalViewAngles(globals::core::currentCmd->viewAngles);
+
+            for (auto i = 0; i <= interfaces->globalVars->maxClients; i++) {
+                const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
+
+                if (!entity || entity == globals::core::localPlayer || !entity->IsPlayer() || !entity->IsAlive())
+                    continue;
+            }
         } break;
     }
-
-    ogFunction(vmt, stage, unk1, unk2);
 }
 
 #endif //CENTURY_FRAMESTAGENOTIFY_HPP

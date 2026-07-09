@@ -27,6 +27,10 @@ typedef struct player_info_s
 
 class CEngineClient {
 public:
+    constexpr bool CopyLocalFile(const char* source, const char* destination) noexcept {
+        return memory::Call<bool>(this, 4, source, destination);
+    }
+
     constexpr bool GetPlayerInfo(int index, player_info_s* info) noexcept {
         return memory::Call<bool>(this, 8, index, info);
     }

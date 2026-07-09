@@ -8,6 +8,8 @@
 #include <SDL_events.h>
 #include <SDL_video.h>
 
+#include <imgui_stdlib.h>
+
 #include <polyhook2/Detour/x64Detour.hpp>
 
 #include "../3rd/imgui/imgui_impl_opengl3.h"
@@ -17,10 +19,11 @@
 
 #include "../3rd/fonts/IconsFontAwesome6.h"
 #include "../3rd/fonts/fa-solid-900.h"
-
-#include <imgui_stdlib.h>
+#include "../3rd/fonts/firaCodeFont.hpp"
+#include "../3rd/fonts/robotoFont.hpp"
 
 #include "../core/menu.hpp"
+#include "../core/utils.hpp"
 
 inline std::uint64_t ogSwapWindow = 0;
 
@@ -52,10 +55,15 @@ void dtSwapWindow(SDL_Window* window) {
         temp.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
         temp.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
-        temp.Fonts->AddFontDefault();
+        temp.IniFilename = nullptr;
+        temp.LogFilename = nullptr;
 
         float baseFontSize = 16.0f;
         float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+
+        temp.Fonts->AddFontFromMemoryTTF(robotoFont, sizeof(robotoFont), baseFontSize, nullptr, temp.Fonts->GetGlyphRangesCyrillic());
+
+        menu::pages::lua::editorFont = temp.Fonts->AddFontFromMemoryTTF(firaCodeFont, sizeof(firaCodeFont), baseFontSize, nullptr, temp.Fonts->GetGlyphRangesCyrillic());
 
         static constexpr ImWchar iconsRanges[] = {ICON_MIN_FA, ICON_MAX_16_FA, 0};
         ImFontConfig iconsConfig;
@@ -77,9 +85,6 @@ void dtSwapWindow(SDL_Window* window) {
     int w, h;
     SDL_GetWindowSize(window, &w, &h);
 
-    globals::core::screenWidth = static_cast<float>(w);
-    globals::core::screenHeight = static_cast<float>(h);
-
     io.DisplaySize = {static_cast<float>(w), static_cast<float>(h)};
 
     ImGui::NewFrame();
@@ -89,8 +94,9 @@ void dtSwapWindow(SDL_Window* window) {
 
     if (interfaces->engineClient->IsInGame()) {
         ImGui::SetNextWindowPos({0, 0});
-        ImGui::SetNextWindowSize({globals::core::screenWidth, globals::core::screenHeight});
-        ImGui::Begin("Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
+        ImGui::SetNextWindowSize({static_cast<float>(w), static_cast<float>(h)});
+
+        ImGui::Begin("##Background", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
         {
             const auto maxEntities = interfaces->entityList->GetMaxEntities();
 
@@ -110,15 +116,13 @@ void dtSwapWindow(SDL_Window* window) {
                     if (!clientClass)
                         continue;
 
-                    const auto networkedName = clientClass->m_pNetworkName;
+                    const auto networkedName = clientClass->GetNetworkedName();
                     const auto luaName = entity->GetLuaScriptName();
 
-                    // 1. Construct the identifier string once
                     std::string entIdentifier = std::to_string(i) + ": " + ((luaName && luaName[0] != '\0') ? luaName : networkedName);
 
                     globals::hacks::entityesp::entsToDraw.emplace_back(DrawEntity{entIdentifier, entity->UsesLua()});
 
-                    // 2. Check if the generated identifier string is allowed to be drawn
                     if (globals::hacks::entityesp::allowedEntsToDraw.contains(entIdentifier)) {
                         if (!globals::core::localPlayer)
                             continue;
@@ -128,36 +132,95 @@ void dtSwapWindow(SDL_Window* window) {
                         const auto origin = entity->GetAbsOrigin();
 
                         if (utils::WorldToScreen(origin, outOrigin)) {
-                            if (entity->UsesLua()) {
-                                drawList->AddText({outOrigin.x, outOrigin.y}, ImColor{255, 255, 255}, luaName);
+                            const auto mins      = entity->WorldAlignMins();
+                            const auto maxs      = entity->WorldAlignMaxs();
+                            const auto health    = entity->GetHealth();
+                            const auto maxHealth = std::max(entity->GetMaxHealth(), 1);
+                            const auto model     = entity->GetModel();
+                            const char* name     = entity->UsesLua() ? luaName : networkedName;
+
+                            utils::Draw3DBox(drawList, origin, entity->GetAbsAngles(), mins, maxs);
+
+                            // get 2D bounding rect from all 8 projected corners
+                            Vector forward, right, up;
+                            entity->GetAbsAngles().Vectors(forward, right, up);
+
+                            const std::array<Vector, 8> localCorners = {{
+                                {mins.x, mins.y, mins.z},
+                                {mins.x, maxs.y, mins.z},
+                                {maxs.x, maxs.y, mins.z},
+                                {maxs.x, mins.y, mins.z},
+                                {mins.x, mins.y, maxs.z},
+                                {mins.x, maxs.y, maxs.z},
+                                {maxs.x, maxs.y, maxs.z},
+                                {maxs.x, mins.y, maxs.z},
+                            }};
+
+                            float screenMinX = FLT_MAX, screenMinY = FLT_MAX;
+                            float screenMaxX = -FLT_MAX, screenMaxY = -FLT_MAX;
+                            bool allVisible = true;
+
+                            for (const auto& lc : localCorners) {
+                                Vector worldPos = origin + forward * lc.x + right * lc.y + up * lc.z;
+                                Vector screenPos;
+                                if (!utils::WorldToScreen(worldPos, screenPos)) { allVisible = false; break; }
+                                screenMinX = std::min(screenMinX, screenPos.x);
+                                screenMinY = std::min(screenMinY, screenPos.y);
+                                screenMaxX = std::max(screenMaxX, screenPos.x);
+                                screenMaxY = std::max(screenMaxY, screenPos.y);
                             }
-                            else {
-                                drawList->AddText({outOrigin.x, outOrigin.y}, ImColor{255, 255, 255}, networkedName);
+
+                            if (!allVisible)
+                                continue;
+
+                            const float boxW    = screenMaxX - screenMinX;
+                            const float centerX = screenMinX + boxW * 0.5f;
+
+                            // --- name (centered, above box) ---
+                            const ImVec2 nameSize = ImGui::CalcTextSize(name);
+                            drawList->AddText(
+                                { centerX - nameSize.x * 0.5f, screenMinY - nameSize.y - 2.f },
+                                ImColor(255, 255, 255, 255),
+                                name);
+
+                            // --- model (centered, above name) ---
+                            if (model) {
+                                const ImVec2 modSize = ImGui::CalcTextSize(model->strName);
+                                drawList->AddText(
+                                    { centerX - modSize.x * 0.5f, screenMinY - nameSize.y - modSize.y - 4.f },
+                                    ImColor(180, 180, 180, 255),
+                                    model->strName);
                             }
 
-                            const auto model = entity->GetModel();
-                            const auto health = entity->GetHealth();
-                            const auto maxHealth = entity->GetMaxHealth();
+                            // --- health bar (bottom, full width of box) ---
+                            {
+                                const float percent  = std::clamp(static_cast<float>(health) / maxHealth, 0.f, 1.f);
+                                const float barH     = 4.f;
+                                const float barOff   = 4.f;
 
-                            float healthPercent = static_cast<float>(health) / maxHealth;
-                            healthPercent = std::clamp(healthPercent, 0.0f, 1.0f);
+                                const ImVec2 bgMin = { screenMinX,                        screenMaxY + barOff };
+                                const ImVec2 bgMax = { screenMaxX,                        screenMaxY + barOff + barH };
+                                const ImVec2 fgMin = bgMin;
+                                const ImVec2 fgMax = { screenMinX + boxW * percent,       bgMax.y };
 
-                            const auto r = static_cast<int>((1.0f - healthPercent) * 255.0f);
-                            const auto g = static_cast<int>(healthPercent * 255.0f);
+                                const int r = static_cast<int>((1.f - percent) * 255.f);
+                                const int g = static_cast<int>(percent * 255.f);
 
-                            ImColor healthColor(r, g, 0);
+                                // shadow/bg
+                                drawList->AddRectFilled(bgMin, bgMax, ImColor(0, 0, 0, 180));
+                                // fill
+                                drawList->AddRectFilled(fgMin, fgMax, ImColor(r, g, 0, 255));
+                                // border
+                                drawList->AddRect(bgMin, bgMax, ImColor(0, 0, 0, 255), 0.f, 0, 1.f);
 
-                            if (model != nullptr)
-                                drawList->AddText({outOrigin.x, outOrigin.y - 13.f}, ImColor{255, 255, 255}, std::format("Model: {}", model->strName).c_str());
-                            else
-                                drawList->AddText({outOrigin.x, outOrigin.y - 13.f}, ImColor{255, 255, 255}, "Model: none");
-
-                            drawList->AddText({outOrigin.x, outOrigin.y - 26.f}, healthColor, std::format("Health: {}/{}", health, maxHealth).c_str());
-
-                            drawList->AddText({outOrigin.x, outOrigin.y - 39.f}, ImColor{0, 255, 247}, "Entity");
-
-                            utils::Draw3DBox(drawList, origin, entity->GetAbsAngles(), entity->WorldAlignMins(), entity->WorldAlignMaxs());
-                            //utils::Warn("ent: {}; mins.x: {}; mins.y: {}; mins.z", luaName, mins.x, mins.y, mins.z);
+                                // health text centered below bar
+                                const auto hpStr    = std::format("{}/{}", health, maxHealth);
+                                const ImVec2 hpSize = ImGui::CalcTextSize(hpStr.c_str());
+                                drawList->AddText(
+                                    { centerX - hpSize.x * 0.5f, bgMax.y + 2.f },
+                                    ImColor(r, g, 0, 255),
+                                    hpStr.c_str());
+                            }
                         }
                     }
                 }
@@ -172,148 +235,23 @@ void dtSwapWindow(SDL_Window* window) {
                     if (!entity || entity == utils::GetLocalPlayer() || !entity->IsPlayer() || !entity->IsAlive())
                         continue;
 
-                    utils::PushAllowBoneAccess(true, false, "century_player_esp");
-
-                    Matrix3x4 bones[256];
-                    if (!entity->SetupBones(bones, 256, 0x7FF00, interfaces->globalVars->curtime))
-                        continue;
-
-                    utils::PopBoneAccess("century_player_esp");
-
                     player_info_s info;
                     if (!interfaces->engineClient->GetPlayerInfo(i, &info))
                         continue;
 
-                    const auto head = bones[7].GetOrigin();
+                    const auto head = entity->GetEyePosition();
+                    const auto bottom = entity->GetAbsOrigin();
 
                     if (globals::hacks::playeresp::bones) {
-                        // pelvis -> spines -> head
-                        Vector bone0 = bones[0].GetOrigin();
-                        Vector bone1 = bones[1].GetOrigin();
-                        Vector bone2 = bones[2].GetOrigin();
-                        Vector bone3 = bones[3].GetOrigin();
-                        Vector bone4 = bones[4].GetOrigin();
-                        Vector bone5 = bones[5].GetOrigin();
-                        Vector bone6 = bones[6].GetOrigin();
-                        Vector bone7 = head;
+                        utils::PushAllowBoneAccess(true, false, "century_player_esp");
 
-                        // shoulders -> arms -> hands
+                        Matrix3x4 bones[256];
+                        if (!entity->SetupBones(bones, 256, 0x7FF00, interfaces->globalVars->curtime))
+                            continue;
 
-                        // left arm
-                        Vector bone8 = bones[8].GetOrigin();
-                        Vector bone9 = bones[9].GetOrigin();
-                        Vector bone10 = bones[10].GetOrigin();
-                        Vector bone11 = bones[11].GetOrigin();
-                        Vector bone12 = bones[12].GetOrigin();
+                        utils::PopBoneAccess("century_player_esp");
 
-                        // right arm
-                        Vector bone13 = bones[13].GetOrigin();
-                        Vector bone14 = bones[14].GetOrigin();
-                        Vector bone15 = bones[15].GetOrigin();
-                        Vector bone16 = bones[16].GetOrigin();
-                        Vector bone17 = bones[17].GetOrigin();
-
-                        // pelvis -> legs
-
-                        // left leg
-                        Vector bone18 = bones[18].GetOrigin();
-                        Vector bone19 = bones[19].GetOrigin();
-                        Vector bone20 = bones[20].GetOrigin();
-                        Vector bone21 = bones[21].GetOrigin();
-
-                        // right leg
-                        Vector bone22 = bones[22].GetOrigin();
-                        Vector bone23 = bones[23].GetOrigin();
-                        Vector bone24 = bones[24].GetOrigin();
-                        Vector bone25 = bones[25].GetOrigin();
-
-                        Vector outBone0;
-                        Vector outBone1;
-                        Vector outBone2;
-                        Vector outBone3;
-                        Vector outBone4;
-                        Vector outBone5;
-                        Vector outBone6;
-                        Vector outBone7;
-
-                        Vector outBone8;
-                        Vector outBone9;
-                        Vector outBone10;
-                        Vector outBone11;
-                        Vector outBone12;
-                        Vector outBone13;
-                        Vector outBone14;
-                        Vector outBone15;
-                        Vector outBone16;
-                        Vector outBone17;
-
-                        Vector outBone18;
-                        Vector outBone19;
-                        Vector outBone20;
-                        Vector outBone21;
-
-                        Vector outBone22;
-                        Vector outBone23;
-                        Vector outBone24;
-                        Vector outBone25;
-
-                        if (utils::WorldToScreen(bone0, outBone0) &&
-                            utils::WorldToScreen(bone1, outBone1) &&
-                            utils::WorldToScreen(bone2, outBone2) &&
-                            utils::WorldToScreen(bone3, outBone3) &&
-                            utils::WorldToScreen(bone4, outBone4) &&
-                            utils::WorldToScreen(bone5, outBone5) &&
-                            utils::WorldToScreen(bone6, outBone6) &&
-                            utils::WorldToScreen(bone7, outBone7) &&
-                            utils::WorldToScreen(bone8, outBone8) &&
-                            utils::WorldToScreen(bone9, outBone9) &&
-                            utils::WorldToScreen(bone10, outBone10) &&
-                            utils::WorldToScreen(bone11, outBone11) &&
-                            utils::WorldToScreen(bone12, outBone12) &&
-                            utils::WorldToScreen(bone13, outBone13) &&
-                            utils::WorldToScreen(bone14, outBone14) &&
-                            utils::WorldToScreen(bone15, outBone15) &&
-                            utils::WorldToScreen(bone16, outBone16) &&
-                            utils::WorldToScreen(bone17, outBone17) &&
-                            utils::WorldToScreen(bone18, outBone18) &&
-                            utils::WorldToScreen(bone19, outBone19) &&
-                            utils::WorldToScreen(bone20, outBone20) &&
-                            utils::WorldToScreen(bone21, outBone21) &&
-                            utils::WorldToScreen(bone22, outBone22) &&
-                            utils::WorldToScreen(bone23, outBone23) &&
-                            utils::WorldToScreen(bone24, outBone24) &&
-                            utils::WorldToScreen(bone25, outBone25))
-                        {
-                            drawList->AddLine({outBone0.x, outBone0.y}, {outBone1.x, outBone1.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone1.x, outBone1.y}, {outBone2.x, outBone2.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone2.x, outBone2.y}, {outBone3.x, outBone3.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone3.x, outBone3.y}, {outBone4.x, outBone4.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone4.x, outBone4.y}, {outBone5.x, outBone5.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone5.x, outBone5.y}, {outBone6.x, outBone6.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone6.x, outBone6.y}, {outBone7.x, outBone7.y}, ImColor{255,255,255});
-
-                            drawList->AddLine({outBone4.x, outBone4.y}, {outBone8.x, outBone8.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone8.x, outBone8.y}, {outBone9.x, outBone9.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone9.x, outBone9.y}, {outBone10.x, outBone10.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone10.x, outBone10.y}, {outBone11.x, outBone11.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone11.x, outBone11.y}, {outBone12.x, outBone12.y}, ImColor{255,255,255});
-
-                            drawList->AddLine({outBone4.x, outBone4.y}, {outBone13.x, outBone13.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone13.x, outBone13.y}, {outBone14.x, outBone14.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone14.x, outBone14.y}, {outBone15.x, outBone15.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone15.x, outBone15.y}, {outBone16.x, outBone16.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone16.x, outBone16.y}, {outBone17.x, outBone17.y}, ImColor{255,255,255});
-
-                            drawList->AddLine({outBone0.x, outBone0.y}, {outBone18.x, outBone18.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone18.x, outBone18.y}, {outBone19.x, outBone19.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone19.x, outBone19.y}, {outBone20.x, outBone20.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone20.x, outBone20.y}, {outBone21.x, outBone21.y}, ImColor{255,255,255});
-
-                            drawList->AddLine({outBone0.x, outBone0.y}, {outBone22.x, outBone22.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone22.x, outBone22.y}, {outBone23.x, outBone23.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone23.x, outBone23.y}, {outBone24.x, outBone24.y}, ImColor{255,255,255});
-                            drawList->AddLine({outBone24.x, outBone24.y}, {outBone25.x, outBone25.y}, ImColor{255,255,255});
-                        }
+                        utils::DrawBones(drawList, bones);
                     }
 
                     if (globals::hacks::playeresp::renderingType == PlayerESPRenderingType::Square) {
@@ -338,18 +276,100 @@ void dtSwapWindow(SDL_Window* window) {
                         }
                     }
                     else if (globals::hacks::playeresp::renderingType == PlayerESPRenderingType::Box) {
-                        Vector headOut;
+                        Vector headOut, bottomOut;
 
-                        if (!utils::WorldToScreen(head, headOut))
+                        if (!utils::WorldToScreen(head + Vector{0, 0, 15}, headOut) ||
+                            !utils::WorldToScreen(bottom, bottomOut))
                             continue;
 
-                        drawList->AddText({headOut.x, headOut.y}, ImColor{255,255,255}, info.name);
+                        // Box dimensions based on screen projection
+                        float height = bottomOut.y - headOut.y;
+                        float width  = height * 0.45f;
 
-                        utils::Draw3DBox(drawList, entity->GetAbsOrigin(), entity->GetAbsAngles(), entity->WorldAlignMins(), entity->WorldAlignMaxs());
+                        float x = bottomOut.x - width * 0.5f;
+                        float y = headOut.y;
+
+                        float x2 = bottomOut.x + width * 0.5f;
+                        float y2 = bottomOut.y;
+
+                        // ---------------- BOX ----------------
+                        utils::Draw3DBox(drawList, bottom, entity->GetAbsAngles(), entity->WorldAlignMins(), entity->WorldAlignMaxs());
+
+                        // ---------------- NAME ----------------
+                        const auto weapon = entity->GetActiveWeapon();
+                        auto weaponName = "";
+
+                        if (weapon) {
+                            weaponName = weapon->GetName();
+                        }
+                        else {
+                            weaponName = "none";
+                        }
+
+                        ImVec2 weaponNameSize = ImGui::CalcTextSize(weaponName);
+                        drawList->AddText(
+                            ImVec2(bottomOut.x - weaponNameSize.x * 0.5f, y - weaponNameSize.y - 2.f),
+                            IM_COL32(255, 255, 255, 255),
+                            weaponName
+                        );
+
+                        ImVec2 nameSize = ImGui::CalcTextSize(info.name);
+                        drawList->AddText(
+                            ImVec2(bottomOut.x - nameSize.x * 0.5f, y - nameSize.y - 14.f),
+                            IM_COL32(255, 255, 255, 255),
+                            info.name
+                        );
+
+                        // ---------------- STEAM / ID LABEL ----------------
+                        ImVec2 idSize = ImGui::CalcTextSize(info.guid);
+                        drawList->AddText(
+                            ImVec2(bottomOut.x - idSize.x * 0.5f, y2 + 8.f),
+                            IM_COL32(180, 180, 180, 255),
+                            info.guid
+                        );
+
+                        // ---------------- HEALTH BAR ----------------
+                        float hp = std::clamp(static_cast<float>(entity->GetHealth()), 0.0f, 100.0f) / 100.0f;
+
+                        float barW = width;
+                        float barH = 4.0f;
+
+                        ImVec2 barMin(x, y2 + 4.0f);       // bottom of box + padding
+                        ImVec2 barMax(x + barW, y2 + 4.0f + barH);
+
+                        // background
+                        drawList->AddRectFilled(barMin, barMax, IM_COL32(20,20,20,220));
+
+                        // fill (left → right)
+                        drawList->AddRectFilled(
+                            barMin,
+                            ImVec2(barMin.x + barW * hp, barMax.y),
+                            IM_COL32(
+                                (int)(255 * (1.0f - hp)),
+                                (int)(255 * hp),
+                                0,
+                                255
+                            )
+                        );
                     }
                 }
             }
         }
+        ImGui::End();
+
+        ImGui::SetNextWindowPos({20, (static_cast<float>(h) / 2) - 30});
+        ImGui::SetNextWindowSize({200, 100});
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImColor{25,25,25,128}.Value);
+        ImGui::Begin("##Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        {
+            if (globals::core::localPlayer) {
+                ImGui::Text(std::format("IP: {}", interfaces->engineClient->GetNetChannelInfo()->GetAddress()).c_str());
+                ImGui::TextColored(utils::GetSendPacket() ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, std::format("bSendPacket: {}", utils::GetSendPacket()).c_str());
+                ImGui::Text(std::format("Latency: {}ms", static_cast<int>(interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) * 693)).c_str());
+                ImGui::Text(std::format("Velocity: {}u/s", globals::core::localPlayer->GetVelocity().Length2D()).c_str());
+            }
+        }
+        ImGui::PopStyleColor();
         ImGui::End();
     }
 
