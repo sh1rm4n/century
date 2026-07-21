@@ -1,2 +1,6 @@
-build/
+/build/
+
 *.o
+*_wrap.c
+*_wrap.cpp
+*_wrap.cxx

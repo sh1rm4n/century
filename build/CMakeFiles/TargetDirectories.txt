@@ -1,3 +1,0 @@
-/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/century.dir
-/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/edit_cache.dir
-/home/sh1rm4n/CLionProjects/century/build/CMakeFiles/rebuild_cache.dir
