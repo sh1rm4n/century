@@ -37,6 +37,7 @@ void *Modules::GetExport(void *module, const std::string &exportName) noexcept {
 }
 
 void Modules::Prepare() noexcept {
+#if defined(__linux__)
     tier0 = GetModule("libtier0_client.so");
     inputSystem = GetModule("inputsystem_client.so");
     engine = GetModule("engine_client.so");
@@ -48,4 +49,17 @@ void Modules::Prepare() noexcept {
     studioRender = GetModule("studiorender_client.so");
     luaShared = GetModule("lua_shared_client.so");
     vstdlib = GetModule("libvstdlib_client.so");
+#elif
+    tier0 = GetModule("tier0.dll");
+    inputSystem = GetModule("inputsystem.dll");
+    engine = GetModule("engine.dll");
+    client = GetModule("client.dll");
+    launcher = GetModule("launcher.dll");
+    materialSystem = GetModule("materialsystem.dll");
+    vgui2 = GetModule("vgui2.dll");
+    //sdl = GetModule("libSDL2-2.0.so.0");
+    studioRender = GetModule("studiorender.dll");
+    luaShared = GetModule("lua_shared.dll");
+    vstdlib = GetModule("vstdlib.dll");
+#endif
 }
