@@ -8,30 +8,30 @@
 #include "../core/utils.hpp"
 
 #include "../sourcesdk/typedefs.hpp"
-#include "../sourcesdk/UserCmd.hpp"
+#include "../sourcesdk/CUserCmd.hpp"
 
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 
-void BunnyHop::Autostrafe(UserCmd *cmd, AutoStrafeType type) noexcept {
+void BunnyHop::Autostrafe(CUserCmd *cmd, AutoStrafeType type) noexcept {
     if (!cmd || !type)
         return;
 
-    if (!globals::core::localPlayer)
+    if (!globals::Core::localPlayer)
         return;
 
-    if (globals::core::localPlayer->GetFlags() & FL_INWATER)
+    if (globals::Core::localPlayer->GetFlags() & FL_INWATER)
         return;
 
-    if (globals::core::localPlayer->GetFlags() & FL_SWIM)
+    if (globals::Core::localPlayer->GetFlags() & FL_SWIM)
         return;
 
-    if (globals::core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP)
+    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP)
         return;
 
-    if (globals::core::localPlayer->GetMoveType() == MOVETYPE_FLY)
+    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_FLY)
         return;
 
-    if (globals::core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
+    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
         return;
 
     if (cmd->buttons & IN_ATTACK)
@@ -40,7 +40,7 @@ void BunnyHop::Autostrafe(UserCmd *cmd, AutoStrafeType type) noexcept {
     const auto forwardSpeed = interfaces->cvar->FindCommandBase("cl_forwardspeed");
 
     if (type == Directional) {
-        const auto velocity = globals::core::localPlayer->GetVelocity();
+        const auto velocity = globals::Core::localPlayer->GetVelocity();
         const float speed2D = velocity.Length2D();
 
         // Invalid or too slow
@@ -97,26 +97,26 @@ void BunnyHop::Autostrafe(UserCmd *cmd, AutoStrafeType type) noexcept {
     }
 }
 
-void BunnyHop::Run(UserCmd *cmd) noexcept {
-    if (!globals::core::localPlayer)
+void BunnyHop::Run(CUserCmd *cmd) noexcept {
+    if (!globals::Core::localPlayer)
         return;
 
-    if (globals::core::localPlayer->GetFlags() & FL_INWATER)
+    if (globals::Core::localPlayer->GetFlags() & FL_INWATER)
         return;
 
-    if (globals::core::localPlayer->GetFlags() & FL_SWIM)
+    if (globals::Core::localPlayer->GetFlags() & FL_SWIM)
         return;
 
-    if (globals::core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP)
+    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP)
         return;
 
-    if (globals::core::localPlayer->GetMoveType() == MOVETYPE_FLY)
+    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_FLY)
         return;
 
-    if (globals::core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
+    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
         return;
 
-    if (!(globals::core::localPlayer->GetFlags() & FL_ONGROUND)) {
+    if (!(globals::Core::localPlayer->GetFlags() & FL_ONGROUND)) {
         Autostrafe(cmd, Directional);
         cmd->buttons &= ~IN_JUMP;
     }

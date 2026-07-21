@@ -2,15 +2,16 @@
 // Created by sh1rm4n on 6/20/26.
 //
 
-#ifndef CENTURY_CCONCOMMANDBASE_HPP
-#define CENTURY_CCONCOMMANDBASE_HPP
+#ifndef CENTURY_CCONVAR_HPP
+#define CENTURY_CCONVAR_HPP
 
 #include <cstdint>
 
-#include "../../core/utils.hpp"
+#pragma once
 
-class CConVar
-{
+using FnChangeCallback = void(*)(CConVar *var, const char *pOldValue, float flOldValue);
+
+class CConVar {
 public:
     CConVar* pNextConvar; //0x0008
     uint32_t bRegistered; //0x0010
@@ -30,9 +31,9 @@ public:
     float fMinVal; //0x0060
     uint32_t bHasMax; //0x0064
     float fMaxVal; //0x0068
-    char pad_006C[4]; //0x006C
-    void* CALLBACKPTR; //0x0070
-
+    int unknown; //0x006C
+    FnChangeCallback callbackPtr; //0x0070
+public:
     virtual void constructor() = 0; // 0
     virtual void destructor() = 0; // 1
     virtual int IsCommand(void) = 0; // 2
@@ -59,7 +60,19 @@ public:
     constexpr void RemoveFlags(int flags) noexcept {
         this->flags &= ~flags;
     }
+
+    constexpr void ChangeCallback(FnChangeCallback callback) noexcept {
+        *reinterpret_cast<FnChangeCallback*>(callbackPtr) = callback;
+    }
+
+    constexpr float GetFloat() noexcept {
+        return std::stof(pszValueStr);
+    }
+
+    constexpr int GetInt() noexcept {
+        return std::stoi(pszValueStr);
+    }
 };
 // 22 virtual functions
 
-#endif //CENTURY_CCONCOMMANDBASE_HPP
+#endif //CENTURY_CCONVAR_HPP

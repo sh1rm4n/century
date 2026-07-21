@@ -7,11 +7,11 @@
 
 #pragma once
 
-class UserCmd;
+class CUserCmd;
 
 class AntiAim {
 public:
-    void Run(UserCmd* cmd) noexcept;
+    void Run(CUserCmd* cmd) noexcept;
 };
 
 inline auto antiAim = std::make_unique<AntiAim>();

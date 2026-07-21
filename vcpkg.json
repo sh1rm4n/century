@@ -1,17 +1,13 @@
 {
   "dependencies" : [ {
-    "name" : "polyhook2",
-    "version>=" : "2025-06-21"
+    "name" : "polyhook2"
   }, {
     "name" : "imgui",
-    "version>=" : "1.92.8",
-    "features": [
-      "docking-experimental",
-      "freetype"
-    ]
+    "features" : [ "docking-experimental", "freetype" ]
   }, {
-    "name" : "freetype",
-    "version>=" : "2.14.3"
+    "name" : "freetype"
+  }, {
+    "name" : "fmt"
   } ],
   "version-string" : "1.0.0",
   "name" : "century"

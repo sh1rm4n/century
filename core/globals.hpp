@@ -8,7 +8,7 @@
 #pragma once
 
 class C_BaseEntity;
-class UserCmd;
+class CUserCmd;
 class Matrix3x4;
 
 struct DrawEntity {
@@ -21,10 +21,9 @@ enum PlayerESPRenderingType {
     Box
 };
 
-enum FakeLagMethod {
-    bSendPacket,
-    Choking,
-    bSendPacketWithChoking
+enum FakeLagMode {
+    Static,
+    Adaptive
 };
 
 #define CHAMS_SELFILLUM (1 << 0)
@@ -38,24 +37,24 @@ enum FakeLagMethod {
 #define CHAMS_NOCULL (1 << 8)
 
 namespace globals {
-    namespace core {
+    namespace Core {
         inline C_BaseEntity *localPlayer = nullptr;
-        inline UserCmd* currentCmd = nullptr;
+        inline CUserCmd* currentCmd = nullptr;
 
         inline std::unordered_map<std::string, std::string> friends = {};
 
         inline bool shouldUnload = false;
-        inline bool enginePrediction = true;
+        inline bool enginePrediction = false;
 
         inline int luaRealm = 0;
     }
 
-    namespace menu {
+    namespace Menu {
         inline bool active = true;
     }
 
-    namespace hacks {
-        namespace chams {
+    namespace Hacks {
+        namespace Chams {
             inline bool enabled = false;
 
             inline std::uint32_t flags = 0;
@@ -66,14 +65,14 @@ namespace globals {
             inline float hiddenColors[3] = {0.5f, 0.5f, 0.5f};
         }
 
-        namespace entityesp {
+        namespace EntityESP {
             inline bool enabled = false;
 
             inline std::vector<DrawEntity> entsToDraw;
             inline std::unordered_set<std::string> allowedEntsToDraw;
         }
 
-        namespace playeresp {
+        namespace PlayerESP {
             inline bool enabled = false;
             inline bool bones = false;
 
@@ -85,8 +84,9 @@ namespace globals {
             inline float viewmodelFov = 60.f;
         }
 
-        namespace aimbot {
+        namespace Aimbot {
             inline bool enabled = false;
+            inline bool bruteforce = false;
 
             inline bool teamCheck = false;
 
@@ -97,11 +97,29 @@ namespace globals {
             inline float smoothness = 1.f;
         }
 
-        namespace fakelag {
-            inline bool         enabled = true;
+        namespace ForwardTracking {
+            inline bool enabled = false;
+
+            inline float ghettoPredictionAmount = 2.5f;
+        }
+
+        namespace BackTracking {
+            inline bool enabled = false;
+
+            inline int ticks = 1;
+        }
+
+        namespace FakeLag {
+            inline bool         enabled = false;
 
             inline int ticks            = 1;
-            inline int method           = bSendPacket;
+            inline int mode             = Static;
+        }
+
+        namespace Killfeed {
+            inline bool         enabled = false;
+
+            inline std::vector<std::string> words = {};
         }
     }
 }

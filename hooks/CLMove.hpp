@@ -11,31 +11,21 @@
 
 inline std::uint64_t ogCLMove = 0;
 
-inline std::once_flag workerInit;
-
-void dtCLMove(float accumulatedExtraSamples, bool finalTick)
-{
+void dtCLMove(float accumulatedExtraSamples, bool finalTick) {
     static auto ogFunction = PLH::FnCast(ogCLMove, dtCLMove);
-
-    static bool shouldTick = false;
 
     if (interfaces->engineClient->IsInGame()) {
         static auto update = 0;
-        if (update == 1) {
-            shouldTick = true;
+        if (update == 4) {
             update = 0;
         }
         else {
-            shouldTick = true;
             update++;
             //return;
         }
     }
-    else {
-        shouldTick = true;
-    }
 
-    ogFunction(accumulatedExtraSamples, shouldTick);
+    ogFunction(accumulatedExtraSamples, finalTick);
 }
 
 #endif //CENTURY_CLMOVE_HPP

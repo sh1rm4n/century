@@ -7,7 +7,7 @@
 
 #pragma once
 
-class UserCmd;
+class CUserCmd;
 
 enum AutoStrafeType {
     Legit, Directional
@@ -15,8 +15,8 @@ enum AutoStrafeType {
 
 class BunnyHop {
 public:
-    void Autostrafe(UserCmd* cmd, AutoStrafeType type) noexcept;
-    void Run(UserCmd* cmd) noexcept;
+    void Autostrafe(CUserCmd* cmd, AutoStrafeType type) noexcept;
+    void Run(CUserCmd* cmd) noexcept;
 };
 
 inline auto bunnyhop = std::make_unique<BunnyHop>();

@@ -18,18 +18,18 @@ void dtOverrideView(ClientModeGModNormal* vmt, CViewSetup* viewSetup) {
     static auto ogFunction = PLH::FnCast(ogOverrideView, dtOverrideView);
     static auto init = false;
 
-    if (!globals::core::localPlayer)
+    if (!globals::Core::localPlayer)
         return ogFunction(vmt, viewSetup);
 
     if (!init) {
-        globals::hacks::visuals_other::fov = viewSetup->fov;
-        globals::hacks::visuals_other::viewmodelFov = viewSetup->fovViewmodel;
+        globals::Hacks::visuals_other::fov = viewSetup->fov;
+        globals::Hacks::visuals_other::viewmodelFov = viewSetup->fovViewmodel;
 
         init = true;
     }
 
-    viewSetup->fov = globals::hacks::visuals_other::fov;
-    viewSetup->fovViewmodel = globals::hacks::visuals_other::viewmodelFov;
+    viewSetup->fov = globals::Hacks::visuals_other::fov;
+    viewSetup->fovViewmodel = globals::Hacks::visuals_other::viewmodelFov;
 
     Angle angles;
     interfaces->engineClient->GetViewAngles(angles);
@@ -38,7 +38,7 @@ void dtOverrideView(ClientModeGModNormal* vmt, CViewSetup* viewSetup) {
     Vector forward, right, up;
     angles.Vectors(forward, right, up);
 
-    viewSetup->origin = globals::core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
+    //viewSetup->origin = globals::Core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
 
     ogFunction(vmt, viewSetup);
 }

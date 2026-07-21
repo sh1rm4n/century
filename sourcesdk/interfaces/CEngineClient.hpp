@@ -35,8 +35,12 @@ public:
         return memory::Call<bool>(this, 8, index, info);
     }
 
+    constexpr int GetPlayerForUserID(const int userid) noexcept {
+        return memory::Call<int>(this, 9, userid);
+    }
+
     constexpr int GetLocalPlayer() noexcept {
-        return memory::Call<int>(this, 15);
+        return memory::Call<int>(this, 12);
     }
 
     constexpr void GetViewAngles(Angle& angles) noexcept {

@@ -5,30 +5,30 @@
 #ifndef CENTURY_CPREDICTION_HPP
 #define CENTURY_CPREDICTION_HPP
 
-class UserCmd;
+class CUserCmd;
 class C_BaseEntity;
 class CMoveHelperClient;
 class CMoveData;
 
 class CGMODPrediction {
 public:
-    constexpr void RunCommand(C_BaseEntity *player, UserCmd *ucmd, CMoveHelperClient *moveHelper) noexcept {
+    constexpr void RunCommand(C_BaseEntity *player, CUserCmd *ucmd, CMoveHelperClient *moveHelper) noexcept {
         if (!player|| !moveHelper)
             return;
 
         memory::Call<void>(this, 18, player, ucmd, moveHelper);
     }
 
-    constexpr void SetupMove(C_BaseEntity* entity, UserCmd* cmd, CMoveHelperClient* helper, CMoveData* moveData) noexcept {
+    constexpr void SetupMove(C_BaseEntity* entity, CUserCmd* cmd, CMoveHelperClient* helper, CMoveData* moveData) noexcept {
         memory::Call<void>(this, 19, entity, cmd, helper, moveData);
     }
 
-    constexpr void FinishMove(C_BaseEntity* entity, UserCmd* cmd, CMoveData* moveData) noexcept {
+    constexpr void FinishMove(C_BaseEntity* entity, CUserCmd* cmd, CMoveData* moveData) noexcept {
         memory::Call<void>(this, 20, entity, cmd, moveData);
     }
 
-    constexpr void StartCommand(C_BaseEntity* player, UserCmd* cmd) noexcept {
-        using _CPrediction_StartCommand = void(*)(CGMODPrediction*, C_BaseEntity*, UserCmd*);
+    constexpr void StartCommand(C_BaseEntity* player, CUserCmd* cmd) noexcept {
+        using _CPrediction_StartCommand = void(*)(CGMODPrediction*, C_BaseEntity*, CUserCmd*);
         static auto CPrediction_StartCommand = reinterpret_cast<_CPrediction_StartCommand>(memory::FindPattern(
             "client_client.so", "55 48 89 E5 41 57 41 56 41 55 49 89 D5 41 54 49 89 F4 53 48 83 EC ? 48 8B 1D"));
 

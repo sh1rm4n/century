@@ -3,11 +3,11 @@
 
 #pragma once
 
-class UserCmd;
+class CUserCmd;
 
 class Aimbot {
 public:
-    void Run(UserCmd* cmd) noexcept;
+    void Run(CUserCmd* cmd) noexcept;
 };
 
 inline auto aimbot = std::make_unique<Aimbot>();

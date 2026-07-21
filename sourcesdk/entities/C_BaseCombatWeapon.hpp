@@ -5,6 +5,8 @@
 #ifndef CENTURY_C_BASECOMBATWEAPON_HPP
 #define CENTURY_C_BASECOMBATWEAPON_HPP
 
+#include "C_BaseEntity.hpp"
+
 enum WeaponProficiency_t
 {
     WEAPON_PROFICIENCY_POOR = 0,
@@ -14,8 +16,7 @@ enum WeaponProficiency_t
     WEAPON_PROFICIENCY_PERFECT,
 };
 
-
-class C_BaseCombatWeapon {
+class C_BaseCombatWeapon : public C_BaseEntity {
 public:
     constexpr Vector GetBulletSpread() noexcept {
         return memory::Call<const Vector&>(this, 381);

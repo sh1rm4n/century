@@ -9,8 +9,8 @@
 
 namespace menu::pages::visuals {
     void Render() noexcept {
-        ImGui::ToggleAnimated("Enable Player ESP?", &globals::hacks::playeresp::enabled);
-        ImGui::ToggleAnimated("Bones", &globals::hacks::playeresp::bones);
+        ImGui::ToggleAnimated("Enable Player ESP?", &globals::Hacks::PlayerESP::enabled);
+        ImGui::ToggleAnimated("Bones", &globals::Hacks::PlayerESP::bones);
         //ImGui::Checkbox("Square ESP", &globals::hacks::playeresp::square);
         //ImGui::Checkbox("3D Box ESP", &globals::hacks::playeresp::box);
     }

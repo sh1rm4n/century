@@ -5,12 +5,16 @@
 #include <algorithm>
 #include <cstdint>
 #include <dlfcn.h>
+#include <unistd.h>
+#include <sys/mman.h>
 #include <format>
+#include <random>
 #include <fstream>
 #include <memory>
 #include <mutex>
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #endif // __cplusplus

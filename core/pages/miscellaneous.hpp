@@ -24,16 +24,43 @@ namespace menu::pages::miscellaneous {
             else
                 ImGui::InsertNotification({ImGuiToastType::Error, "Please join any server."});
         }
-        ImGui::Checkbox("Engine prediction", &globals::core::enginePrediction);
 
-        if (ImGui::BeginChild("##FakeLag", ImVec2(0.f, 0.f), ImGuiChildFlags_Borders)) {
-            static const char* methods[] = {"bSendPacket\0", "Choking\0", "bSendPacket + Choking\0"};
+        ImGui::Checkbox("Engine prediction", &globals::Core::enginePrediction);
+
+        if (ImGui::BeginChild("##FakeLag", ImVec2(240.f, 0.f), ImGuiChildFlags_Borders)) {
+            static const char* modes[] = {"Static\0", "Adaptive\0"};
 
             ImGui::SeparatorText("Fake Lag");
 
-            ImGui::Checkbox("Enabled?", &globals::hacks::fakelag::enabled);
-            ImGui::Combo("Lag method", &globals::hacks::fakelag::method, methods, IM_ARRAYSIZE(methods));
-            ImGui::SliderInt("Lag ticks", &globals::hacks::fakelag::ticks, 1, 14);
+            ImGui::Checkbox("Enabled", &globals::Hacks::FakeLag::enabled);
+            ImGui::Combo("Lag mode", &globals::Hacks::FakeLag::mode, modes, IM_ARRAYSIZE(modes));
+            ImGui::SliderInt("Lag ticks", &globals::Hacks::FakeLag::ticks, 1, 14);
+
+            ImGui::EndChild();
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::BeginChild("##Killfeed", ImVec2(0.f, 0.f), ImGuiChildFlags_Borders)) {
+            ImGui::SeparatorText("Killfeed");
+
+            ImGui::Checkbox("Enabled", &globals::Hacks::Killfeed::enabled);
+
+            if (ImGui::BeginListBox("Killfeed words")) {
+                for (const auto& word : globals::Hacks::Killfeed::words) {
+                    if (ImGui::Selectable(word.c_str())) {
+                        globals::Hacks::Killfeed::words.erase(std::remove(globals::Hacks::Killfeed::words.begin(), globals::Hacks::Killfeed::words.end(), word), globals::Hacks::Killfeed::words.end());
+                    }
+                }
+
+                ImGui::EndListBox();
+            }
+
+            static std::string wordToAdd;
+
+            ImGui::InputText("Word to add", &wordToAdd);
+            if (ImGui::Button("Add"))
+                globals::Hacks::Killfeed::words.push_back(wordToAdd);
 
             ImGui::EndChild();
         }

@@ -22,8 +22,12 @@
 #include "../3rd/fonts/firaCodeFont.hpp"
 #include "../3rd/fonts/robotoFont.hpp"
 
+#include "../sourcesdk/entities/IClientRenderable.hpp"
+#include "../sourcesdk/entities/C_BaseCombatWeapon.hpp"
+
 #include "../core/menu.hpp"
 #include "../core/utils.hpp"
+#include "../hacks/BackTracking.hpp"
 
 inline std::uint64_t ogSwapWindow = 0;
 
@@ -100,12 +104,12 @@ void dtSwapWindow(SDL_Window* window) {
         {
             const auto maxEntities = interfaces->entityList->GetMaxEntities();
 
-            globals::hacks::entityesp::entsToDraw.clear();
-            globals::hacks::entityesp::entsToDraw.reserve(maxEntities);
+            globals::Hacks::EntityESP::entsToDraw.clear();
+            globals::Hacks::EntityESP::entsToDraw.reserve(maxEntities);
 
             const auto drawList = ImGui::GetBackgroundDrawList();
 
-            if (globals::hacks::entityesp::enabled) {
+            if (globals::Hacks::EntityESP::enabled) {
                 for (auto i = 0; i < maxEntities; i++) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
@@ -121,10 +125,10 @@ void dtSwapWindow(SDL_Window* window) {
 
                     std::string entIdentifier = std::to_string(i) + ": " + ((luaName && luaName[0] != '\0') ? luaName : networkedName);
 
-                    globals::hacks::entityesp::entsToDraw.emplace_back(DrawEntity{entIdentifier, entity->UsesLua()});
+                    globals::Hacks::EntityESP::entsToDraw.emplace_back(DrawEntity{entIdentifier, entity->UsesLua()});
 
-                    if (globals::hacks::entityesp::allowedEntsToDraw.contains(entIdentifier)) {
-                        if (!globals::core::localPlayer)
+                    if (globals::Hacks::EntityESP::allowedEntsToDraw.contains(entIdentifier)) {
+                        if (!globals::Core::localPlayer)
                             continue;
 
                         Vector outOrigin;
@@ -226,8 +230,8 @@ void dtSwapWindow(SDL_Window* window) {
                 }
             }
 
-            if (globals::hacks::playeresp::bones ||
-                globals::hacks::playeresp::enabled)
+            if (globals::Hacks::PlayerESP::bones ||
+                globals::Hacks::PlayerESP::enabled)
             {
                 for (auto i = 0; i <= interfaces->globalVars->maxClients; i++) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
@@ -242,11 +246,11 @@ void dtSwapWindow(SDL_Window* window) {
                     const auto head = entity->GetEyePosition();
                     const auto bottom = entity->GetAbsOrigin();
 
-                    if (globals::hacks::playeresp::bones) {
+                    if (globals::Hacks::PlayerESP::bones) {
                         utils::PushAllowBoneAccess(true, false, "century_player_esp");
 
                         Matrix3x4 bones[256];
-                        if (!entity->SetupBones(bones, 256, 0x7FF00, interfaces->globalVars->curtime))
+                        if (!entity->SetupBones(bones, 256, 0x7FF00, interfaces->globalVars->curTime))
                             continue;
 
                         utils::PopBoneAccess("century_player_esp");
@@ -254,7 +258,7 @@ void dtSwapWindow(SDL_Window* window) {
                         utils::DrawBones(drawList, bones);
                     }
 
-                    if (globals::hacks::playeresp::renderingType == PlayerESPRenderingType::Square) {
+                    if (globals::Hacks::PlayerESP::renderingType == PlayerESPRenderingType::Square) {
                         Vector bottomOut;
                         Vector topOut;
 
@@ -275,7 +279,7 @@ void dtSwapWindow(SDL_Window* window) {
                             drawList->AddRect({left - 1.f, topOut.y - 1.f}, {right - 1.f, bottomOut.y - 1.f}, ImColor{35,35,35});
                         }
                     }
-                    else if (globals::hacks::playeresp::renderingType == PlayerESPRenderingType::Box) {
+                    else if (globals::Hacks::PlayerESP::renderingType == PlayerESPRenderingType::Box) {
                         Vector headOut, bottomOut;
 
                         if (!utils::WorldToScreen(head + Vector{0, 0, 15}, headOut) ||
@@ -362,26 +366,26 @@ void dtSwapWindow(SDL_Window* window) {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, ImColor{25,25,25,128}.Value);
         ImGui::Begin("##Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         {
-            if (globals::core::localPlayer) {
+            if (globals::Core::localPlayer) {
                 ImGui::Text(std::format("IP: {}", interfaces->engineClient->GetNetChannelInfo()->GetAddress()).c_str());
                 ImGui::TextColored(utils::GetSendPacket() ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, std::format("bSendPacket: {}", utils::GetSendPacket()).c_str());
                 ImGui::Text(std::format("Latency: {}ms", static_cast<int>(interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) * 693)).c_str());
-                ImGui::Text(std::format("Velocity: {}u/s", globals::core::localPlayer->GetVelocity().Length2D()).c_str());
+                ImGui::Text(std::format("Velocity: {}u/s", globals::Core::localPlayer->GetVelocity().Length2D()).c_str());
             }
         }
         ImGui::PopStyleColor();
         ImGui::End();
     }
 
-    if (globals::menu::active) {
+    if (globals::Menu::active) {
         SDL_Event e = {};
 
         while (SDL_PollEvent(&e)) {
             if (e.key.keysym.sym == SDLK_HOME && e.type == SDL_KEYDOWN) {
-                globals::menu::active = false;
+                globals::Menu::active = false;
             }
             else if (e.key.keysym.sym == SDLK_END && e.type == SDL_KEYDOWN){
-                globals::core::shouldUnload = true;
+                globals::Core::shouldUnload = true;
             }
 
             ImGui_ImplSDL2_ProcessEvent(&e);

@@ -38,7 +38,7 @@ add_library(century SHARED
 
         sourcesdk/typedefs.hpp
         sourcesdk/math.hpp
-        sourcesdk/UserCmd.hpp
+        sourcesdk/CUserCmd.hpp
         sourcesdk/entities/IClientUnknown.hpp
         sourcesdk/entities/IClientRenderable.hpp
         sourcesdk/entities/C_BaseEntity.hpp
@@ -115,14 +115,32 @@ add_library(century SHARED
         sourcesdk/C_MultiPlayerAnimState.hpp
         3rd/fonts/firaCodeFont.hpp
         sourcesdk/entities/C_BaseViewModel.hpp
-        sourcesdk/bf_write.hpp
-        sourcesdk/bf_read.hpp
         hooks/ShouldDrawLocalPlayer.hpp
         core/pages/visuals.hpp
         core/pages/friends.hpp
         hooks/CalcRenderableWorldSpaceAABB.hpp
         hacks/AntiAim.cpp
         hacks/AntiAim.hpp
+        sourcesdk/CLC_Move.hpp
+        sourcesdk/tier1/bitbuf.h
+        sourcesdk/tier0/basetypes.h
+        sourcesdk/tier0/platform.h
+        sourcesdk/tier1/bitbuf.cpp
+        sourcesdk/coordsize.h
+        sourcesdk/worldsize.h
+        sourcesdk/tier0/annotations.h
+        sourcesdk/tier1/bitvec.h
+        hacks/Bruteforce.cpp
+        hacks/Bruteforce.hpp
+        sourcesdk/interfaces/CGameEventsManager.hpp
+        core/events.hpp
+        core/events.cpp
+        hacks/FakeLag.cpp
+        hacks/FakeLag.hpp
+        hacks/ForwardTracking.cpp
+        hacks/ForwardTracking.hpp
+        hacks/BackTracking.cpp
+        hacks/BackTracking.hpp
 )
 
 set_target_properties(century PROPERTIES
@@ -135,7 +153,7 @@ target_compile_options(century PRIVATE
         -fno-gnu-unique
         -fno-rtti
         -O3
-        -g0
+        -g3
         -march=native
         -mtune=native
 )
@@ -160,11 +178,13 @@ target_precompile_headers(century PRIVATE
 
 find_package(polyhook_2 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 
 target_link_libraries(century PRIVATE
         PolyHook_2::PolyHook_2
         imgui::imgui
+        fmt::fmt
         $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
         $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )

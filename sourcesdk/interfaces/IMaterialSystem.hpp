@@ -236,7 +236,7 @@ public:
 
 class IMaterialSystem {
 public:
-    IMaterial* FindMaterial(const char* materialName, const char* textureGroupName, bool complain = true, const char* complainPrefix = NULL) noexcept {
+    constexpr IMaterial* FindMaterial(const char* materialName, const char* textureGroupName, bool complain = true, const char* complainPrefix = NULL) noexcept {
         return memory::Call<IMaterial*>(this, 75, materialName, textureGroupName, complain, complainPrefix);
     }
 };

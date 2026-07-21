@@ -7,6 +7,8 @@
 
 #include "../../core/memory.hpp"
 
+class bf_write;
+
 enum ClientFrameStage_t
 {
     FRAME_UNDEFINED=-1,			// (haven't run any frames yet)
@@ -30,20 +32,20 @@ class RecvTable {
 public:
 
     // Properties described in a table.
-    RecvProp*       m_pProps;
-    int				m_nProps;
+    RecvProp*       props;
+    int				propsCount;
 
     // The decoder. NOTE: this covers each RecvTable AND all its children (ie: its children
     // will have their own decoders that include props for all their children).
-    void*	*m_pDecoder;
+    void*	*decoder;
 
-    const char		*m_pNetTableName;	// The name matched between client and server.
+    const char		*netTableName;	// The name matched between client and server.
 
 
 private:
 
-    bool			m_bInitialized;
-    bool			m_bInMainList;
+    bool			initialized;
+    bool			inMainList;
 };
 
 enum class SendPropType : int
@@ -81,13 +83,12 @@ struct RecvProp
 class ClientClass
 {
 public:
-    void* m_pCreateFn;
-    void* m_pCreateEventFn;	// Only called for event objects.
-    int unk;
-    const char *m_pNetworkName;
-    RecvTable *m_pRecvTable;
-    ClientClass *m_pNext;
-    int	m_ClassID;	// Managed by the engine.
+    void* createEventFn;	// 0
+    void* unk; // 8
+    const char *networkName; // 16
+    RecvTable *recvTable; // 24
+    ClientClass *next; // 32
+    int	classID;	// 36
 
     constexpr const char* GetNetworkedName() noexcept {
         return *reinterpret_cast<const char **>(std::uint64_t(this) + 0x10);
@@ -106,6 +107,10 @@ class HLClient {
 public:
     constexpr ClientClass* GetAllClasses() noexcept {
         return memory::Call<ClientClass*>(this, 8);
+    }
+
+    constexpr bool WriteUsercmdDeltaToBuffer(bf_write *buf, int from, int to, bool isnewcommand) {
+        return memory::Call<bool>(this, 10, buf, from, to, isnewcommand);
     }
 };
 

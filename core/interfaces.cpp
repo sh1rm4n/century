@@ -66,4 +66,5 @@ void Interfaces::Prepare() noexcept {
     moveHelper = *reinterpret_cast<CMoveHelperClient **>(memory::ResolveGOT(memory::GetAbsAddress(memory::FindPattern(
         "client_client.so",
         "48 8B 05 ? ? ? ? 4C 89 85 ? ? ? ? 4C 8D B5"))));
+    gameEventsManager = GetInterface<CGameEventsManager>(modules->engine, "GAMEEVENTSMANAGER002");
 }

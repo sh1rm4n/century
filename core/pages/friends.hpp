@@ -20,14 +20,14 @@ namespace menu::pages::friends {
             for (auto i = 0; i <= interfaces->globalVars->maxClients; i++) {
                 auto player = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
-                if (!player || player == globals::core::localPlayer || !player->IsPlayer())
+                if (!player || player == globals::Core::localPlayer || !player->IsPlayer())
                     continue;
 
                 player_info_s info{};
                 if (!interfaces->engineClient->GetPlayerInfo(i, &info))
                     continue;
 
-                if (globals::core::friends.contains(info.name))
+                if (globals::Core::friends.contains(info.name))
                     continue;
 
                 std::string name = info.name;
@@ -38,14 +38,14 @@ namespace menu::pages::friends {
                     continue;
 
                 if (ImGui::Selectable(label.c_str()))
-                    globals::core::friends.emplace(name, steamID);
+                    globals::Core::friends.emplace(name, steamID);
             }
 
             ImGui::EndListBox();
         }
 
         if (ImGui::BeginListBox("Friends")) {
-            for (auto it = globals::core::friends.begin(); it != globals::core::friends.end();) {
+            for (auto it = globals::Core::friends.begin(); it != globals::Core::friends.end();) {
                 std::string label = std::format("{} ({})", it->first, it->second);
 
                 if (!searchFor.empty() && !label.contains(searchFor)) {
@@ -54,10 +54,12 @@ namespace menu::pages::friends {
                 }
 
                 if (ImGui::Selectable(label.c_str()))
-                    it = globals::core::friends.erase(it);
+                    it = globals::Core::friends.erase(it);
                 else
                     ++it;
             }
+
+            ImGui::EndListBox();
         }
     }
 }

@@ -7,17 +7,17 @@
 
 class CGlobalVars {
 public:
-    float	realtime;
-    int		framecount;
-    float	absoluteframetime;
-    double	curtime;
-    float	frametime;
+    float	realTime;
+    int		frameCount;
+    float	absoluteFrameTime;
+    double	curTime;
+    float	frameTime;
     int		maxClients;
-    int		tickcount;
-    double	interval_per_tick;
-    float	interpolation_amount;
+    int		tickCount;
+    double	intervalPerTick;
+    float	interpolationAmount;
     int		simTicksThisFrame;
-    int		network_protocol;
+    int		networkProtocol;
     void*	pSaveData;
 
 private:

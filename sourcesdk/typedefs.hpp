@@ -5,8 +5,8 @@
 #ifndef CENTURY_TYPEDEFS_HPP
 #define CENTURY_TYPEDEFS_HPP
 
-#define TICK_INTERVAL interfaces->globalVars->interval_per_tick
-#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )
+#define TICK_INTERVAL interfaces->globalVars->intervalPerTick
+#define TIME_TO_TICKS( dt )		( static_cast<int>( 0.5f + static_cast<float>(dt) / TICK_INTERVAL ) )
 #define TICKS_TO_TIME( t )		( TICK_INTERVAL *( t ) )
 
 #define	FL_ONGROUND				(1<<0)	// At rest / on the ground
@@ -141,38 +141,4 @@ public:
     bool					m_noBlit;		// the back buffer has already been populated by the caller (perhaps via direct MSAA resolve from multisampled RT tex)
     bool					m_onlySyncView;	// react to full/windowed state change only, do not present bits
 };
-
-#define SwapDWord( val )			LittleDWord( val )
-
-template <typename T>
-inline T DWordSwap( T dw )
-{
-    std::uint32_t temp;
-
-    temp  =   *((std::uint32_t *)&dw) 				>> 24;
-    temp |= ((*((std::uint32_t *)&dw) & 0x00FF0000) >> 8);
-    temp |= ((*((std::uint32_t *)&dw) & 0x0000FF00) << 8);
-    temp |= ((*((std::uint32_t *)&dw) & 0x000000FF) << 24);
-
-    return *((T*)&temp);
-}
-
-inline std::uint32_t LittleDWord( std::uint32_t val )	{ int test = 1; return ( *(char *)&test == 1 ) ? val : DWordSwap( val ); }
-
-inline std::uint32_t LoadLittleDWord( std::uint32_t *base, unsigned int dwordIndex )
-{
-    return LittleDWord( base[dwordIndex] );
-}
-
-inline void StoreLittleDWord( std::uint32_t *base, unsigned int dwordIndex, std::uint32_t dword )
-{
-    base[dwordIndex] = LittleDWord(dword);
-}
-
-inline int BitByte( int bits )
-{
-    // return PAD_NUMBER( bits, 8 ) >> 3;
-    return (bits + 7) >> 3;
-}
-
 #endif //CENTURY_TYPEDEFS_HPP

@@ -5,14 +5,15 @@
 #ifndef CENTURY_C_BASEENTITY_HPP
 #define CENTURY_C_BASEENTITY_HPP
 
-#include "IClientRenderable.hpp"
-#include "C_BaseCombatWeapon.hpp"
 #include "../../core/utils.hpp"
 
 class IClientUnknown;
+class IClientRenderable;
+
 class ClientClass;
 class CCollisionProperty;
 class C_GMOD_Player;
+class C_BaseCombatWeapon;
 class CMultiPlayerAnimState;
 
 class C_BaseEntity {
@@ -117,6 +118,10 @@ public:
         return *reinterpret_cast<double*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_flSimulationTime"));
     }
 
+    constexpr double& GetOldSimulationTime() noexcept {
+        return *reinterpret_cast<double*>(std::uint64_t(this) + (utils::NetVar("DT_BaseEntity", "m_flSimulationTime") + 0x8));
+    }
+
     constexpr int& GetTeamNumber() noexcept {
         return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_iTeamNum"));
     }
@@ -142,20 +147,12 @@ public:
     }
 
     constexpr int& GetFlags() noexcept {
-        return *reinterpret_cast<int*>(std::uint64_t(this) + 0x440);
-    }
-
-    constexpr C_BaseEntity* GetOwner() noexcept {
-        const auto owner = *reinterpret_cast<C_BaseEntity**>(std::uint64_t(this) + 0x734);
-
-        if (owner == nullptr || reinterpret_cast<std::uint64_t>(owner) == 0xFFFFFFFF)
-            return nullptr;
-
-        return owner;
+        return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_BasePlayer", "m_fFlags"));
     }
 
     constexpr void SetLocalViewAngles(const Angle& angles) noexcept {
         *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2BFC) = angles;
+        *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2D0C) = angles;
     }
 
     constexpr void SetClientSideAnimation(const bool value) noexcept {
@@ -186,12 +183,12 @@ public:
         return *reinterpret_cast<int*>(std::uint64_t(this) + 0x2C34);
     }
 
-    constexpr void SetCurrentUserCmd(UserCmd* cmd) noexcept {
-        *reinterpret_cast<UserCmd**>(std::uint64_t(this) + 0x2C38) = cmd;
+    constexpr void SetCurrentUserCmd(CUserCmd* cmd) noexcept {
+        *reinterpret_cast<CUserCmd**>(std::uint64_t(this) + 0x2C38) = cmd;
     }
 
-    constexpr UserCmd* GetCurrentUserCmd() noexcept {
-        return *reinterpret_cast<UserCmd**>(std::uint64_t(this) + 0x2C38);
+    constexpr CUserCmd* GetCurrentUserCmd() noexcept {
+        return *reinterpret_cast<CUserCmd**>(std::uint64_t(this) + 0x2C38);
     }
 
     constexpr void SetImpulse(const char impulse) noexcept {
@@ -253,6 +250,16 @@ public:
 
     constexpr model_t* GetModel() noexcept {
         return memory::Call<model_t*>(this + 0x8, 9);
+    }
+
+    // IClientNetworkable (0x10)
+
+    constexpr bool IsDormant() noexcept {
+        return memory::Call<bool>(this + 0x10, 8);
+    }
+
+    constexpr int EntIndex() noexcept {
+        return memory::Call<int>(this + 0x10, 9);
     }
 
     constexpr C_GMOD_Player* ToPlayer() noexcept {

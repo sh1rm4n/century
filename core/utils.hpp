@@ -13,11 +13,12 @@
 #include "netvars.hpp"
 
 #include <imgui.h>
+#include <fmt/format.h>
 
 #include "../3rd/checksum_md5.h"
 
 #include "../sourcesdk/math.hpp"
-#include "../sourcesdk/UserCmd.hpp"
+#include "../sourcesdk/CUserCmd.hpp"
 #include "../sourcesdk/typedefs.hpp"
 
 #include "../sourcesdk/interfaces/CConVar.hpp"
@@ -26,7 +27,7 @@
 
 namespace utils {
     template<typename... Args>
-    void Print(const std::format_string<Args...> fmt, Args &&... args) noexcept {
+    void Print(const fmt::format_string<Args...> fmt, Args &&... args) noexcept {
         const static auto conColorMsgAddr = modules->GetExport(modules->tier0, CONCOLORMSG_EXPORT);
         if (!conColorMsgAddr)
             return;
@@ -38,13 +39,13 @@ namespace utils {
 
         Color col = Color(0, 140, 255, 128);
 
-        const auto formatted_str = std::format(fmt, std::forward<Args>(args)...);
+        const auto formatted_str = fmt::format(fmt, std::forward<Args>(args)...);
 
         ConColorMsg(col, "%s", (formatted_str + "\n").c_str());
     }
 
     template<typename... Args>
-    void Warn(const std::format_string<Args...> fmt, Args &&... args) noexcept {
+    void Warn(const fmt::format_string<Args...> fmt, Args &&... args) noexcept {
         const static auto conColorMsgAddr = modules->GetExport(modules->tier0, CONCOLORMSG_EXPORT);
         if (!conColorMsgAddr)
             return;
@@ -56,13 +57,13 @@ namespace utils {
 
         Color col = Color(255, 184, 0, 128);
 
-        const auto formatted_str = std::format(fmt, std::forward<Args>(args)...);
+        const auto formatted_str = fmt::format(fmt, std::forward<Args>(args)...);
 
         ConColorMsg(col, "%s", (formatted_str + "\n").c_str());
     }
 
     template<typename... Args>
-    void Error(const std::format_string<Args...> fmt, Args &&... args) noexcept {
+    void Error(const fmt::format_string<Args...> fmt, Args &&... args) noexcept {
         const static auto conColorMsgAddr = modules->GetExport(modules->tier0, CONCOLORMSG_EXPORT);
         if (!conColorMsgAddr)
             return;
@@ -74,13 +75,13 @@ namespace utils {
 
         Color col = Color(255, 0, 0, 128);
 
-        const auto formatted_str = std::format(fmt, std::forward<Args>(args)...);
+        const auto formatted_str = fmt::format(fmt, std::forward<Args>(args)...);
 
         ConColorMsg(col, "%s", (formatted_str + "\n").c_str());
     }
 
     template<typename... Args>
-    void ColorPrint(const Color &col, std::format_string<Args...> fmt, Args &&... args) noexcept {
+    void ColorPrint(const Color &col, fmt::format_string<Args...> fmt, Args &&... args) noexcept {
         static auto conColorMsgAddr = modules->GetExport(modules->tier0, CONCOLORMSG_EXPORT);
         if (!conColorMsgAddr)
             return;
@@ -88,7 +89,7 @@ namespace utils {
         using _ConColorMsg = void(*)(const Color &, const char *, ...);
         const auto ConColorMsg = reinterpret_cast<_ConColorMsg>(conColorMsgAddr);
 
-        std::string formatted_str = std::format(fmt, std::forward<Args>(args)...);
+        std::string formatted_str = fmt::format(fmt, std::forward<Args>(args)...);
 
         ConColorMsg(col, "%s", (formatted_str + "\n").c_str());
     }
@@ -161,7 +162,7 @@ namespace utils {
         return true;
     }
 
-    static void CorrectMovement(const Angle oldViewAngles, UserCmd* cmd, float oldForwardMove, float oldSideMove)
+    static void CorrectMovement(const Angle oldViewAngles, CUserCmd* cmd, float oldForwardMove, float oldSideMove)
     {
         Vector forward, right, up;
         oldViewAngles.Vectors(forward, right, up);
@@ -484,11 +485,22 @@ namespace utils {
 
     template <typename T>
     static T Random(T min, T max) noexcept {
-        static std::random_device rd;
-        static std::mt19937 gen(rd());
+        thread_local std::mt19937 gen{std::random_device{}()};
 
-        std::uniform_real_distribution<T> dist(min, max);
-        return dist(gen);
+        if constexpr (std::is_integral_v<T>)
+        {
+            std::uniform_int_distribution<T> dist(min, max);
+            return dist(gen);
+        }
+        else if constexpr (std::is_floating_point_v<T>)
+        {
+            std::uniform_real_distribution<T> dist(min, max);
+            return dist(gen);
+        }
+        else
+        {
+            static_assert(std::is_arithmetic_v<T>, "Random<T> requires an arithmetic type.");
+        }
     }
 
     static void UpdateClientSideAnimations() noexcept {
@@ -532,7 +544,7 @@ namespace utils {
     }
 
     inline float TicksToTime(int ticks) noexcept {
-        return ticks * interfaces->globalVars->interval_per_tick;
+        return ticks * interfaces->globalVars->intervalPerTick;
     }
 
     static std::uint32_t NetVar(const std::string& className, const std::string& varName) noexcept {

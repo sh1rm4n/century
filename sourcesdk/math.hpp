@@ -456,26 +456,6 @@ public:
     float flMatVal[3][4]{};
 };
 
-typedef struct color32_s
-{
-    bool operator!=( const struct color32_s &other ) const;
-    std::uint8_t r, g, b, a;
-
-    // assign and copy by using the whole register rather
-    // than byte-by-byte copy. (No, the compiler is not
-    // smart enough to do this for you. /FAcs if you
-    // don't believe me.)
-    inline unsigned *asInt(void) { return reinterpret_cast<unsigned*>(this); }
-    inline const unsigned *asInt(void) const { return reinterpret_cast<const unsigned*>(this); }
-    // This thing is in a union elsewhere, and union members can't have assignment
-    // operators, so you have to explicitly assign using this, or be slow. SUCK.
-    inline void Copy(const color32_s &rhs)
-    {
-        *asInt() = *rhs.asInt();
-    }
-
-} color32;
-
 namespace math {
     constexpr float Deg2Rad(const float deg) {
         return deg * std::numbers::pi_v<float> / 180.f;

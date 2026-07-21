@@ -34,7 +34,7 @@
 #define IN_GRENADE2  (1 << 24) // grenade 2
 #define IN_LOOKSPIN  (1 << 25)
 
-class UserCmd {
+class CUserCmd {
 public:
     int commandNumber;
     int tickCount;
@@ -56,10 +56,6 @@ public:
     bool contextMenu;
     Vector contextNormal;
     char pad_0002[240];
-
-    constexpr std::uint32_t GetSeed() noexcept {
-        return *reinterpret_cast<std::uint32_t*>(std::uint64_t(this) + 0x2C);
-    }
 };
 
 #endif //CENTURY_USERCMD_HPP

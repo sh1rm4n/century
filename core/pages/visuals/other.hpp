@@ -11,8 +11,8 @@
 
 namespace menu::pages::visuals_other {
     void Render() noexcept {
-        ImGui::SliderFloat("FOV", &globals::hacks::visuals_other::fov, 30.0f, 180.0f);
-        ImGui::SliderFloat("Viewmodel FOV", &globals::hacks::visuals_other::viewmodelFov, 30.0f, 180.0f);
+        ImGui::SliderFloat("FOV", &globals::Hacks::visuals_other::fov, 30.0f, 180.0f);
+        ImGui::SliderFloat("Viewmodel FOV", &globals::Hacks::visuals_other::viewmodelFov, 30.0f, 180.0f);
     }
 }
 

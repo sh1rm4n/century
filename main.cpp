@@ -5,6 +5,7 @@
 #include "core/utils.hpp"
 #include "core/globals.hpp"
 #include "core/luaexecution.hpp"
+#include "core/events.hpp"
 
 #include <polyhook2/Detour/x64Detour.hpp>
 
@@ -24,6 +25,10 @@
 
 std::thread thread;
 
+void dummyCallback(CConVar* conVar, const char* pOldValString, float flOldValue) {
+    utils::Warn("pOldValString: {}; flOldValue: {}", pOldValString, flOldValue);
+}
+
 static void mainThread() {
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 
@@ -38,6 +43,8 @@ static void mainThread() {
 
     luaExecution->Prepare();
     utils::ColorPrint(Color(50, 84, 168),"[century] Lua execution initialized!");
+
+    events->Prepare();
 
     std::vector<std::unique_ptr<PLH::x64Detour>> hooks;
 
@@ -97,21 +104,33 @@ static void mainThread() {
         hk->hook();
     }
 
+    const auto name = interfaces->cvar->FindCommandBase("name");
+    name->RemoveFlags(FCVAR_ARCHIVE | FCVAR_PRINTABLEONLY | FCVAR_SERVER_CAN_EXECUTE);
+    name->ChangeCallback(dummyCallback);
+
+    const auto sv_maxupdaterate = interfaces->cvar->FindCommandBase("sv_maxupdaterate");
+    sv_maxupdaterate->RemoveFlags(FCVAR_REPLICATED);
+
+    const auto sv_maxcmdrate = interfaces->cvar->FindCommandBase("sv_maxcmdrate");
+    sv_maxcmdrate->RemoveFlags(FCVAR_REPLICATED);
+
+    utils::Warn("name: {}", (void*)name);
+
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/morphine_shot.wav");
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
     utils::Warn("[century] Initialized in {}ms!", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 
-    while (!interfaces->inputSystem->IsButtonDown(KEY_END) && !globals::core::shouldUnload) {
+    while (!interfaces->inputSystem->IsButtonDown(KEY_END) && !globals::Core::shouldUnload) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
-        globals::core::localPlayer = utils::GetLocalPlayer();
-
-        utils::Warn("localPlayer: {}", (void*)globals::core::localPlayer);
+        globals::Core::localPlayer = utils::GetLocalPlayer();
     }
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/deactivated.wav");
+
+    events->Unload();
 
     for (const auto& hk : hooks) {
         hk->unHook();
@@ -137,7 +156,7 @@ void __attribute__((destructor)) detach() {
     thread.join();
 }
 
-#elif defined(_WIN32)
+#elif defined(WIN64)
 
 int __stdcall DllMain(void*, std::uint32_t reason, void*) {
     if (reason == DLL_PROCESS_ATTACH) {

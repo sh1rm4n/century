@@ -13,7 +13,7 @@ void dtSetKeyCodeState(CInputInternal* vmt, KeyCode code, bool down) {
     static auto ogFunction = PLH::FnCast(ogSetKeyCodeState, dtSetKeyCodeState);
 
     if (code == KEY_HOME && down)
-        globals::menu::active = true;
+        globals::Menu::active = true;
 
     ogFunction(vmt, code, down);
 }

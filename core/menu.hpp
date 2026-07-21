@@ -172,84 +172,86 @@ namespace menu {
         std::time_t t = std::chrono::system_clock::to_time_t(now);
         std::tm* local = std::localtime(&t);*/
 
-        ImGui::Begin("century", nullptr, ImGuiWindowFlags_NoResize);
+        if (ImGui::Begin("century", nullptr, ImGuiWindowFlags_NoResize)) {
+            if (ImGui::BeginChild("##Topbar", ImVec2(0.f, 25.f))) {
+                if (ImGui::BeginTabBar("##Pages", ImGuiTabBarFlags_DrawSelectedOverline)) {
+                    if (ImGui::BeginTabItem("Console")) {
+                        currentTab = Console;
 
-        if (ImGui::BeginChild("##Topbar", ImVec2(0.f, 25.f))) {
-            if (ImGui::BeginTabBar("##Pages", ImGuiTabBarFlags_DrawSelectedOverline)) {
-                if (ImGui::BeginTabItem("Console")) {
-                    currentTab = Console;
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Accuracy")) {
+                        currentTab = Accuracy;
 
-                    ImGui::EndTabItem();
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Movement")) {
+                        currentTab = Movement;
+
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Visuals")) {
+                        currentTab = Visuals;
+
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Miscellaneous")) {
+                        currentTab = Miscellaneous;
+
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Lua")) {
+                        currentTab = Lua;
+
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Friends")) {
+                        currentTab = Friends;
+
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Config")) {
+                        currentTab = Config;
+
+                        ImGui::EndTabItem();
+                    }
+
+                    ImGui::EndTabBar();
                 }
-                if (ImGui::BeginTabItem("Accuracy")) {
-                    currentTab = Accuracy;
 
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Movement")) {
-                    currentTab = Movement;
-
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Visuals")) {
-                    currentTab = Visuals;
-
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Miscellaneous")) {
-                    currentTab = Miscellaneous;
-
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Lua")) {
-                    currentTab = Lua;
-
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Friends")) {
-                    currentTab = Friends;
-
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Config")) {
-                    currentTab = Config;
-
-                    ImGui::EndTabItem();
-                }
-
-                ImGui::EndTabBar();
+                ImGui::EndChild();
             }
-            ImGui::EndChild();
-        }
 
-        if (ImGui::BeginChild("##Container", ImVec2(0.f, 0))) {
-            switch (currentTab) {
-                case Console:
-                    break;
-                case Visuals:
-                    pages::visuals::Render();
-                    break;
-                case Accuracy:
-                    pages::accuracy::Render();
-                    break;
-                case Movement:
-                    break;
-                case Miscellaneous:
-                    pages::miscellaneous::Render();
-                    break;
-                case Lua:
-                    pages::lua::Render();
-                    break;
-                case Friends:
-                    pages::friends::Render();
-                    break;
-                case Config:
-                    break;
+            if (ImGui::BeginChild("##Container", ImVec2(0.f, 0))) {
+                switch (currentTab) {
+                    case Console:
+                        break;
+                    case Visuals:
+                        pages::visuals::Render();
+                        break;
+                    case Accuracy:
+                        pages::accuracy::Render();
+                        break;
+                    case Movement:
+                        break;
+                    case Miscellaneous:
+                        pages::miscellaneous::Render();
+                        break;
+                    case Lua:
+                        pages::lua::Render();
+                        break;
+                    case Friends:
+                        pages::friends::Render();
+                        break;
+                    case Config:
+                        break;
+                }
+
+                ImGui::EndChild();
             }
-        }
-        ImGui::EndChild();
 
-        ImGui::End();
+            ImGui::End();
+        }
     }
 }
 

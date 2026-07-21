@@ -22,15 +22,15 @@ namespace menu::pages::lua {
         static constexpr std::array<std::string_view, 3> realms = { "Client", "Server", "Menu" };
 
         if (ImGui::Button("Execute"))
-            luaExecution->Execute(globals::core::luaRealm, editor->GetText());
+            luaExecution->Execute(globals::Core::luaRealm, editor->GetText());
 
         ImGui::SameLine();
 
-        if (ImGui::BeginCombo("Realm", realms[globals::core::luaRealm].data())) {
+        if (ImGui::BeginCombo("Realm", realms[globals::Core::luaRealm].data())) {
             for (int i = 0; i < static_cast<int>(realms.size()); ++i) {
-                if (ImGui::Selectable(realms[i].data(), globals::core::luaRealm == i))
-                    globals::core::luaRealm = i;
-                if (globals::core::luaRealm == i)
+                if (ImGui::Selectable(realms[i].data(), globals::Core::luaRealm == i))
+                    globals::Core::luaRealm = i;
+                if (globals::Core::luaRealm == i)
                     ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
