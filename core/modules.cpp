@@ -10,7 +10,7 @@ void *Modules::GetModule(const std::string &moduleName) noexcept {
 
 #if defined(__linux__)
     const auto moduleAddr = dlopen(moduleName.c_str(), RTLD_NOW | RTLD_NOLOAD);
-#elif defined(_WIN32)
+#else
     const auto moduleAddr = GetModuleHandleA(moduleName.c_str());
 #endif
 
@@ -26,7 +26,7 @@ void *Modules::GetExport(void *module, const std::string &exportName) noexcept {
 
 #if defined(__linux__)
     const auto exportAddr = dlsym(module, exportName.c_str());
-#elif defined(_WIN32)
+#else
     const auto exportAddr = static_cast<void*>(
         GetProcAddress(static_cast<HMODULE>(module), exportName.c_str()));
 #endif
@@ -50,7 +50,7 @@ void Modules::Prepare() noexcept {
     studioRender = GetModule("studiorender_client.so");
     luaShared = GetModule("lua_shared_client.so");
     vstdlib = GetModule("libvstdlib_client.so");
-#elif
+#else
     tier0 = GetModule("tier0.dll");
     inputSystem = GetModule("inputsystem.dll");
     engine = GetModule("engine.dll");
