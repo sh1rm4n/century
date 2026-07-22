@@ -5,8 +5,6 @@
 #ifndef CENTURY_CNETCHAN_HPP
 #define CENTURY_CNETCHAN_HPP
 
-class INetMessage;
-
 class CNetChan
 {
 public:
@@ -40,22 +38,22 @@ public:
     virtual void destructor() = 0; // 27
     virtual int SetDataRate(float) = 0; // 28
     virtual void RegisterMessage(void**) = 0; // 29
-    virtual int StartStreaming(uint) = 0; // 30
+    virtual int StartStreaming(std::uint32_t) = 0; // 30
     virtual int ResetStreaming(void) = 0; // 31
     virtual int SetTimeout(float) = 0; // 32
     virtual void SetDemoRecorder(void**) = 0; // 33
-    virtual int SetChallengeNr(uint) = 0; // 34
+    virtual int SetChallengeNr(std::uint32_t) = 0; // 34
     virtual int Reset(void) = 0; // 35
     virtual int Clear(void) = 0; // 36
     virtual int Shutdown(char const*) = 0; // 37
     virtual int ProcessPlayback(void) = 0; // 38
     virtual int ProcessStream(void) = 0; // 39
     virtual int ProcessPacket(void**,bool) = 0; // 40
-    virtual void SendNetMsg(INetMessage&, bool forceReliable, bool voice) = 0; // 41
+    virtual void SendNetMsg(void* msg, bool forceReliable, bool voice) = 0; // 41
     virtual int SendData(void*&,bool) = 0; // 42
-    virtual int SendFile(char const*,uint) = 0; // 43
-    virtual int DenyFile(uint) = 0; // 44
-    virtual int RequestFile_OLD(char const*,uint) = 0; // 45
+    virtual int SendFile(char const*,std::uint32_t) = 0; // 43
+    virtual int DenyFile(std::uint32_t) = 0; // 44
+    virtual int RequestFile_OLD(char const*,std::uint32_t) = 0; // 45
     virtual void SetChoked() = 0; // 46
     virtual int SendDatagram(void**) = 0; // 47
     virtual int Transmit(bool) = 0; // 48

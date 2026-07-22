@@ -125,15 +125,6 @@ target_sources(century PRIVATE
         core/pages/friends.hpp
         hacks/AntiAim.cpp
         hacks/AntiAim.hpp
-        sourcesdk/CLC_Move.hpp
-        sourcesdk/tier1/bitbuf.h
-        sourcesdk/tier0/basetypes.h
-        sourcesdk/tier0/platform.h
-        sourcesdk/tier1/bitbuf.cpp
-        sourcesdk/coordsize.h
-        sourcesdk/worldsize.h
-        sourcesdk/tier0/annotations.h
-        sourcesdk/tier1/bitvec.h
         hacks/Bruteforce.cpp
         hacks/Bruteforce.hpp
         sourcesdk/interfaces/CGameEventsManager.hpp
@@ -148,7 +139,8 @@ target_sources(century PRIVATE
 )
 
 if(WIN32)
-    target_compile_definitions(century PRIVATE NOMINMAX
+    target_compile_definitions(century PRIVATE
+            NOMINMAX
             _WIN32_LEAN_AND_MEAN
             _CRT_SECURE_NO_WARNINGS)
 endif()
@@ -192,6 +184,7 @@ target_precompile_headers(century PRIVATE
         <fstream>
         <memory>
         <mutex>
+        <numbers>
         <string>
         <thread>
         <unordered_map>
