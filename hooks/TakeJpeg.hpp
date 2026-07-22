@@ -5,7 +5,11 @@
 #ifndef CENTURY_TAKEJPEG_HPP
 #define CENTURY_TAKEJPEG_HPP
 
+#pragma once
+
 #include <polyhook2/Detour/x64Detour.hpp>
+
+#include "../3rd/imgui/imgui_notify/ImGuiNotify.hpp"
 
 inline std::uint64_t ogTakeJpeg = 0;
 

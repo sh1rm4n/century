@@ -6,9 +6,13 @@
 #define CENTURY_DRAWMODEL_HPP
 
 #include "../core/globals.hpp"
+
+#include "../hacks/BackTracking.hpp"
+
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 #include "../sourcesdk/entities/IClientRenderable.hpp"
 #include "../sourcesdk/entities/IClientUnknown.hpp"
+
 #include "../sourcesdk/interfaces/IStudioRender.hpp"
 
 class Matrix3x4;

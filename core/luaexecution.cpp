@@ -4,8 +4,6 @@
 
 #include "luaexecution.hpp"
 
-#include <SDL_clipboard.h>
-
 #include "interfaces.hpp"
 #include "modules.hpp"
 

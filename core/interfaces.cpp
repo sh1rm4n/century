@@ -22,15 +22,15 @@ T *Interfaces::GetInterface(void *module, const std::string &interfaceName) noex
         return nullptr;
     }
 
-    const auto interface = CreateInterface(interfaceName.c_str(), 0);
-    if (!interface) {
+    const auto iface = CreateInterface(interfaceName.c_str(), 0);
+    if (!iface) {
         utils::Error("[century] Interface finding error: interface isn't found.");
         return nullptr;
     }
 
-    utils::Print("[century] Interface found: {}; address: {}", interfaceName, interface);
+    utils::Print("[century] Interface found: {}; address: {}", interfaceName, iface);
 
-    return static_cast<T *>(interface);
+    return static_cast<T *>(iface);
 }
 
 void Interfaces::Prepare() noexcept {
