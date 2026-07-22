@@ -247,13 +247,9 @@ void dtSwapWindow(SDL_Window* window) {
                     const auto bottom = entity->GetAbsOrigin();
 
                     if (globals::Hacks::PlayerESP::bones) {
-                        utils::PushAllowBoneAccess(true, false, "century_player_esp");
-
                         Matrix3x4 bones[256];
                         if (!entity->SetupBones(bones, 256, 0x7FF00, interfaces->globalVars->curTime))
                             continue;
-
-                        utils::PopBoneAccess("century_player_esp");
 
                         utils::DrawBones(drawList, bones);
                     }
@@ -367,10 +363,10 @@ void dtSwapWindow(SDL_Window* window) {
         ImGui::Begin("##Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         {
             if (globals::Core::localPlayer) {
-                ImGui::Text(std::format("IP: {}", interfaces->engineClient->GetNetChannelInfo()->GetAddress()).c_str());
-                ImGui::TextColored(utils::GetSendPacket() ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, std::format("bSendPacket: {}", utils::GetSendPacket()).c_str());
-                ImGui::Text(std::format("Latency: {}ms", static_cast<int>(interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) * 693)).c_str());
-                ImGui::Text(std::format("Velocity: {}u/s", globals::Core::localPlayer->GetVelocity().Length2D()).c_str());
+                ImGui::Text(fmt::format("IP: {}", interfaces->engineClient->GetNetChannelInfo()->GetAddress()).c_str());
+                ImGui::TextColored(globals::Core::sendPacket ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, fmt::format("bSendPacket: {}", globals::Core::sendPacket).c_str());
+                ImGui::Text(fmt::format("Latency: {}ms", static_cast<int>(interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) * 693)).c_str());
+                ImGui::Text(fmt::format("Velocity: {}u/s", globals::Core::localPlayer->GetVelocity().Length2D()).c_str());
             }
         }
         ImGui::PopStyleColor();

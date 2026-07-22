@@ -13,12 +13,12 @@ void FakeLag::Run(const int ticks) noexcept {
     static auto fakeLagCounter = 0;
 
     if (fakeLagCounter >= ticks) {
-        utils::SetSendPacket(true);
+        globals::Core::sendPacket = true;
 
         fakeLagCounter = 0;
     }
     else {
-        utils::SetSendPacket(false);
+        globals::Core::sendPacket = false;
 
         fakeLagCounter++;
     }

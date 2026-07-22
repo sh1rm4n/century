@@ -14,19 +14,19 @@
 
 void AntiAim::Run(CUserCmd* cmd) noexcept {
     if (!globals::Core::localPlayer || !cmd || !globals::Core::localPlayer->IsAlive()) {
-        utils::SetSendPacket(true);
+        globals::Core::sendPacket = true;
         return;
     }
 
     // always send on attack
     if (cmd->buttons & IN_ATTACK) {
-        utils::SetSendPacket(true);
+        globals::Core::sendPacket = true;
         return;
     }
 
     const auto moveType = globals::Core::localPlayer->GetMoveType();
     if (moveType == MOVETYPE_LADDER || moveType == MOVETYPE_NOCLIP) {
-        utils::SetSendPacket(true);
+        globals::Core::sendPacket = true;
         return;
     }
 
@@ -52,11 +52,11 @@ void AntiAim::Run(CUserCmd* cmd) noexcept {
     if (shouldDesync) {
         cmd->viewAngles.p += pitchOffset;
         cmd->viewAngles.y += yawOffset;
-        utils::SetSendPacket(false); // choke — server stuck on last real angle
+        globals::Core::sendPacket = false; // choke — server stuck on last real angle
     } else {
         cmd->viewAngles.p -= pitchOffset;
         cmd->viewAngles.y -= yawOffset;
-        utils::SetSendPacket(true);  // send — update server position
+        globals::Core::sendPacket = true;  // send — update server position
     }
 
     jitterIndex++;

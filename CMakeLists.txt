@@ -2,20 +2,28 @@ cmake_minimum_required(VERSION 4.3)
 
 project(century LANGUAGES CXX)
 
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
-    set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
-endif()
-
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(century SHARED
-        3rd/imgui/imgui_impl_sdl2.cpp
-        3rd/imgui/imgui_impl_sdl2.h
-        3rd/imgui/imgui_impl_opengl3.cpp
-        3rd/imgui/imgui_impl_opengl3.h
-        3rd/imgui/imgui_impl_opengl3_loader.h
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
+add_library(century SHARED)
+
+if(LINUX)
+    target_sources(century PRIVATE
+            3rd/imgui/imgui_impl_sdl2.cpp
+            3rd/imgui/imgui_impl_sdl2.h
+            3rd/imgui/imgui_impl_opengl3.cpp
+            3rd/imgui/imgui_impl_opengl3.h
+            3rd/imgui/imgui_impl_opengl3_loader.h
+            hooks/PumpWindowsMessageLoop.hpp
+            hooks/SwapWindow.hpp
+            hooks/SetKeyCodeState.hpp)
+else()
+
+endif()
+
+target_sources(century PRIVATE
         3rd/imgui/imanim/im_anim.cpp
         3rd/imgui/imanim/im_anim.h
         3rd/imgui/imgui_toggle/imgui_offset_rect.h
@@ -86,9 +94,6 @@ add_library(century SHARED
         core/pages/lua.hpp
 
         hooks/CreateMove.hpp
-        hooks/PumpWindowsMessageLoop.hpp
-        hooks/SwapWindow.hpp
-        hooks/SetKeyCodeState.hpp
         hooks/DrawModel.hpp
         hooks/FrameStageNotify.hpp
         hooks/OverrideView.hpp
@@ -118,7 +123,6 @@ add_library(century SHARED
         hooks/ShouldDrawLocalPlayer.hpp
         core/pages/visuals.hpp
         core/pages/friends.hpp
-        hooks/CalcRenderableWorldSpaceAABB.hpp
         hacks/AntiAim.cpp
         hacks/AntiAim.hpp
         sourcesdk/CLC_Move.hpp
@@ -143,28 +147,47 @@ add_library(century SHARED
         hacks/BackTracking.hpp
 )
 
-set_target_properties(century PROPERTIES
-        LINKER_TYPE MOLD
-        UNITY_BUILD ON
-        UNITY_BUILD_BATCH_SIZE 8
-)
+if(WIN32)
+    target_compile_definitions(century PRIVATE NOMINMAX
+            _WIN32_LEAN_AND_MEAN
+            _CRT_SECURE_NO_WARNINGS)
+endif()
 
-target_compile_options(century PRIVATE
-        -fno-gnu-unique
-        -fno-rtti
-        -O3
-        -g3
-        -march=native
-        -mtune=native
-)
+if(LINUX)
+    target_compile_options(century PRIVATE
+            -fno-gnu-unique
+            -fno-rtti
+            -O3
+            -g3
+            -mavx2
+            -mfma
+    )
+else()
+    target_compile_options(century PRIVATE
+            /GR-
+            /O3
+            /Zi
+            /clang:-mavx2
+            /clang:-mfma
+    )
+endif()
+
+if(LINUX)
+    target_precompile_headers(century PRIVATE
+            <dlfcn.h>
+            <unistd.h>
+            <sys/mman.h>
+    )
+else()
+    target_precompile_headers(century PRIVATE
+            <Windows.h>
+    )
+endif()
 
 target_precompile_headers(century PRIVATE
         <algorithm>
+        <array>
         <cstdint>
-        <dlfcn.h>
-        <unistd.h>
-        <sys/mman.h>
-        <format>
         <random>
         <fstream>
         <memory>
@@ -176,15 +199,17 @@ target_precompile_headers(century PRIVATE
         <vector>
 )
 
-find_package(polyhook_2 CONFIG REQUIRED)
-find_package(imgui CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
-find_package(SDL2 CONFIG REQUIRED)
+find_package(polyhook_2 REQUIRED)
+find_package(imgui REQUIRED)
+find_package(fmt REQUIRED)
+
+if(LINUX)
+    find_package(SDL2 REQUIRED)
+    target_link_libraries(century PRIVATE SDL2::SDL2)
+endif()
 
 target_link_libraries(century PRIVATE
         PolyHook_2::PolyHook_2
         imgui::imgui
         fmt::fmt
-        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )

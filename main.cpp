@@ -10,9 +10,17 @@
 #include <polyhook2/Detour/x64Detour.hpp>
 
 #include "hooks/CreateMove.hpp"
+
+#if defined(__linux__)
+
 #include "hooks/SwapWindow.hpp"
 #include "hooks/PumpWindowsMessageLoop.hpp"
 #include "hooks/SetKeyCodeState.hpp"
+
+#else
+
+#endif
+
 #include "hooks/DrawModel.hpp"
 #include "hooks/FrameStageNotify.hpp"
 #include "hooks/OverrideView.hpp"
@@ -21,7 +29,6 @@
 #include "hooks/RenderCapture.hpp"
 #include "hooks/CLMove.hpp"
 #include "hooks/ShouldDrawLocalPlayer.hpp"
-#include "hooks/CalcRenderableWorldSpaceAABB.hpp"
 
 std::thread thread;
 
@@ -48,10 +55,7 @@ static void mainThread() {
 
     std::vector<std::unique_ptr<PLH::x64Detour>> hooks;
 
-    hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, 22),
-        reinterpret_cast<std::uint64_t>(dtCreateMove), &ogCreateMove));
-
+#if defined(__linux__)
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::ResolvePLT(reinterpret_cast<std::uint64_t>(modules->GetExport(modules->sdl, "SDL_GL_SwapWindow"))),
         reinterpret_cast<std::uint64_t>(dtSwapWindow), &ogSwapWindow));
@@ -63,6 +67,13 @@ static void mainThread() {
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::GetVMTFunc<std::uint64_t>(interfaces->inputInternal, 84),
         reinterpret_cast<std::uint64_t>(dtSetKeyCodeState), &ogSetKeyCodeState));
+#else
+
+#endif
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, 22),
+        reinterpret_cast<std::uint64_t>(dtCreateMove), &ogCreateMove));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::GetVMTFunc<std::uint64_t>(interfaces->studioRender, 33),
@@ -96,10 +107,6 @@ static void mainThread() {
         memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? 48 8B 50 ? 48 3B 50 ? 74 ? 48 3B 50 ? 48 8B 48 ? 74 ? 0F B6 42"),
         reinterpret_cast<std::uint64_t>(dtShouldDrawLocalPlayer), &ogShouldDrawLocalPlayer));
 
-    hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::FindPattern("client_client.so", "55 48 89 E5 41 56 49 89 FE 41 55 41 54 49 89 D4 53 48 89 F3"),
-        reinterpret_cast<std::uint64_t>(dtCalcRenderableWorldSpaceAABB), &ogCalcRenderableWorldSpaceAABB));
-
     for (const auto& hk : hooks) {
         hk->hook();
     }
@@ -113,8 +120,6 @@ static void mainThread() {
 
     const auto sv_maxcmdrate = interfaces->cvar->FindCommandBase("sv_maxcmdrate");
     sv_maxcmdrate->RemoveFlags(FCVAR_REPLICATED);
-
-    utils::Warn("name: {}", (void*)name);
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/morphine_shot.wav");
 
@@ -132,6 +137,8 @@ static void mainThread() {
 
     events->Unload();
 
+    globals::Core::sendPacket = true;
+
     for (const auto& hk : hooks) {
         hk->unHook();
     }
@@ -139,8 +146,6 @@ static void mainThread() {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     hooks.clear();
-
-    utils::SetSendPacket(true);
 
     utils::Print("[century] unloaded!");
 }
@@ -156,10 +161,10 @@ void __attribute__((destructor)) detach() {
     thread.join();
 }
 
-#elif defined(WIN64)
+#else
 
 int __stdcall DllMain(void*, std::uint32_t reason, void*) {
-    if (reason == DLL_PROCESS_ATTACH) {
+    if (reason == 1) {
         thread = std::thread(mainThread);
         thread.detach();
     }

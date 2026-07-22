@@ -141,24 +141,6 @@ namespace memory {
     inline std::uint64_t ResolveGOT(const std::uint64_t gotOffset) {
         return *reinterpret_cast<std::uint64_t*>(gotOffset);
     }
-
-    inline bool ProtectRWX(void* addr) {
-        const long pageSize = sysconf(_SC_PAGESIZE);
-        auto page = reinterpret_cast<void*>(
-            reinterpret_cast<uintptr_t>(addr) & ~(pageSize - 1));
-
-        return mprotect(page, pageSize,
-                        PROT_READ | PROT_WRITE | PROT_EXEC) == 0;
-    }
-
-    inline bool ProtectRX(void* addr) {
-        const long pageSize = sysconf(_SC_PAGESIZE);
-        auto page = reinterpret_cast<void*>(
-            reinterpret_cast<uintptr_t>(addr) & ~(pageSize - 1));
-
-        return mprotect(page, pageSize,
-                        PROT_READ | PROT_EXEC) == 0;
-    }
 }
 
 #endif //CENTURY_MEMORY_HPP

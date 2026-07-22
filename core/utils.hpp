@@ -23,7 +23,11 @@
 
 #include "../sourcesdk/interfaces/CConVar.hpp"
 
+#if defined(__linux__)
 #define CONCOLORMSG_EXPORT "_Z11ConColorMsgRK5ColorPKcz"
+#else
+#define CONCOLORMSG_EXPORT "?ConColorMsg@@YAXABVColor@@PBDZZ"
+#endif
 
 namespace utils {
     template<typename... Args>
@@ -102,39 +106,17 @@ namespace utils {
         return CBasePlayer_GetLocalPlayer();
     }
 
-    inline void PushAllowBoneAccess(bool allowForNormalModels, bool allowForViewModels, const std::string &tagPush) {
-        using _CBaseAnimating_PushAllowBoneAccess = void(*)(bool, bool, const char *);
-        static auto CBaseAnimating_PushAllowBoneAccess = reinterpret_cast<_CBaseAnimating_PushAllowBoneAccess>(
-            memory::FindPattern("client_client.so", "55 48 89 E5 41 56 41 55 4C 8D 35 ? ? ? ? 49 89 D5"));
-
-        CBaseAnimating_PushAllowBoneAccess(allowForNormalModels, allowForViewModels, tagPush.c_str());
-    }
-
-    inline void PopBoneAccess(const std::string &tagPush) {
-        using _CBaseAnimating_PopBoneAccess = void(*)(const char *);
-        static auto CBaseAnimating_PopBoneAccess = reinterpret_cast<_CBaseAnimating_PopBoneAccess>(memory::FindPattern(
-            "client_client.so", "55 48 89 E5 53 48 8D 1D ? ? ? ? 48 83 EC ? E8"));
-
-        CBaseAnimating_PopBoneAccess(tagPush.c_str());
-    }
-
     static bool WorldToScreen(const Vector& world, Vector& screen) {
-        // 1. Grab the active view-projection matrix from the Source Engine interface
-        // This matrix transforms 3D world coordinates into 2D clip space coordinates
         const Matrix3x4& viewMatrix = interfaces->engineClient->WorldToScreenMatrix();
 
-        // 2. Calculate the W component (Depth/Clip distance)
         float w = viewMatrix[3][0] * world.x +
                   viewMatrix[3][1] * world.y +
                   viewMatrix[3][2] * world.z +
                   viewMatrix[3][3];
 
-        // Crucial Guard: If W is negative or near zero, the object is behind our camera perspective.
-        // Returning false prevents the ESP text from mirroring onto the screen layout backwards.
         if (w < 0.01f)
             return false;
 
-        // 3. Calculate X and Y positions via the transformation matrix
         float x = viewMatrix[0][0] * world.x +
                   viewMatrix[0][1] * world.y +
                   viewMatrix[0][2] * world.z +
@@ -145,17 +127,12 @@ namespace utils {
                   viewMatrix[1][2] * world.z +
                   viewMatrix[1][3];
 
-        // 4. Perspective Division (Transforms clip space down to Normalized Device Coordinates)
         x /= w;
         y /= w;
 
-        // 5. Pull the current frame canvas size directly from ImGui
-        // This ensures the screen scale perfectly maps to your overlay setup
         float screenWidth  = ImGui::GetIO().DisplaySize.x;
         float screenHeight = ImGui::GetIO().DisplaySize.y;
 
-        // 6. Map NDC (-1.0 to 1.0) directly onto monitor pixel bounds
-        // Notice the subtraction for Y: 2D Screen space runs downwards, 3D space runs upwards.
         screen.x = (screenWidth  / 2.f) + (x * screenWidth  / 2.f);
         screen.y = (screenHeight / 2.f) - (y * screenHeight / 2.f);
 
@@ -196,14 +173,14 @@ namespace utils {
 
         const std::array<Vector, 8> localCorners = {
             {
-                {mins.x, mins.y, mins.z}, // 0: Bottom-back-left
-                {mins.x, maxs.y, mins.z}, // 1: Bottom-front-left
-                {maxs.x, maxs.y, mins.z}, // 2: Bottom-front-right
-                {maxs.x, mins.y, mins.z}, // 3: Bottom-back-right
-                {mins.x, mins.y, maxs.z}, // 4: Top-back-left
-                {mins.x, maxs.y, maxs.z}, // 5: Top-front-left
-                {maxs.x, maxs.y, maxs.z}, // 6: Top-front-right
-                {maxs.x, mins.y, maxs.z} // 7: Top-back-right
+                {mins.x, mins.y, mins.z},
+                {mins.x, maxs.y, mins.z},
+                {maxs.x, maxs.y, mins.z},
+                {maxs.x, mins.y, mins.z},
+                {mins.x, mins.y, maxs.z},
+                {mins.x, maxs.y, maxs.z},
+                {maxs.x, maxs.y, maxs.z},
+                {maxs.x, mins.y, maxs.z}
             }
         };
 
@@ -246,14 +223,14 @@ namespace utils {
         angles.Vectors(forward, right, up);
 
         const std::array<Vector, 8> localCorners = {{
-            {mins.x, mins.y, mins.z}, // 0: Bottom-back-left
-            {mins.x, maxs.y, mins.z}, // 1: Bottom-front-left
-            {maxs.x, maxs.y, mins.z}, // 2: Bottom-front-right
-            {maxs.x, mins.y, mins.z}, // 3: Bottom-back-right
-            {mins.x, mins.y, maxs.z}, // 4: Top-back-left
-            {mins.x, maxs.y, maxs.z}, // 5: Top-front-left
-            {maxs.x, maxs.y, maxs.z}, // 6: Top-front-right
-            {maxs.x, mins.y, maxs.z}  // 7: Top-back-right
+            {mins.x, mins.y, mins.z},
+            {mins.x, maxs.y, mins.z},
+            {maxs.x, maxs.y, mins.z},
+            {maxs.x, mins.y, mins.z},
+            {mins.x, mins.y, maxs.z},
+            {mins.x, maxs.y, maxs.z},
+            {maxs.x, maxs.y, maxs.z},
+            {maxs.x, mins.y, maxs.z}
         }};
 
         std::array<ImVec2, 8> s{};
@@ -434,53 +411,8 @@ namespace utils {
         return (hitTarget || notBlocked);
     }
 
-    static void SetPredictionRandomSeed(const std::uint32_t seed) noexcept {
-        static auto predictionRandomSeed = memory::ResolveGOT(memory::GetAbsAddress(memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? 55 48 89 E5 41 54 41 89 D4")));
-
-        *reinterpret_cast<std::uint32_t*>(predictionRandomSeed) = seed;
-    }
-
-    static void SetPredictionPlayer(const std::uint32_t entityHandle) noexcept {
-        static auto predictionPlayer = memory::ResolveGOT(memory::GetAbsAddress(memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? ? ? 75 ? 48 83 C4")));
-
-        *reinterpret_cast<std::uint32_t*>(predictionPlayer) = entityHandle;
-    }
-
-    static void ResetPredictionInstanceCounters() {
-        using _CPredictableID_ResetPredictionInstanceCounters = void(*)();
-        static auto CPredictableID_ResetPredictionInstanceCounters = reinterpret_cast<_CPredictableID_ResetPredictionInstanceCounters>(memory::FindPattern(
-            "client_client.so", "55 BA ? ? ? ? 31 F6 48 8D 3D ? ? ? ? 48 89 E5 5D"));
-
-        CPredictableID_ResetPredictionInstanceCounters();
-    }
-
     static std::uint32_t PseudoRandom(const std::uint32_t& seed) noexcept {
         return MD5_PseudoRandom(seed);
-    }
-
-    static void SetSendPacket(const bool value) noexcept {
-        static auto bSendPacketAddr = memory::FindPattern("engine_client.so", "BB ? ? ? ? E9 ? ? ? ? 66 0F 1F 44 00 ? 48 8B 05 ? ? ? ? F2 0F 10 05") + 0x1;
-
-        static auto* bSendPacket = reinterpret_cast<std::uint32_t*>(bSendPacketAddr);
-
-        static std::uint64_t pageSize = sysconf(_SC_PAGESIZE);
-        static auto page = reinterpret_cast<void*>(
-            reinterpret_cast<std::uintptr_t>(bSendPacket) & ~(pageSize - 1)
-        );
-
-        if (mprotect(page, pageSize, PROT_READ | PROT_WRITE | PROT_EXEC) == 0) {
-            *bSendPacket = static_cast<std::uint32_t>(value);
-
-            mprotect(page, pageSize, PROT_READ | PROT_EXEC);
-        }
-    }
-
-    static bool GetSendPacket() noexcept {
-        static auto bSendPacketAddr = memory::FindPattern("engine_client.so", "BB ? ? ? ? E9 ? ? ? ? 66 0F 1F 44 00 ? 48 8B 05 ? ? ? ? F2 0F 10 05") + 0x1;
-
-        static auto* bSendPacket = reinterpret_cast<std::uint32_t*>(bSendPacketAddr);
-
-        return static_cast<bool>(*bSendPacket);
     }
 
     template <typename T>
@@ -519,26 +451,6 @@ namespace utils {
         CBaseAnimating_InvalidateBoneCache();
     }
 
-    static void ChokePacket() noexcept {
-        static auto chokedCommandsAddr = memory::GetAbsAddress(memory::FindPattern("engine_client.so", "83 05 ? ? ? ? ? 45 84 F6"));
-        auto* chokedCommands = reinterpret_cast<std::uint32_t*>(chokedCommandsAddr);
-
-        const auto netChan = interfaces->engineClient->GetNetChannelInfo();
-
-        if (netChan) {
-            netChan->SetChoked();
-            *chokedCommands = *chokedCommands + 1;
-        }
-    }
-
-    static float GetLerpTime() noexcept {
-        const auto clInterp = 0.200000f;
-        const auto clInterpRatio = 2.f;
-        const auto clUpdateRate = 66;
-
-        return std::max(clInterp, clInterpRatio / clUpdateRate);
-    }
-
     inline int TimeToTicks(float time, float interval) noexcept {
         return static_cast<int>(0.5f + time / interval);
     }
@@ -548,17 +460,7 @@ namespace utils {
     }
 
     static std::uint32_t NetVar(const std::string& className, const std::string& varName) noexcept {
-        return netVars->GetOffset(std::format("{}->{}", className, varName));
-    }
-
-    static int GetCorrectTickCount(float simTime, float lerpTime, float tickInterval) noexcept {
-        const float lerpRemainder = std::fmod(lerpTime, tickInterval);
-        float realTargetTime      = simTime;
-
-        if (lerpRemainder > 0.f)
-            realTargetTime += tickInterval - lerpRemainder;
-
-        return TimeToTicks(realTargetTime + lerpTime, tickInterval);
+        return netVars->GetOffset(fmt::format("{}->{}", className, varName));
     }
 }
 

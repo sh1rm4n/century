@@ -14,16 +14,8 @@ inline std::uint64_t ogCLMove = 0;
 void dtCLMove(float accumulatedExtraSamples, bool finalTick) {
     static auto ogFunction = PLH::FnCast(ogCLMove, dtCLMove);
 
-    if (interfaces->engineClient->IsInGame()) {
-        static auto update = 0;
-        if (update == 4) {
-            update = 0;
-        }
-        else {
-            update++;
-            //return;
-        }
-    }
+    if (interfaces->engineClient->IsInGame() && globals::Core::localPlayer)
+        return ogFunction(accumulatedExtraSamples, globals::Core::sendPacket);
 
     ogFunction(accumulatedExtraSamples, finalTick);
 }

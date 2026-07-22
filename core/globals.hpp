@@ -45,6 +45,7 @@ namespace globals {
 
         inline bool shouldUnload = false;
         inline bool enginePrediction = false;
+        inline bool sendPacket = false;
 
         inline int luaRealm = 0;
     }

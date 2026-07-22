@@ -108,7 +108,7 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
             }
             else if (globals::Hacks::Aimbot::perfectSilent) {
                 cmd->viewAngles = smoothedAngles;
-                utils::SetSendPacket(false);
+                globals::Core::sendPacket = false;
             }
 
             cmd->buttons |= IN_ATTACK;
@@ -116,7 +116,7 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
         else {
             if (globals::Hacks::Aimbot::perfectSilent) {
                 cmd->viewAngles = oldAngles;
-                utils::SetSendPacket(true);
+                globals::Core::sendPacket = true;
             }
 
             cmd->buttons &= ~IN_ATTACK;
