@@ -134,7 +134,7 @@ void dtSwapWindow(SDL_Window* window) {
 
                         Vector outOrigin;
 
-                        const auto origin = entity->GetAbsOrigin();
+                        const auto origin = entity->GetNetworkedOrigin();
 
                         if (utils::WorldToScreen(origin, outOrigin)) {
                             const auto mins      = entity->GetCollisionProp()->OBBMins();
@@ -144,11 +144,11 @@ void dtSwapWindow(SDL_Window* window) {
                             const auto model     = entity->GetModel();
                             const char* name     = entity->UsesLua() ? luaName : networkedName;
 
-                            utils::Draw3DBox(drawList, origin, entity->GetAbsAngles(), mins, maxs);
+                            utils::Draw3DBox(drawList, origin, entity->GetNetworkedAngles(), mins, maxs);
 
                             // get 2D bounding rect from all 8 projected corners
                             Vector forward, right, up;
-                            entity->GetAbsAngles().Vectors(forward, right, up);
+                            entity->GetNetworkedAngles().Vectors(forward, right, up);
 
                             const std::array<Vector, 8> localCorners = {{
                                 {mins.x, mins.y, mins.z},
@@ -245,7 +245,7 @@ void dtSwapWindow(SDL_Window* window) {
                         continue;
 
                     const auto head = entity->GetEyePosition();
-                    const auto bottom = entity->GetAbsOrigin();
+                    const auto bottom = entity->GetNetworkedOrigin();
 
                     if (globals::Hacks::PlayerESP::bones) {
                         Matrix3x4 bones[256];
@@ -259,7 +259,7 @@ void dtSwapWindow(SDL_Window* window) {
                         Vector bottomOut;
                         Vector topOut;
 
-                        const auto bottom = entity->GetAbsOrigin();
+                        const auto bottom = entity->GetNetworkedOrigin();
                         const auto top = head + Vector{0.f,0.f,11.f};
 
                         if (utils::WorldToScreen(bottom, bottomOut) && utils::WorldToScreen(top, topOut)) {
@@ -294,7 +294,7 @@ void dtSwapWindow(SDL_Window* window) {
                         float y2 = bottomOut.y;
 
                         // ---------------- BOX ----------------
-                        utils::Draw3DBox(drawList, bottom, entity->GetAbsAngles(), entity->GetCollisionProp()->OBBMins(), entity->GetCollisionProp()->OBBMaxs());
+                        utils::Draw3DBox(drawList, bottom, entity->GetNetworkedAngles(), entity->GetCollisionProp()->OBBMins(), entity->GetCollisionProp()->OBBMaxs());
 
                         // ---------------- NAME ----------------
                         const auto weapon = entity->GetActiveWeapon();

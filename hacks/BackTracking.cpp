@@ -47,8 +47,8 @@ void BackTracking::Update() noexcept {
         record.mins = player->GetCollisionProp()->OBBMins();
         record.maxs = player->GetCollisionProp()->OBBMaxs();
         record.bones = bones;
-        record.angles = player->GetAbsAngles();
-        record.origin = player->GetAbsOrigin();
+        record.angles = player->GetNetworkedAngles();
+        record.origin = player->GetNetworkedOrigin();
 
         if (record.IsValid())
             backtrackRecords[i].emplace_back(record);
@@ -101,6 +101,6 @@ void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRec
     player->GetFlags() = record.flags;
     player->GetCollisionProp()->OBBMins() = record.mins;
     player->GetCollisionProp()->OBBMaxs() = record.maxs;
-    player->SetAbsAngles(record.angles);
-    player->SetAbsOrigin(record.origin);
+    player->GetNetworkedAngles() = record.angles;
+    player->GetNetworkedOrigin() = record.origin;
 }

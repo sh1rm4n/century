@@ -27,14 +27,6 @@ public:
         memory::Call<void>(this, 9, dormant);
     }
 
-    constexpr Vector& GetAbsOrigin() noexcept {
-        return memory::Call<Vector&>(this, 11);
-    }
-
-    constexpr Angle& GetAbsAngles() noexcept {
-        return memory::Call<Angle&>(this, 12);
-    }
-
     constexpr ClientClass* GetClientClass() noexcept {
         return memory::Call<ClientClass*>(this, 17);
     }
@@ -132,7 +124,7 @@ public:
     }
 
     constexpr C_CollisionProperty* GetCollisionProp() noexcept {
-        return *reinterpret_cast<C_CollisionProperty**>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_Collision"));
+        return reinterpret_cast<C_CollisionProperty*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_Collision"));
     }
 
     constexpr Vector& GetNetworkedOrigin() noexcept {
@@ -201,7 +193,7 @@ public:
     }
 
     constexpr Vector GetEyePosition() noexcept {
-        return GetAbsOrigin() + GetViewOffset();
+        return GetNetworkedOrigin() + GetViewOffset();
     }
 
     constexpr void SetAbsOrigin(const Vector& pos) noexcept {
