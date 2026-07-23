@@ -1,11 +1,23 @@
 cmake_minimum_required(VERSION 4.3)
 
+if(WIN32)
+    set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "")
+endif()
+
 project(century LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+else()
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+endif()
 
 add_library(century SHARED)
 
@@ -19,8 +31,6 @@ if(LINUX)
             hooks/PumpWindowsMessageLoop.hpp
             hooks/SwapWindow.hpp
             hooks/SetKeyCodeState.hpp)
-else()
-
 endif()
 
 target_sources(century PRIVATE
@@ -199,6 +209,8 @@ find_package(fmt REQUIRED)
 if(LINUX)
     find_package(SDL2 REQUIRED)
     target_link_libraries(century PRIVATE SDL2::SDL2)
+
+    target_link_options(century PRIVATE -static-libgcc -static-libstdc++)
 endif()
 
 target_link_libraries(century PRIVATE

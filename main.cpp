@@ -9,18 +9,29 @@
 
 #include <polyhook2/Detour/x64Detour.hpp>
 
-#include "hooks/CreateMove.hpp"
-
 #if defined(__linux__)
 
 #include "hooks/SwapWindow.hpp"
 #include "hooks/PumpWindowsMessageLoop.hpp"
 #include "hooks/SetKeyCodeState.hpp"
 
+#define PUMPWINDOWMESSAGELOOP_INDEX 19
+#define SETKEYCODESTATE_INDEX 84
+#define CREATEMOVE_INDEX 22
+#define DRAWMODEL_INDEX 33
+#define FRAMESTAGENOTIFY_INDEX 35
+#define OVERRIDEVIEW_INDEX 17
+
 #else
+
+#define CREATEMOVE_INDEX 21
+#define DRAWMODEL_INDEX 33
+#define FRAMESTAGENOTIFY_INDEX 35
+#define OVERRIDEVIEW_INDEX 17
 
 #endif
 
+#include "hooks/CreateMove.hpp"
 #include "hooks/DrawModel.hpp"
 #include "hooks/FrameStageNotify.hpp"
 #include "hooks/OverrideView.hpp"
@@ -61,32 +72,33 @@ static void mainThread() {
         reinterpret_cast<std::uint64_t>(dtSwapWindow), &ogSwapWindow));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->sdlMgr, 19),
+        memory::GetVMTFunc<std::uint64_t>(interfaces->sdlMgr, PUMPWINDOWMESSAGELOOP_INDEX),
         reinterpret_cast<std::uint64_t>(dtPumpWindowsMessageLoop), &ogPumpWindowsMessageLoop));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->inputInternal, 84),
+        memory::GetVMTFunc<std::uint64_t>(interfaces->inputInternal, SETKEYCODESTATE_INDEX),
         reinterpret_cast<std::uint64_t>(dtSetKeyCodeState), &ogSetKeyCodeState));
 #else
 
 #endif
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, 22),
+        memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, CREATEMOVE_INDEX),
         reinterpret_cast<std::uint64_t>(dtCreateMove), &ogCreateMove));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->studioRender, 33),
+        memory::GetVMTFunc<std::uint64_t>(interfaces->studioRender, DRAWMODEL_INDEX),
         reinterpret_cast<std::uint64_t>(dtDrawModel), &ogDrawModel));
 
-    hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->client, 35),
+    /*hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::GetVMTFunc<std::uint64_t>(interfaces->client, FRAMESTAGENOTIFY_INDEX),
         reinterpret_cast<std::uint64_t>(dtFrameStageNotify), &ogFrameStageNotify));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, 17),
-        reinterpret_cast<std::uint64_t>(dtOverrideView), &ogOverrideView));
+        memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, OVERRIDEVIEW_INDEX),
+        reinterpret_cast<std::uint64_t>(dtOverrideView), &ogOverrideView));*/
 
+#if defined(__linux__)
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::FindPattern("engine_client.so", "55 48 89 E5 41 55 49 89 FD 41 54 53 48 83 EC ? 48 85 FF C6 05"),
         reinterpret_cast<std::uint64_t>(dtTakeScreenshot), &ogTakeScreenshot));
@@ -106,6 +118,27 @@ static void mainThread() {
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? 48 8B 50 ? 48 3B 50 ? 74 ? 48 3B 50 ? 48 8B 48 ? 74 ? 0F B6 42"),
         reinterpret_cast<std::uint64_t>(dtShouldDrawLocalPlayer), &ogShouldDrawLocalPlayer));
+#else
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("engine.dll", "48 89 5C 24 ? 48 89 74 24 ? 55 57 41 54 41 56 41 57 48 8B EC 48 83 EC ? 48 8B 05"),
+        reinterpret_cast<std::uint64_t>(dtTakeScreenshot), &ogTakeScreenshot));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("engine.dll", "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B F1"),
+        reinterpret_cast<std::uint64_t>(dtTakeJpeg), &ogTakeJpeg));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("client.dll", "40 53 48 83 EC ? 48 8B 59 ? 48 8B D1 48 8B CB ? ? ? FF 90 ? ? ? ? 48 8B CB 48 83 C4 ? 5B E9 ? ? ? ? ? ? ? ? ? ? ? ? ? ? 48 89 5C 24 ? 57 48 83 EC ? 48 8B D1 48 8B 49 ? ? ? ? FF 90 ? ? ? ? 48 8B 0D ? ? ? ? ? ? ? FF 90"),
+        reinterpret_cast<std::uint64_t>(dtRenderCapture), &ogRenderCapture));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("engine.dll", "40 55 53 48 8D AC 24 ? ? ? ? B8 ? ? ? ? E8 ? ? ? ? 48 2B E0 0F 29 B4 24"),
+        reinterpret_cast<std::uint64_t>(dtCLMove), &ogCLMove));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::FindPattern("client.dll", "48 83 EC ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 48 8D 51"),
+        reinterpret_cast<std::uint64_t>(dtShouldDrawLocalPlayer), &ogShouldDrawLocalPlayer));
+#endif
 
     for (const auto& hk : hooks) {
         hk->hook();

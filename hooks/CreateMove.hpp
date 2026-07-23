@@ -22,18 +22,24 @@
 
 inline std::uint64_t ogCreateMove = 0;
 
+#if defined(__linux__)
 bool dtCreateMove(ClientModeGModNormal* vmt, CUserCmd* cmd, float inputSampleTime) {
+#else
+bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cmd) {
+#endif
+    //utils::Warn("createmove");
+
     static auto ogFunction = PLH::FnCast(ogCreateMove, dtCreateMove);
+#if defined(__linux__)
     const auto result = ogFunction(vmt, cmd, inputSampleTime);
+#else
+    const auto result = ogFunction(vmt, inputSampleTime, cmd);
+#endif
 
     if (!cmd || cmd->commandNumber == 0)
         return result;
 
     globals::Core::currentCmd = cmd;
-
-    const auto cmdMaxTickDelta = (1.f / interfaces->globalVars->intervalPerTick) * 2.5f;
-    const auto cmdLowestPossible = std::max(0.0, interfaces->globalVars->tickCount - cmdMaxTickDelta);
-    const auto cmdHighestPossible = interfaces->globalVars->tickCount + cmdMaxTickDelta;
 
     cmd->isTyping = true;
 
@@ -62,13 +68,6 @@ bool dtCreateMove(ClientModeGModNormal* vmt, CUserCmd* cmd, float inputSampleTim
 
     if (globals::Hacks::Aimbot::enabled)
         aimbot->Run(cmd);         // angles set first
-
-    if (cmd->tickCount <= cmdLowestPossible || cmd->tickCount > cmdHighestPossible) {
-        utils::Warn("[century] UserCmd tick count is wrong! ({})", cmd->tickCount);
-        utils::Warn("[century] Only possible tick counts: Highest: {}; Lowest: {}", cmdHighestPossible, cmdLowestPossible);
-    }
-
-    utils::Warn("cmdLowestPossible: {}", cmdLowestPossible);
 
     return false;
 };
