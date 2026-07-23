@@ -31,8 +31,7 @@ void LuaExecution::Execute(const int realm, const std::string& script) noexcept 
     if (!luaInterface)
         return;
 
-    const auto state = *reinterpret_cast<lua_State**>(
-        reinterpret_cast<std::uint64_t>(luaInterface) + 0x8);
+    const auto state = *reinterpret_cast<lua_State**>(luaInterface + 0x8);
 
     if (!state)
         return;

@@ -8,6 +8,8 @@
 #include "../globals.hpp"
 #include "../interfaces.hpp"
 
+#include <imgui_stdlib.h>
+
 #include "../../sourcesdk/entities/C_BaseEntity.hpp"
 
 namespace menu::pages::friends {

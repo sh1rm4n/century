@@ -12,27 +12,22 @@ class IClientUnknown;
 class IClientRenderable;
 
 class ClientClass;
-class CCollisionProperty;
 class C_GMOD_Player;
 class C_BaseCombatWeapon;
 class CMultiPlayerAnimState;
 
 class C_BaseEntity {
 public:
+    constexpr C_CollisionProperty* GetCollideable() noexcept {
+        return memory::Call<C_CollisionProperty*>(this, 6);
+    }
+
     constexpr IClientRenderable* GetClientRenderable() noexcept {
         return memory::Call<IClientRenderable*>(this, 6);
     }
 
     constexpr void SetDormant(const bool& dormant) noexcept {
         memory::Call<void>(this, 9, dormant);
-    }
-
-    constexpr Vector& GetAbsOrigin() noexcept {
-        return memory::Call<Vector&>(this, 11);
-    }
-
-    constexpr Angle& GetAbsAngles() noexcept {
-        return memory::Call<Angle&>(this, 12);
     }
 
     constexpr ClientClass* GetClientClass() noexcept {
@@ -131,10 +126,6 @@ public:
         return *reinterpret_cast<MoveType*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_MoveType"));
     }
 
-    constexpr C_CollisionProperty* GetCollisionProp() noexcept {
-        return *reinterpret_cast<C_CollisionProperty**>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_Collision"));
-    }
-
     constexpr Vector& GetNetworkedOrigin() noexcept {
         return *reinterpret_cast<Vector*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_vecOrigin"));
     }
@@ -201,7 +192,7 @@ public:
     }
 
     constexpr Vector GetEyePosition() noexcept {
-        return GetAbsOrigin() + GetViewOffset();
+        return GetNetworkedOrigin() + GetViewOffset();
     }
 
     constexpr void SetAbsOrigin(const Vector& pos) noexcept {

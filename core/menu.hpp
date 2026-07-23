@@ -164,13 +164,9 @@ namespace menu {
     }
 
     inline void Render() noexcept {
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
 
         ImGui::SetNextWindowSize(ImVec2(600, 350));
-
-        /*auto now = std::chrono::system_clock::now();
-        std::time_t t = std::chrono::system_clock::to_time_t(now);
-        std::tm* local = std::localtime(&t);*/
 
         if (ImGui::Begin("century", nullptr, ImGuiWindowFlags_NoResize)) {
             if (ImGui::BeginChild("##Topbar", ImVec2(0.f, 25.f))) {

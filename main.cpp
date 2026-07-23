@@ -24,6 +24,10 @@
 
 #else
 
+#include "hooks/WndProc.hpp"
+#include "hooks/EndScene.hpp"
+
+#define ENDSCENE_INDEX 42
 #define CREATEMOVE_INDEX 21
 #define DRAWMODEL_INDEX 33
 #define FRAMESTAGENOTIFY_INDEX 35
@@ -79,7 +83,28 @@ static void mainThread() {
         memory::GetVMTFunc<std::uint64_t>(interfaces->inputInternal, SETKEYCODESTATE_INDEX),
         reinterpret_cast<std::uint64_t>(dtSetKeyCodeState), &ogSetKeyCodeState));
 #else
+    const auto d3d = Direct3DCreate9(D3D_SDK_VERSION);
+    IDirect3DDevice9* d3dDevice = nullptr;
+    
+    D3DPRESENT_PARAMETERS pp = {};
+    pp.Windowed = TRUE;
+    pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    pp.hDeviceWindow = GetForegroundWindow();
 
+    d3d->CreateDevice(D3DADAPTER_DEFAULT,
+        D3DDEVTYPE_HAL,
+        pp.hDeviceWindow,
+        D3DCREATE_HARDWARE_VERTEXPROCESSING,
+        &pp,
+        &d3dDevice);
+
+    if (d3dDevice) {
+        ogWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(FindWindowA(0, "Garry's Mod (64-bit)"), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(dtWndProc)));
+
+        hooks.push_back(std::make_unique<PLH::x64Detour>(
+            memory::GetVMTFunc<std::uint64_t>(d3dDevice, ENDSCENE_INDEX),
+            reinterpret_cast<std::uint64_t>(dtEndScene), &ogEndScene));
+    }
 #endif
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(

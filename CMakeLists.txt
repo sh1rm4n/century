@@ -19,8 +19,7 @@ else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
 
-add_library(century SHARED
-        sourcesdk/entities/C_CollisionProperty.hpp)
+add_library(century SHARED main.cpp)
 
 if(LINUX)
     target_sources(century PRIVATE
@@ -32,6 +31,15 @@ if(LINUX)
             hooks/PumpWindowsMessageLoop.hpp
             hooks/SwapWindow.hpp
             hooks/SetKeyCodeState.hpp)
+else()
+    target_sources(century PRIVATE
+            3rd/imgui/imgui_impl_dx9.cpp
+            3rd/imgui/imgui_impl_dx9.h
+            3rd/imgui/imgui_impl_win32.cpp
+            3rd/imgui/imgui_impl_win32.h
+            hooks/WndProc.hpp
+            hooks/EndScene.hpp)
+    target_link_libraries(century PRIVATE d3d9)
 endif()
 
 target_sources(century PRIVATE
@@ -117,7 +125,6 @@ target_sources(century PRIVATE
         hacks/Aimbot.cpp
         hacks/Aimbot.hpp
 
-        main.cpp
         sourcesdk/interfaces/CGMODPrediction.hpp
         sourcesdk/interfaces/CGameMovement.hpp
         sourcesdk/interfaces/CMoveHelperClient.hpp
@@ -184,6 +191,7 @@ if(LINUX)
 else()
     target_precompile_headers(century PRIVATE
             <Windows.h>
+            <d3d9.h>
     )
 endif()
 
