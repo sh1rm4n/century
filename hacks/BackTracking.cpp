@@ -5,6 +5,8 @@
 #include "../core/interfaces.hpp"
 #include "../core/globals.hpp"
 
+#include "../sourcesdk/entities/IClientUnknown.hpp"
+#include "../sourcesdk/entities/IClientRenderable.hpp"
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 #include "../sourcesdk/entities/C_CollisionProperty.hpp"
 
@@ -44,11 +46,11 @@ void BackTracking::Update() noexcept {
         BacktrackRecord record{};
         record.simulationTime = simulationTime;
         record.flags = player->GetFlags();
-        record.mins = player->GetCollisionProp()->OBBMins();
-        record.maxs = player->GetCollisionProp()->OBBMaxs();
+        record.mins = player->GetCollideable()->OBBMins();
+        record.maxs = player->GetCollideable()->OBBMaxs();
         record.bones = bones;
-        record.angles = player->GetAbsAngles();
-        record.origin = player->GetAbsOrigin();
+        record.angles = player->GetNetworkedAngles();
+        record.origin = player->GetNetworkedOrigin();
 
         if (record.IsValid())
             backtrackRecords[i].emplace_back(record);
@@ -99,8 +101,8 @@ void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRec
 
     player->GetSimulationTime() = record.simulationTime;
     player->GetFlags() = record.flags;
-    player->GetCollisionProp()->OBBMins() = record.mins;
-    player->GetCollisionProp()->OBBMaxs() = record.maxs;
+    player->GetCollideable()->OBBMins() = record.mins;
+    player->GetCollideable()->OBBMaxs() = record.maxs;
     player->SetAbsAngles(record.angles);
     player->SetAbsOrigin(record.origin);
 }

@@ -17,5 +17,5 @@ void ForwardTracking::Run(CUserCmd* cmd, C_BaseEntity* player) noexcept {
 
     utils::InvalidateBoneCache();
 
-    player->SetAbsOrigin(player->GetAbsOrigin() + (player->GetVelocity() * (interfaces->globalVars->intervalPerTick * globals::Hacks::ForwardTracking::ghettoPredictionAmount)));
+    player->SetAbsOrigin(player->GetNetworkedOrigin() + (player->GetVelocity() * (interfaces->globalVars->intervalPerTick * globals::Hacks::ForwardTracking::ghettoPredictionAmount)));
 }

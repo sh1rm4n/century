@@ -23,7 +23,7 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
     BacktrackRecord bestRecord = {};
 
     const auto eyePosition = globals::Core::localPlayer->GetEyePosition();
-    const auto origin = globals::Core::localPlayer->GetAbsOrigin();
+    const auto origin = globals::Core::localPlayer->GetNetworkedOrigin();
 
     Angle currentViewAngles;
     interfaces->engineClient->GetViewAngles(currentViewAngles);

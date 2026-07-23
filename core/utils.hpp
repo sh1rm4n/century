@@ -98,12 +98,8 @@ namespace utils {
         ConColorMsg(col, "%s", (formatted_str + "\n").c_str());
     }
 
-    inline C_BaseEntity *GetLocalPlayer() noexcept {
-        using _CBasePlayer_GetLocalPlayer = C_BaseEntity*(*)();
-        static auto CBasePlayer_GetLocalPlayer = reinterpret_cast<_CBasePlayer_GetLocalPlayer>(memory::FindPattern(
-            "client_client.so", "55 48 8B 05 ? ? ? ? 48 89 E5 5D C3 90 66 90 48 8B 3D"));
-
-        return CBasePlayer_GetLocalPlayer();
+    inline C_BaseEntity* GetLocalPlayer() noexcept {
+        return interfaces->entityList->GetClientEntity<C_BaseEntity>(interfaces->engineClient->GetLocalPlayer());
     }
 
     static bool WorldToScreen(const Vector& world, Vector& screen) {

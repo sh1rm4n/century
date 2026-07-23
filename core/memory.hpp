@@ -68,7 +68,7 @@ namespace memory {
 
         return bytes;
     }
-
+#if defined(__linux__)
     inline uintptr_t FindPattern(
         const char *module,
         const char *pattern) noexcept {
@@ -114,6 +114,42 @@ namespace memory {
 
         return 0;
     }
+#else
+    inline std::uintptr_t FindPattern(
+        const char* module,
+        const char* pattern) noexcept
+    {
+        const auto bytes = PatternToBytes(pattern);
+
+        auto base = reinterpret_cast<std::uint8_t*>(GetModuleHandleA(module));
+        if (!base)
+            return 0;
+
+        auto dos = reinterpret_cast<IMAGE_DOS_HEADER*>(base);
+        auto nt = reinterpret_cast<IMAGE_NT_HEADERS*>(base + dos->e_lfanew);
+
+        const std::size_t size = nt->OptionalHeader.SizeOfImage;
+
+        for (std::size_t i = 0; i <= size - bytes.size(); ++i)
+        {
+            bool found = true;
+
+            for (std::size_t j = 0; j < bytes.size(); ++j)
+            {
+                if (bytes[j] != -1 && base[i + j] != bytes[j])
+                {
+                    found = false;
+                    break;
+                }
+            }
+
+            if (found)
+                return reinterpret_cast<std::uintptr_t>(base + i);
+        }
+
+        return 0;
+    }
+#endif
 
     inline std::uintptr_t ResolvePLT(const std::uintptr_t &pltAddress) noexcept {
         if (!pltAddress)
