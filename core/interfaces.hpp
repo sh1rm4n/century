@@ -16,7 +16,6 @@
 #include "../sourcesdk/interfaces/CInputInternal.hpp"
 #include "../sourcesdk/interfaces/IStudioRender.hpp"
 #include "../sourcesdk/interfaces/IVModelInfo.hpp"
-#include "../sourcesdk/interfaces/CModelLoader.hpp"
 #include "../sourcesdk/interfaces/IMaterialSystem.hpp"
 #include "../sourcesdk/interfaces/CClientLeafSystem.hpp"
 #include "../sourcesdk/interfaces/CGlobalVars.hpp"
@@ -47,7 +46,6 @@ public:
     CInputInternal *inputInternal = nullptr;
     IStudioRender *studioRender = nullptr;
     IVModelInfo *modelInfo = nullptr;
-    CModelLoader *modelLoader = nullptr;
     IMaterialSystem *materialSystem = nullptr;
     CClientLeafSystem *leafSystem = nullptr;
     CGlobalVars *globalVars = nullptr;
