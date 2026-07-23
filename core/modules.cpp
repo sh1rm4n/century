@@ -27,8 +27,7 @@ void *Modules::GetExport(void *module, const std::string &exportName) noexcept {
 #if defined(__linux__)
     const auto exportAddr = dlsym(module, exportName.c_str());
 #else
-    const auto exportAddr = static_cast<void*>(
-        GetProcAddress(static_cast<HMODULE>(module), exportName.c_str()));
+    const auto exportAddr = GetProcAddress(static_cast<HMODULE>(module), exportName.c_str());
 #endif
 
     if (!exportAddr)

@@ -26,7 +26,7 @@
 #if defined(__linux__)
 #define CONCOLORMSG_EXPORT "_Z11ConColorMsgRK5ColorPKcz"
 #else
-#define CONCOLORMSG_EXPORT "?ConColorMsg@@YAXABVColor@@PBDZZ"
+#define CONCOLORMSG_EXPORT "?ConColorMsg@@YAXAEBVColor@@PEBDZZ"
 #endif
 
 namespace utils {
