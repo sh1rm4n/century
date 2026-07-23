@@ -98,11 +98,7 @@ namespace utils {
         ConColorMsg(col, "%s", (formatted_str + "\n").c_str());
     }
 
-<<<<<<< HEAD
     inline C_BaseEntity* GetLocalPlayer() noexcept {
-=======
-    inline C_BaseEntity *GetLocalPlayer() noexcept {
->>>>>>> 80fc160f63ddee4c5203cdf88a7f7213276abc01
         return interfaces->entityList->GetClientEntity<C_BaseEntity>(interfaces->engineClient->GetLocalPlayer());
     }
 
