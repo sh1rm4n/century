@@ -4,7 +4,9 @@
 #include "BackTracking.hpp"
 #include "../core/interfaces.hpp"
 #include "../core/globals.hpp"
+
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
+#include "../sourcesdk/entities/C_CollisionProperty.hpp"
 
 bool BacktrackRecord::IsValid() {
     const auto netChan = interfaces->engineClient->GetNetChannelInfo();
@@ -42,8 +44,8 @@ void BackTracking::Update() noexcept {
         BacktrackRecord record{};
         record.simulationTime = simulationTime;
         record.flags = player->GetFlags();
-        record.mins = player->WorldAlignMins();
-        record.maxs = player->WorldAlignMaxs();
+        record.mins = player->GetCollisionProp()->OBBMins();
+        record.maxs = player->GetCollisionProp()->OBBMaxs();
         record.bones = bones;
         record.angles = player->GetAbsAngles();
         record.origin = player->GetAbsOrigin();
@@ -97,8 +99,8 @@ void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRec
 
     player->GetSimulationTime() = record.simulationTime;
     player->GetFlags() = record.flags;
-    player->WorldAlignMins() = record.mins;
-    player->WorldAlignMaxs() = record.maxs;
+    player->GetCollisionProp()->OBBMins() = record.mins;
+    player->GetCollisionProp()->OBBMaxs() = record.maxs;
     player->SetAbsAngles(record.angles);
     player->SetAbsOrigin(record.origin);
 }

@@ -7,6 +7,7 @@
 
 #include "../../core/utils.hpp"
 
+class C_CollisionProperty;
 class IClientUnknown;
 class IClientRenderable;
 
@@ -42,28 +43,12 @@ public:
         return memory::Call<IClientUnknown*>(this, 43);
     }
 
-    constexpr Vector& WorldAlignMins() noexcept {
-        return memory::Call<Vector&>(this, 108);
-    }
-
-    constexpr Vector& WorldAlignMaxs() noexcept {
-        return memory::Call<Vector&>(this, 109);
-    }
-
-    constexpr std::int32_t GetHealth() noexcept {
-        return memory::Call<const std::int32_t>(this, 154);
-    }
-
-    constexpr std::int32_t GetMaxHealth() noexcept {
-        return memory::Call<const std::int32_t>(this, 155);
-    }
-
     constexpr void Think() noexcept {
         memory::Call<void>(this, 174);
     }
 
-    constexpr bool IsAlive() noexcept {
-        return memory::Call<const bool>(this, 183);
+    const bool IsAlive() noexcept {
+        return GetHealth() > 0;
     }
 
     constexpr bool IsPlayer() noexcept {
@@ -122,8 +107,16 @@ public:
         return *reinterpret_cast<double*>(std::uint64_t(this) + (utils::NetVar("DT_BaseEntity", "m_flSimulationTime") + 0x8));
     }
 
-    constexpr int& GetTeamNumber() noexcept {
-        return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_iTeamNum"));
+    constexpr std::int32_t& GetHealth() noexcept {
+        return *reinterpret_cast<std::int32_t*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_iHealth"));
+    }
+
+    constexpr std::int32_t& GetMaxHealth() noexcept {
+        return *reinterpret_cast<std::int32_t*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_iMaxHealth"));
+    }
+
+    constexpr std::int32_t& GetTeamNumber() noexcept {
+        return *reinterpret_cast<std::int32_t*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_iTeamNum"));
     }
 
     constexpr Vector& GetViewOffset() noexcept {
@@ -136,6 +129,10 @@ public:
 
     constexpr MoveType& GetMoveType() noexcept {
         return *reinterpret_cast<MoveType*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_MoveType"));
+    }
+
+    constexpr C_CollisionProperty* GetCollisionProp() noexcept {
+        return *reinterpret_cast<C_CollisionProperty**>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_Collision"));
     }
 
     constexpr Vector& GetNetworkedOrigin() noexcept {

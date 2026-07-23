@@ -19,7 +19,8 @@ else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
 
-add_library(century SHARED)
+add_library(century SHARED
+        sourcesdk/entities/C_CollisionProperty.hpp)
 
 if(LINUX)
     target_sources(century PRIVATE

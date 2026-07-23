@@ -90,11 +90,11 @@ static void mainThread() {
         memory::GetVMTFunc<std::uint64_t>(interfaces->studioRender, DRAWMODEL_INDEX),
         reinterpret_cast<std::uint64_t>(dtDrawModel), &ogDrawModel));
 
-    /*hooks.push_back(std::make_unique<PLH::x64Detour>(
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::GetVMTFunc<std::uint64_t>(interfaces->client, FRAMESTAGENOTIFY_INDEX),
         reinterpret_cast<std::uint64_t>(dtFrameStageNotify), &ogFrameStageNotify));
 
-    hooks.push_back(std::make_unique<PLH::x64Detour>(
+    /*hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, OVERRIDEVIEW_INDEX),
         reinterpret_cast<std::uint64_t>(dtOverrideView), &ogOverrideView));*/
 

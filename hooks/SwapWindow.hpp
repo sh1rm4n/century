@@ -24,6 +24,7 @@
 
 #include "../sourcesdk/entities/IClientRenderable.hpp"
 #include "../sourcesdk/entities/C_BaseCombatWeapon.hpp"
+#include "../sourcesdk/entities/C_CollisionProperty.hpp"
 
 #include "../core/menu.hpp"
 #include "../core/utils.hpp"
@@ -136,8 +137,8 @@ void dtSwapWindow(SDL_Window* window) {
                         const auto origin = entity->GetAbsOrigin();
 
                         if (utils::WorldToScreen(origin, outOrigin)) {
-                            const auto mins      = entity->WorldAlignMins();
-                            const auto maxs      = entity->WorldAlignMaxs();
+                            const auto mins      = entity->GetCollisionProp()->OBBMins();
+                            const auto maxs      = entity->GetCollisionProp()->OBBMaxs();
                             const auto health    = entity->GetHealth();
                             const auto maxHealth = std::max(entity->GetMaxHealth(), 1);
                             const auto model     = entity->GetModel();
@@ -293,7 +294,7 @@ void dtSwapWindow(SDL_Window* window) {
                         float y2 = bottomOut.y;
 
                         // ---------------- BOX ----------------
-                        utils::Draw3DBox(drawList, bottom, entity->GetAbsAngles(), entity->WorldAlignMins(), entity->WorldAlignMaxs());
+                        utils::Draw3DBox(drawList, bottom, entity->GetAbsAngles(), entity->GetCollisionProp()->OBBMins(), entity->GetCollisionProp()->OBBMaxs());
 
                         // ---------------- NAME ----------------
                         const auto weapon = entity->GetActiveWeapon();
