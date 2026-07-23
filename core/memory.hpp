@@ -68,7 +68,12 @@ namespace memory {
 
         return bytes;
     }
+<<<<<<< HEAD
 #if defined(__linux__)
+=======
+
+    #if defined(__linux__)
+>>>>>>> 80fc160f63ddee4c5203cdf88a7f7213276abc01
     inline uintptr_t FindPattern(
         const char *module,
         const char *pattern) noexcept {

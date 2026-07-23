@@ -101,8 +101,15 @@ void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRec
 
     player->GetSimulationTime() = record.simulationTime;
     player->GetFlags() = record.flags;
+<<<<<<< HEAD
     player->GetCollideable()->OBBMins() = record.mins;
     player->GetCollideable()->OBBMaxs() = record.maxs;
     player->SetAbsAngles(record.angles);
     player->SetAbsOrigin(record.origin);
+=======
+    player->GetCollisionProp()->OBBMins() = record.mins;
+    player->GetCollisionProp()->OBBMaxs() = record.maxs;
+    player->GetNetworkedAngles() = record.angles;
+    player->GetNetworkedOrigin() = record.origin;
+>>>>>>> 80fc160f63ddee4c5203cdf88a7f7213276abc01
 }

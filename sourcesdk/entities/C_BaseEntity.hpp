@@ -126,6 +126,13 @@ public:
         return *reinterpret_cast<MoveType*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_MoveType"));
     }
 
+<<<<<<< HEAD
+=======
+    constexpr C_CollisionProperty* GetCollisionProp() noexcept {
+        return reinterpret_cast<C_CollisionProperty*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_Collision"));
+    }
+
+>>>>>>> 80fc160f63ddee4c5203cdf88a7f7213276abc01
     constexpr Vector& GetNetworkedOrigin() noexcept {
         return *reinterpret_cast<Vector*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_vecOrigin"));
     }
