@@ -103,7 +103,7 @@ long dtEndScene(IDirect3DDevice9* device) {
                 for (auto i = 0; i < maxEntities; i++) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
-                    if (!entity || entity->IsPlayer() || entity->IsWeapon())
+                    if (!entity || entity->IsPlayer())
                         continue;
 
                     const auto clientClass = entity->GetClientClass();
