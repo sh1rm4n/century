@@ -26,8 +26,20 @@ public:
         return memory::Call<IClientRenderable*>(this, 6);
     }
 
-    constexpr void SetDormant(const bool& dormant) noexcept {
-        memory::Call<void>(this, 9, dormant);
+    constexpr Vector& GetAbsOrigin() noexcept {
+#if defined(__linux__)
+        return memory::Call<Vector&>(this, 11);
+#else
+        return memory::Call<Vector&>(this, 9);
+#endif
+    }
+
+    constexpr Angle& GetAbsAngles() noexcept {
+#if defined(__linux__)
+        return memory::Call<Angle&>(this, 12);
+#else
+        return memory::Call<Angle&>(this, 10);
+#endif
     }
 
     constexpr ClientClass* GetClientClass() noexcept {
@@ -36,10 +48,6 @@ public:
 
     constexpr IClientUnknown* GetClientUnknown() noexcept {
         return memory::Call<IClientUnknown*>(this, 43);
-    }
-
-    constexpr void Think() noexcept {
-        memory::Call<void>(this, 174);
     }
 
     const bool IsAlive() noexcept {
@@ -71,27 +79,11 @@ public:
     }
 
     constexpr C_BaseCombatWeapon* GetActiveWeapon() noexcept {
+#if defined(__linux__)
         return memory::Call<C_BaseCombatWeapon*>(this, 343);
-    }
-
-    constexpr void PreThink() noexcept {
-        memory::Call<void>(this, 374);
-    }
-
-    constexpr void PostThink() noexcept {
-        memory::Call<void>(this, 376);
-    }
-
-    constexpr void SelectItem(const char* name, int subType) noexcept {
-        memory::Call<void>(this, 384, name, subType);
-    }
-
-    constexpr void UpdateButtonState(const int buttons) noexcept {
-        memory::Call<void>(this, 390, buttons);
-    }
-
-    constexpr void SetMouseWheel(const int speed) noexcept {
-        memory::Call<void>(this, 437, speed);
+#else
+        return memory::Call<C_BaseCombatWeapon*>(this, 279);
+#endif
     }
 
     constexpr double& GetSimulationTime() noexcept {
@@ -157,34 +149,6 @@ public:
 
     constexpr void SetCachedBones(const Matrix3x4* bones) noexcept {
         *reinterpret_cast<const Matrix3x4**>(std::uint64_t(this) + 0x1A58) = bones;
-    }
-
-    constexpr int& GetButtons() noexcept {
-        return *reinterpret_cast<int*>(std::uint64_t(this) + 0x2C28);
-    }
-
-    constexpr int& GetButtonsPressed() noexcept {
-        return *reinterpret_cast<int*>(std::uint64_t(this) + 0x2C2C);
-    }
-
-    constexpr int& GetButtonsReleased() noexcept {
-        return *reinterpret_cast<int*>(std::uint64_t(this) + 0x2C30);
-    }
-
-    constexpr int& GetLastButtons() noexcept {
-        return *reinterpret_cast<int*>(std::uint64_t(this) + 0x2C34);
-    }
-
-    constexpr void SetCurrentUserCmd(CUserCmd* cmd) noexcept {
-        *reinterpret_cast<CUserCmd**>(std::uint64_t(this) + 0x2C38) = cmd;
-    }
-
-    constexpr CUserCmd* GetCurrentUserCmd() noexcept {
-        return *reinterpret_cast<CUserCmd**>(std::uint64_t(this) + 0x2C38);
-    }
-
-    constexpr void SetImpulse(const char impulse) noexcept {
-        *reinterpret_cast<char*>(std::uint64_t(this) + 0x2CF8) = impulse;
     }
 
     constexpr int& GetTickBase() noexcept {

@@ -23,7 +23,11 @@ public:
     }
 
     constexpr const char* GetName() noexcept {
+#if defined(__linux__)
         return memory::Call<const char*>(this, 417);
+#else
+        return memory::Call<const char*>(this, 354);
+#endif
     }
 };
 
