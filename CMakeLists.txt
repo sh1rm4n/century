@@ -165,18 +165,27 @@ endif()
 
 if(LINUX)
     target_compile_options(century PRIVATE
-            -fno-gnu-unique
             -fno-rtti
-            -g0
             -O3
             -mavx2
+            -flto=thin
+    )
+
+    target_link_options(century PRIVATE
+            -fuse-ld=lld
+            -flto=thin
     )
 else()
     target_compile_options(century PRIVATE
             /GR-
             /O2
-            /Zi
             /arch:AVX2
+            /clang:-flto=thin
+    )
+
+    target_link_options(century PRIVATE
+            /fuse-ld=lld
+            /clang:-flto=thin
     )
 endif()
 
