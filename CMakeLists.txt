@@ -167,18 +167,16 @@ if(LINUX)
     target_compile_options(century PRIVATE
             -fno-gnu-unique
             -fno-rtti
+            -g0
             -O3
-            -g3
             -mavx2
-            -mfma
     )
 else()
     target_compile_options(century PRIVATE
             /GR-
-            /O3
+            /O2
             /Zi
-            /clang:-mavx2
-            /clang:-mfma
+            /arch:AVX2
     )
 endif()
 
@@ -218,8 +216,6 @@ find_package(fmt REQUIRED)
 if(LINUX)
     find_package(SDL2 REQUIRED)
     target_link_libraries(century PRIVATE SDL2::SDL2)
-
-    target_link_options(century PRIVATE -static-libgcc -static-libstdc++)
 endif()
 
 target_link_libraries(century PRIVATE

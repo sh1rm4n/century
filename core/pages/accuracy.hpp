@@ -28,10 +28,6 @@ namespace menu::pages::accuracy {
         {
             const float rowHeight = ImGui::GetContentRegionAvail().y * 0.5f;
 
-            const auto cmdMaxTickDelta = (1.f / interfaces->globalVars->intervalPerTick) * 2.5f;
-            const auto cmdLowestPossible = std::max(0.0, interfaces->globalVars->tickCount - cmdMaxTickDelta);
-            const auto cmdHighestPossible = interfaces->globalVars->tickCount + cmdMaxTickDelta;
-
             ImGui::BeginChild("##ForwardTracking", ImVec2(0, rowHeight), ImGuiChildFlags_Borders);
             ImGui::SeparatorText("Forward track");
             ImGui::ToggleAnimated("Enabled", &globals::Hacks::ForwardTracking::enabled);
@@ -42,8 +38,7 @@ namespace menu::pages::accuracy {
             ImGui::SeparatorText("Back track");
             ImGui::ToggleAnimated("Enabled", &globals::Hacks::BackTracking::enabled);
 
-            if (ImGui::SliderInt("Ticks", &globals::Hacks::BackTracking::ticks, 1, 10))
-                //globals::Hacks::BackTracking::ticks = std::min(globals::)
+            ImGui::SliderInt("Ticks", &globals::Hacks::BackTracking::ticks, 1, 10);
 
             ImGui::EndChild();
         }

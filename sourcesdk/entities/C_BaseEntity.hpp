@@ -19,11 +19,11 @@ class CMultiPlayerAnimState;
 class C_BaseEntity {
 public:
     constexpr C_CollisionProperty* GetCollideable() noexcept {
+#if defined(__linux__)
+        return memory::Call<C_CollisionProperty*>(this, 4);
+#else
         return memory::Call<C_CollisionProperty*>(this, 6);
-    }
-
-    constexpr IClientRenderable* GetClientRenderable() noexcept {
-        return memory::Call<IClientRenderable*>(this, 6);
+#endif
     }
 
     constexpr Vector& GetAbsOrigin() noexcept {
@@ -43,11 +43,11 @@ public:
     }
 
     constexpr ClientClass* GetClientClass() noexcept {
+#if defined(__linux__)
         return memory::Call<ClientClass*>(this, 17);
-    }
-
-    constexpr IClientUnknown* GetClientUnknown() noexcept {
-        return memory::Call<IClientUnknown*>(this, 43);
+#else
+        return memory::Call<ClientClass*>(this, 2);
+#endif
     }
 
     const bool IsAlive() noexcept {
@@ -55,27 +55,27 @@ public:
     }
 
     constexpr bool IsPlayer() noexcept {
+#if defined(__linux__)
         return memory::Call<const bool>(this, 184);
-    }
-
-    constexpr bool IsBaseCombatCharacter() noexcept {
-        return memory::Call<const bool>(this, 185);
-    }
-
-    constexpr bool IsARagdoll() noexcept {
-        return memory::Call<const bool>(this, 221);
-    }
-
-    constexpr bool IsWeapon() noexcept {
-        return memory::Call<const bool>(this, 230);
+#else
+        return memory::Call<const bool>(this, 132);
+#endif
     }
 
     constexpr bool UsesLua() noexcept {
+#if defined(__linux__)
         return memory::Call<const bool>(this, 234);
+#else
+        return memory::Call<const bool>(this, 172);
+#endif
     }
 
     constexpr const char* GetLuaScriptName() noexcept {
+#if defined(__linux__)
         return memory::Call<const char*>(this, 245);
+#else
+        return memory::Call<const char*>(this, 184);
+#endif
     }
 
     constexpr C_BaseCombatWeapon* GetActiveWeapon() noexcept {
@@ -156,46 +156,35 @@ public:
     }
 
     constexpr CMultiPlayerAnimState* GetAnimState() noexcept {
+#if defined(__linux__)
         return *reinterpret_cast<CMultiPlayerAnimState**>(std::uint64_t(this) + 0x35B8);
+#else
+        return *reinterpret_cast<CMultiPlayerAnimState**>(std::uint64_t(this) + 0x35C8);
+#endif
     }
 
     constexpr Vector GetEyePosition() noexcept {
-        return GetNetworkedOrigin() + GetViewOffset();
+        return GetAbsOrigin() + GetViewOffset();
     }
 
     constexpr void SetAbsOrigin(const Vector& pos) noexcept {
         using _CBaseEntity__SetAbsOrigin = void(*)(C_BaseEntity*, const Vector&);
+#if defined(__linux__)
         static auto CBaseEntity__SetAbsOrigin = reinterpret_cast<_CBaseEntity__SetAbsOrigin>(memory::FindPattern("client_client.so", "55 48 89 E5 41 55 41 54 49 89 F4 53 48 89 FB 48 83 EC ? E8 ? ? ? ? ? ? ? ? ? ? 0F 2F 83"));
-
+#else
+        static auto CBaseEntity__SetAbsOrigin = reinterpret_cast<_CBaseEntity__SetAbsOrigin>(memory::FindPattern("client.dll", "48 89 5C 24 ? 57 48 83 EC ? 48 8B FA 48 8B D9 E8 ? ? ? ? F3 0F 10 83"));
+#endif
         CBaseEntity__SetAbsOrigin(this, pos);
     }
 
     constexpr void SetAbsAngles(const Angle& angles) noexcept {
         using _CBaseEntity__SetAbsAngles = void(*)(C_BaseEntity*, const Angle&);
+#if defined(__linux__)
         static auto CBaseEntity__SetAbsAngles = reinterpret_cast<_CBaseEntity__SetAbsAngles>(memory::FindPattern("client_client.so", "55 48 89 E5 41 57 41 56 41 55 41 54 49 89 F4 53 48 89 FB 48 81 EC ? ? ? ? E8"));
-
+#else
+        static auto CBaseEntity__SetAbsAngles = reinterpret_cast<_CBaseEntity__SetAbsAngles>(memory::FindPattern("client.dll", "40 53 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 48 8B FA"));
+#endif
         CBaseEntity__SetAbsAngles(this, angles);
-    }
-
-    constexpr void SetAbsVelocity(const Vector& velocity) noexcept {
-        using _CBaseEntity__SetAbsVelocity = void(*)(C_BaseEntity*, const Vector&);
-        static auto CBaseEntity__SetAbsVelocity = reinterpret_cast<_CBaseEntity__SetAbsVelocity>(memory::FindPattern("client_client.so", "55 48 89 E5 41 55 41 54 49 89 F4 53 48 89 FB 48 83 EC ? ? ? ? ? 0F 2F 87"));
-
-        CBaseEntity__SetAbsVelocity(this, velocity);
-    }
-
-    constexpr bool PhysicsRunThink(ThinkMethods thinkMethod) noexcept {
-        using _CBaseEntity__PhysicsRunThink = bool(*)(C_BaseEntity*, ThinkMethods);
-        static auto CBaseEntity__PhysicsRunThink = reinterpret_cast<_CBaseEntity__PhysicsRunThink>(memory::FindPattern("client_client.so", "55 48 8B 05 ? ? ? ? 48 89 E5 41 56 41 55 41 54 49 89 F4"));
-
-        return CBaseEntity__PhysicsRunThink(this, thinkMethod);
-    }
-
-    constexpr void SetNextThink(const double nextThink) noexcept {
-        using _CBaseEntity__SetNextThink = void(*)(C_BaseEntity*, int, double);
-        static auto CBaseEntity__SetNextThink = reinterpret_cast<_CBaseEntity__SetNextThink>(memory::FindPattern("client_client.so", "55 48 89 E5 41 56 41 BE ? ? ? ? 41 55 45 31 ED"));
-
-        CBaseEntity__SetNextThink(this, 0, nextThink);
     }
 
     // IClientRenderable (0x8)

@@ -119,9 +119,9 @@ static void mainThread() {
         memory::GetVMTFunc<std::uint64_t>(interfaces->client, FRAMESTAGENOTIFY_INDEX),
         reinterpret_cast<std::uint64_t>(dtFrameStageNotify), &ogFrameStageNotify));
 
-    /*hooks.push_back(std::make_unique<PLH::x64Detour>(
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, OVERRIDEVIEW_INDEX),
-        reinterpret_cast<std::uint64_t>(dtOverrideView), &ogOverrideView));*/
+        reinterpret_cast<std::uint64_t>(dtOverrideView), &ogOverrideView));
 
 #if defined(__linux__)
     hooks.push_back(std::make_unique<PLH::x64Detour>(
@@ -165,8 +165,10 @@ static void mainThread() {
         reinterpret_cast<std::uint64_t>(dtShouldDrawLocalPlayer), &ogShouldDrawLocalPlayer));
 #endif
 
-    for (const auto& hk : hooks) {
-        hk->hook();
+    if (!hooks.empty()) {
+        for (const auto& hk : hooks) {
+            hk->hook();
+        }
     }
 
     const auto name = interfaces->cvar->FindCommandBase("name");
@@ -197,8 +199,10 @@ static void mainThread() {
 
     globals::Core::sendPacket = true;
 
-    for (const auto& hk : hooks) {
-        hk->unHook();
+    if (!hooks.empty()) {
+        for (const auto& hk : hooks) {
+            hk->unHook();
+        }
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));

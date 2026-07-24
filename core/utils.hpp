@@ -433,17 +433,25 @@ namespace utils {
 
     static void UpdateClientSideAnimations() noexcept {
         using _CBaseAnimating_UpdateClientSideAnimations = void(*)();
+#if defined(__linux__)
         static auto CBaseAnimating_UpdateClientSideAnimations = reinterpret_cast<_CBaseAnimating_UpdateClientSideAnimations>(memory::FindPattern(
             "client_client.so", "55 48 89 E5 41 56 41 55 4C 8B 2D ? ? ? ? 41 54 53 41 8B 95 ? ? ? ? 85 D2 41 0F 95 C6 0F 85 ? ? ? ? 8B 05 ? ? ? ? 85 C0 7E ? 44 8D 60"));
-
+#else
+        static auto CBaseAnimating_UpdateClientSideAnimations = reinterpret_cast<_CBaseAnimating_UpdateClientSideAnimations>(memory::FindPattern(
+            "client.dll", "48 83 EC ? 48 8B 0D ? ? ? ? 48 89 74 24 ? 48 89 7C 24"));
+#endif
         CBaseAnimating_UpdateClientSideAnimations();
     }
 
     static void InvalidateBoneCache() noexcept {
         using _CBaseAnimating_InvalidateBoneCache = void(*)();
+#if defined(__linux__)
         static auto CBaseAnimating_InvalidateBoneCache = reinterpret_cast<_CBaseAnimating_InvalidateBoneCache>(memory::FindPattern(
             "client_client.so", "48 83 05 ? ? ? ? ? 55"));
-
+#else
+        static auto CBaseAnimating_InvalidateBoneCache = reinterpret_cast<_CBaseAnimating_InvalidateBoneCache>(memory::FindPattern(
+            "client.dll", "8B 05 ? ? ? ? FF C8 89 81"));
+#endif
         CBaseAnimating_InvalidateBoneCache();
     }
 
