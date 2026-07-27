@@ -12,6 +12,10 @@
 void FakeLag::Run(const int ticks) noexcept {
     static auto fakeLagCounter = 0;
 
+    const auto netChan = interfaces->engineClient->GetNetChannelInfo();
+    if (!netChan)
+        return;
+
     if (fakeLagCounter >= ticks) {
         globals::Core::sendPacket = true;
 

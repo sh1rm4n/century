@@ -62,7 +62,8 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
                 continue;
         }
 
-        auto bone = bones[7].GetOrigin();
+        //auto bone = bones[7].GetOrigin();
+        auto bone = bones[player->LookupBone("ValveBiped.Bip01_Head1")].GetOrigin();
 
         if (globals::Hacks::Aimbot::bruteforce)
             bone = bruteForcer->Brute(player, bone);
@@ -100,9 +101,6 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
         }
 
         if (cmd->commandNumber % 2 == 0) {
-            if (globals::Hacks::BackTracking::enabled)
-                cmd->tickCount = TIME_TO_TICKS(bestRecord.simulationTime + BackTracking::GetLerpTime());
-
             if (globals::Hacks::Aimbot::silentAim) {
                 cmd->viewAngles = smoothedAngles;
             }

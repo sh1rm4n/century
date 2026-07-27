@@ -60,11 +60,11 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
 
     antiAim->Run(cmd);
 
-    if (globals::Core::enginePrediction)
-        interfaces->prediction->RunCommand(globals::Core::localPlayer, cmd, interfaces->moveHelper);
-
     if (globals::Hacks::FakeLag::enabled && globals::Hacks::FakeLag::mode == Static)
         fakeLag->Run(globals::Hacks::FakeLag::ticks);
+
+    if (globals::Core::enginePrediction)
+        interfaces->prediction->RunCommand(globals::Core::localPlayer, cmd, interfaces->moveHelper);
 
     if (globals::Hacks::Aimbot::enabled)
         aimbot->Run(cmd);         // angles set first

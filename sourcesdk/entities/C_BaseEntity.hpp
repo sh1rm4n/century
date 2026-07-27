@@ -174,6 +174,7 @@ public:
 #else
         static auto CBaseEntity__SetAbsOrigin = reinterpret_cast<_CBaseEntity__SetAbsOrigin>(memory::FindPattern("client.dll", "48 89 5C 24 ? 57 48 83 EC ? 48 8B FA 48 8B D9 E8 ? ? ? ? F3 0F 10 83"));
 #endif
+
         CBaseEntity__SetAbsOrigin(this, pos);
     }
 
@@ -184,6 +185,7 @@ public:
 #else
         static auto CBaseEntity__SetAbsAngles = reinterpret_cast<_CBaseEntity__SetAbsAngles>(memory::FindPattern("client.dll", "40 53 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 48 8B FA"));
 #endif
+
         CBaseEntity__SetAbsAngles(this, angles);
     }
 
@@ -195,6 +197,17 @@ public:
 
     constexpr model_t* GetModel() noexcept {
         return memory::Call<model_t*>(this + 0x8, 9);
+    }
+
+    constexpr int LookupBone(const char* bone) noexcept {
+        using _CBaseAnimating__LookupBone = int(*)(C_BaseEntity*, const char*);
+#if defined(__linux__)
+        static auto CBaseAnimating__LookupBone = reinterpret_cast<_CBaseAnimating__LookupBone>(memory::FindPattern("client_client.so", "55 48 89 E5 53 48 89 FB 48 83 EC ? 31 FF 80 BB ? ? ? ? ? 75 ? 48 8B BB ? ? ? ? 48 85 FF 74 ? 48 83 C4 ? 5B 5D E9 ? ? ? ? 66 90 48 89 DF 48 89 75 ? E8 ? ? ? ? 48 8B BB ? ? ? ? 48 8B 75 ? EB ? 90 66 0F 1F 44 00 ? 55 48 89 E5 53 48 89 FB 48 83 EC ? 80 BF"));
+#else
+        static auto CBaseAnimating__LookupBone = reinterpret_cast<_CBaseAnimating__LookupBone>(memory::FindPattern("client.dll", "48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B FA 48 8B D9 74 ? 33 C9 48 8B 5C 24 ? 48 83 C4 ? 5F E9 ? ? ? ? 48 8B 89 ? ? ? ? 48 85 C9 75 ? 48 8B CB E8 ? ? ? ? 48 8B 8B ? ? ? ? 48 8B D7 48 8B 5C 24 ? 48 83 C4 ? 5F E9 ? ? ? ? ? ? ? ? ? ? ? ? ? 48 89 74 24"));
+#endif
+
+        return CBaseAnimating__LookupBone(this, bone);
     }
 
     // IClientNetworkable (0x10)

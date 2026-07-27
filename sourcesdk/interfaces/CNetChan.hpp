@@ -5,8 +5,9 @@
 #ifndef CENTURY_CNETCHAN_HPP
 #define CENTURY_CNETCHAN_HPP
 
-class CNetChan
-{
+class INetMessage;
+
+class CNetChan {
 public:
     virtual int GetName(void) = 0; // 0
     virtual const char* GetAddress(void) = 0; // 1
@@ -81,14 +82,14 @@ public:
     virtual int GetMaxRoutablePayloadSize(void) = 0; // 70
     virtual int GetProtocolVersion(void) = 0; // 71
 
-    int unknown;
+    int unknown; // 8
 
-    int			outSequenceNumber;
-    int			inSequenceNumber;
-    int			outSequenceNumberAck;
-    int			outReliableState;
-    int			inReliableState;
-    int			chokedPackets;
+    int			outSequenceNumber; // 12
+    int			inSequenceNumber; // 16
+    int			outSequenceNumberAck; // 20
+    int			outReliableState; // 24
+    int			inReliableState; // 28
+    int			chokedPackets; // 32
 };
 
 #endif //CENTURY_CNETCHAN_HPP

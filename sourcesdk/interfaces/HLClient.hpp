@@ -7,8 +7,6 @@
 
 #include "../../core/memory.hpp"
 
-class bf_write;
-
 enum ClientFrameStage_t
 {
     FRAME_UNDEFINED=-1,			// (haven't run any frames yet)
@@ -109,7 +107,7 @@ public:
         return memory::Call<ClientClass*>(this, 8);
     }
 
-    constexpr bool WriteUsercmdDeltaToBuffer(bf_write *buf, int from, int to, bool isnewcommand) {
+    constexpr bool WriteUsercmdDeltaToBuffer(void* buf, int from, int to, bool isnewcommand) {
         return memory::Call<bool>(this, 10, buf, from, to, isnewcommand);
     }
 };

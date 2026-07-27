@@ -15,7 +15,7 @@ public:
     constexpr void RunCommand(C_BaseEntity *player, CUserCmd *ucmd, CMoveHelperClient *moveHelper) noexcept {
         if (!player|| !moveHelper)
             return;
-#if defined(__Linux__)
+#if defined(__linux__)
         memory::Call<void>(this, 18, player, ucmd, moveHelper);
 #else
         memory::Call<void>(this, 17, player, ucmd, moveHelper);

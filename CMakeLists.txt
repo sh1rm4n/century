@@ -104,10 +104,6 @@ target_sources(century PRIVATE
         core/luaexecution.hpp
         core/luaexecution.cpp
 
-        core/pages/visuals/chams.hpp
-        core/pages/visuals/entityesp.hpp
-        core/pages/visuals/playeresp.hpp
-        core/pages/visuals/other.hpp
         core/pages/accuracy.hpp
         core/pages/miscellaneous.hpp
         core/pages/lua.hpp
@@ -165,8 +161,8 @@ endif()
 
 if(LINUX)
     target_compile_options(century PRIVATE
-            -fno-rtti
             -O3
+            -g3
             -mavx2
             -flto=thin
     )

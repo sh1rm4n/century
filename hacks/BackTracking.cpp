@@ -31,7 +31,7 @@ bool BacktrackRecord::IsValid() {
 void BackTracking::Update() noexcept {
     for (auto i = 1; i <= interfaces->globalVars->maxClients; i++) {
         const auto player = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
-        if (!player || player == globals::Core::localPlayer || !player->IsPlayer() || !player->IsAlive())
+        if (!player || player == globals::Core::localPlayer || player->IsDormant() || !player->IsPlayer() || !player->IsAlive())
             continue;
 
         const auto simulationTime = player->GetSimulationTime();
@@ -52,20 +52,21 @@ void BackTracking::Update() noexcept {
         record.angles = player->GetNetworkedAngles();
         record.origin = player->GetNetworkedOrigin();
 
-        if (record.IsValid())
-            backtrackRecords[i].emplace_back(record);
+        backtrackRecords[i].emplace_back(record);
 
-        if (backtrackRecords[i].size() > std::clamp(globals::Hacks::BackTracking::ticks, globals::Hacks::BackTracking::ticks, static_cast<int>(1 / interfaces->globalVars->intervalPerTick)))
+        if (backtrackRecords[i].size() > static_cast<int>(1 / interfaces->globalVars->intervalPerTick))
             backtrackRecords[i].pop_front();
     }
 }
 
 float BackTracking::GetLerpTime() noexcept {
-    const auto clInterp = interfaces->cvar->FindCommandBase("cl_interp");
-    const auto clInterpRatio = interfaces->cvar->FindCommandBase("cl_interp_ratio");
-    const auto clUpdateRate = interfaces->cvar->FindCommandBase("cl_updaterate");
+    static auto clInterp = interfaces->cvar->FindCommandBase("cl_interp");
+    static auto clInterpRatio = interfaces->cvar->FindCommandBase("cl_interp_ratio");
+    static auto clUpdateRate = interfaces->cvar->FindCommandBase("cl_updaterate");
+
     if (!clInterp || !clInterpRatio || !clUpdateRate)
         return 0.0f;
+
     return std::max(clInterp->GetFloat(), clInterpRatio->GetFloat() / clUpdateRate->GetFloat());
 }
 
@@ -101,8 +102,10 @@ void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRec
 
     player->GetSimulationTime() = record.simulationTime;
     player->GetFlags() = record.flags;
-    player->GetCollisionProp()->OBBMins() = record.mins;
-    player->GetCollisionProp()->OBBMaxs() = record.maxs;
+    player->GetCollideable()->OBBMins() = record.mins;
+    player->GetCollideable()->OBBMaxs() = record.maxs;
     player->SetAbsAngles(record.angles);
     player->SetAbsOrigin(record.origin);
+
+    cmd->tickCount = TIME_TO_TICKS(record.simulationTime + GetLerpTime());
 }

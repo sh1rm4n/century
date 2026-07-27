@@ -55,7 +55,7 @@ static void mainThread() {
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 
     modules->Prepare();
-    utils::ColorPrint(Color(189, 0, 255),"[century] Modules initialized!");
+    utils::ColorPrint(Color(189, 0, 255), "[century] Modules initialized!");
 
     interfaces->Prepare();
     utils::ColorPrint(Color(166, 255, 0),"[century] Interfaces initialized!");
@@ -180,6 +180,12 @@ static void mainThread() {
 
     const auto sv_maxcmdrate = interfaces->cvar->FindCommandBase("sv_maxcmdrate");
     sv_maxcmdrate->RemoveFlags(FCVAR_REPLICATED);
+
+    const auto fakeloss = interfaces->cvar->FindCommandBase("net_fakeloss");
+    fakeloss->RemoveFlags(0x4000);
+
+    const auto fakelag = interfaces->cvar->FindCommandBase("net_fakelag");
+    fakelag->RemoveFlags(0x4000);
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/morphine_shot.wav");
 
