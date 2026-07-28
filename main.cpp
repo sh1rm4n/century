@@ -175,12 +175,6 @@ static void mainThread() {
     name->RemoveFlags(FCVAR_ARCHIVE | FCVAR_PRINTABLEONLY | FCVAR_SERVER_CAN_EXECUTE);
     name->ChangeCallback(dummyCallback);
 
-    const auto sv_maxupdaterate = interfaces->cvar->FindCommandBase("sv_maxupdaterate");
-    sv_maxupdaterate->RemoveFlags(FCVAR_REPLICATED);
-
-    const auto sv_maxcmdrate = interfaces->cvar->FindCommandBase("sv_maxcmdrate");
-    sv_maxcmdrate->RemoveFlags(FCVAR_REPLICATED);
-
     const auto fakeloss = interfaces->cvar->FindCommandBase("net_fakeloss");
     fakeloss->RemoveFlags(0x4000);
 
@@ -197,6 +191,8 @@ static void mainThread() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         globals::Core::localPlayer = utils::GetLocalPlayer();
+
+        utils::Warn("localplayer: 0x{:x}", reinterpret_cast<std::uint64_t>(globals::Core::localPlayer));
     }
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/deactivated.wav");

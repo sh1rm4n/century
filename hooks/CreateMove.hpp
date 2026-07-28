@@ -41,7 +41,7 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
 
     globals::Core::currentCmd = cmd;
 
-    cmd->isTyping = true;
+    //cmd->isTyping = true;
 
     if (interfaces->inputSystem->IsButtonDown(KEY_F))
         cmd->impulse = 100;
@@ -60,14 +60,14 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
 
     antiAim->Run(cmd);
 
-    if (globals::Hacks::FakeLag::enabled && globals::Hacks::FakeLag::mode == Static)
-        fakeLag->Run(globals::Hacks::FakeLag::ticks);
-
     if (globals::Core::enginePrediction)
         interfaces->prediction->RunCommand(globals::Core::localPlayer, cmd, interfaces->moveHelper);
 
     if (globals::Hacks::Aimbot::enabled)
         aimbot->Run(cmd);         // angles set first
+
+    if (globals::Hacks::FakeLag::enabled && globals::Hacks::FakeLag::mode == Static)
+        fakeLag->Run(globals::Hacks::FakeLag::ticks);
 
     return false;
 };

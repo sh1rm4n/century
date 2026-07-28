@@ -45,7 +45,7 @@ namespace globals {
 
         inline bool shouldUnload = false;
         inline bool enginePrediction = false;
-        inline bool sendPacket = false;
+        inline bool sendPacket = true;
 
         inline int luaRealm = 0;
     }
@@ -115,6 +115,10 @@ namespace globals {
 
             inline int ticks            = 1;
             inline int mode             = Static;
+        }
+
+        namespace AntiAim {
+            inline bool breakingLby = false;
         }
 
         namespace Killfeed {

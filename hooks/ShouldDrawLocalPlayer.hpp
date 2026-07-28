@@ -10,7 +10,7 @@
 inline std::uint64_t ogShouldDrawLocalPlayer = 0;
 
 bool dtShouldDrawLocalPlayer() {
-    return false;
+    return true;
 }
 
 #endif //CENTURY_SHOULDDRAWLOCALPLAYER_HPP

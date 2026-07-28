@@ -38,7 +38,9 @@ void dtOverrideView(ClientModeGModNormal* vmt, CViewSetup* viewSetup) {
     Vector forward, right, up;
     angles.Vectors(forward, right, up);
 
-    //viewSetup->origin = globals::Core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
+    viewSetup->origin = globals::Core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
+
+    viewSetup->m_flAspectRatio = 1.f;
 
     ogFunction(vmt, viewSetup);
 }

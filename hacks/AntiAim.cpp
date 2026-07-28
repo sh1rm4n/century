@@ -18,7 +18,6 @@ void AntiAim::Run(CUserCmd* cmd) noexcept {
         return;
     }
 
-    // always send on attack
     if (cmd->buttons & IN_ATTACK) {
         globals::Core::sendPacket = true;
         return;
@@ -34,45 +33,43 @@ void AntiAim::Run(CUserCmd* cmd) noexcept {
     const auto oldForwardMove = cmd->forwardMove;
     const auto oldSideMove    = cmd->sideMove;
 
-    static bool  shouldDesync = false;
-    static int   jitterIndex  = 0;
+    cmd->viewAngles.p = 89.9f;
 
-    // jitter table — predefined offsets cycle each tick
-    static constexpr float jitterYaw[] = {
-        90.f, -90.f, 135.f, -135.f, 180.f, 45.f, -45.f, 120.f
-    };
-    static constexpr float jitterPitch[] = {
-        89.f, -89.f, 45.f, -45.f, 89.f, 0.f, -89.f, 45.f
-    };
-    static constexpr int JITTER_COUNT = 8;
+    static bool shouldDesync = false;
+    static int nextUpdateLby = 0;
+    static Angle lastFakeAngle = {};
 
-    const float yawOffset   = jitterYaw[jitterIndex % JITTER_COUNT];
-    const float pitchOffset = jitterPitch[jitterIndex % JITTER_COUNT];
+    const int currentTick = interfaces->globalVars->tickCount;
 
-    if (shouldDesync) {
-        cmd->viewAngles.p += pitchOffset;
-        cmd->viewAngles.y += yawOffset;
-        globals::Core::sendPacket = false; // choke — server stuck on last real angle
+    if (currentTick >= nextUpdateLby) {
+        globals::Hacks::AntiAim::breakingLby = true;
+        cmd->viewAngles.y += 120.0f;
+        nextUpdateLby = currentTick + TIME_TO_TICKS(1.1f);
     } else {
-        cmd->viewAngles.p -= pitchOffset;
-        cmd->viewAngles.y -= yawOffset;
-        globals::Core::sendPacket = true;  // send — update server position
+        globals::Hacks::AntiAim::breakingLby = false;
+        if (shouldDesync) {
+            cmd->viewAngles.y += 120.0f;
+            lastFakeAngle = cmd->viewAngles;
+            globals::Core::sendPacket = false;
+        } else {
+            cmd->viewAngles.y -= 120.0f;
+            globals::Core::sendPacket = true;
+        }
     }
 
-    jitterIndex++;
     shouldDesync = !shouldDesync;
-    math::NormalizeAngles(cmd->viewAngles);
-
     utils::CorrectMovement(oldViewAngles, cmd, oldForwardMove, oldSideMove);
 
-    if (globals::Core::localPlayer->GetVelocity().Length2D() < 1.f) {
+    if (globals::Core::localPlayer->GetVelocity().Length2D() < 1.0f) {
         if (shouldDesync) {
-            cmd->forwardMove += 35;
-            cmd->sideMove += 35;
-        }
-        else {
-            cmd->forwardMove -= 35;
-            cmd->sideMove -= 35;
+            cmd->forwardMove += 5.1f;
+            cmd->sideMove += 5.1f;
+        } else {
+            cmd->forwardMove -= 5.1f;
+            cmd->sideMove -= 5.1f;
         }
     }
+
+    const auto animState = globals::Core::localPlayer->GetAnimState();
+    animState->goal_feet_yaw = lastFakeAngle.y;
 }

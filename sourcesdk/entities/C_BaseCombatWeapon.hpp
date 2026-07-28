@@ -22,11 +22,20 @@ public:
         return memory::Call<const Vector&>(this, 381);
     }
 
-    constexpr const char* GetName() noexcept {
+    /*constexpr const char* GetName() noexcept {
 #if defined(__linux__)
         return memory::Call<const char*>(this, 417);
 #else
         return memory::Call<const char*>(this, 354);
+#endif
+    }*/
+
+    // gets print name
+    constexpr const char* GetName() noexcept {
+#if defined(__linux__)
+        return memory::Call<const char*>(this, 418);
+#else
+        return memory::Call<const char*>(this, 355);
 #endif
     }
 };

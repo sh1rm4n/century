@@ -34,8 +34,7 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
     if (!entity)
         return ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
 
-    //if (globals::Hacks::Chams::enabled) {
-    if (true) {
+    if (globals::Hacks::Chams::enabled) {
         if (!strstr(drawModelInfo.m_pClientEntity->GetModel()->strName, "weapons") &&
             entity != globals::Core::localPlayer &&
             entity->IsPlayer())
@@ -66,14 +65,19 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
             ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
 
             if (globals::Hacks::BackTracking::enabled) {
-                static auto backtrackChamsMaterial = interfaces->materialSystem->FindMaterial("models/wireframe", TEXTURE_GROUP_MODEL);
+                static auto backtrackChamsMaterial = interfaces->materialSystem->FindMaterial(globals::Hacks::Chams::material.c_str(), TEXTURE_GROUP_MODEL);
                 backtrackChamsMaterial->AddRef();
 
                 BacktrackRecord record{};
                 backTracking->GetRecordForTime(entity->EntIndex(), interfaces->globalVars->curTime - TICKS_TO_TIME(globals::Hacks::BackTracking::ticks), record);
 
+                static float color[] = {0, 0.5, 0.3};
+
+                interfaces->studioRender->SetColorModulation(color);
+                interfaces->studioRender->SetAlphaModulation(0.5);
                 interfaces->studioRender->ForcedMaterialOverride(backtrackChamsMaterial, OVERRIDE_NORMAL);
                 ogFunction(vmt, results, drawModelInfo, record.bones.data(), flexWeights, flexDelayedWeights, record.origin, flags);
+                interfaces->studioRender->SetAlphaModulation(1);
             }
 
             return interfaces->studioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL);

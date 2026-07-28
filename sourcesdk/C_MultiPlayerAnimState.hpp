@@ -6,9 +6,8 @@
 #define CENTURY_C_MULTIPLAYERANIMSTATE_HPP
 
 #include <vector>
+#include "math.hpp"
 
-class Vector;
-class Angle;
 class C_BaseEntity;
 
 #define ACTIVITY_NOT_AVAILABLE		-1

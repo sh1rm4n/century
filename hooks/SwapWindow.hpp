@@ -97,20 +97,33 @@ void dtSwapWindow(SDL_Window* window) {
     iam_update_begin_frame();
     iam_clip_update(io.DeltaTime);
 
-    if (interfaces->engineClient->IsInGame()) {
-        ImGui::SetNextWindowPos({0, 0});
-        ImGui::SetNextWindowSize({static_cast<float>(w), static_cast<float>(h)});
+    if (globals::Menu::active) {
+        SDL_Event e = {};
 
+        while (SDL_PollEvent(&e)) {
+            if (e.key.keysym.sym == SDLK_HOME && e.type == SDL_KEYDOWN) {
+                globals::Menu::active = false;
+            }
+            else if (e.key.keysym.sym == SDLK_END && e.type == SDL_KEYDOWN){
+                globals::Core::shouldUnload = true;
+            }
+
+            ImGui_ImplSDL2_ProcessEvent(&e);
+        }
+
+        menu::Render();
+    }
+
+    if (interfaces->engineClient->IsInGame()) {
         ImGui::Begin("##Background", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
         {
             const auto maxEntities = interfaces->entityList->GetMaxEntities();
-
-            globals::Hacks::EntityESP::entsToDraw.clear();
-            globals::Hacks::EntityESP::entsToDraw.reserve(maxEntities);
-
             const auto drawList = ImGui::GetBackgroundDrawList();
 
             if (globals::Hacks::EntityESP::enabled) {
+                globals::Hacks::EntityESP::entsToDraw.clear();
+                globals::Hacks::EntityESP::entsToDraw.reserve(maxEntities);
+
                 for (auto i = 0; i < maxEntities; i++) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
@@ -359,36 +372,20 @@ void dtSwapWindow(SDL_Window* window) {
         ImGui::End();
 
         ImGui::SetNextWindowPos({20, (static_cast<float>(h) / 2) - 30});
-        ImGui::SetNextWindowSize({200, 100});
+        ImGui::SetNextWindowSize({200, 150});
         ImGui::PushStyleColor(ImGuiCol_WindowBg, ImColor{25,25,25,128}.Value);
         ImGui::Begin("##Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         {
             if (globals::Core::localPlayer) {
                 ImGui::TextUnformatted(fmt::format("IP: {}", interfaces->engineClient->GetNetChannelInfo()->GetAddress()).c_str());
-                ImGui::TextColored(globals::Core::sendPacket ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, fmt::format("bSendPacket: {}", globals::Core::sendPacket).c_str());
-                ImGui::TextUnformatted(fmt::format("Latency: {}ms", static_cast<int>(interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) * 693)).c_str());
+                ImGui::TextColored(globals::Core::sendPacket ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, fmt::format("In sync: {}", globals::Core::sendPacket).c_str());
+                ImGui::TextColored(globals::Hacks::AntiAim::breakingLby ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, fmt::format("LBY: {}", globals::Hacks::AntiAim::breakingLby).c_str());
+                ImGui::TextUnformatted(fmt::format("Latency: {}ms", static_cast<int>((interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) + interfaces->engineClient->GetNetChannelInfo()->GetLatency(1)) * 100)).c_str());
                 ImGui::TextUnformatted(fmt::format("Velocity: {}u/s", globals::Core::localPlayer->GetVelocity().Length2D()).c_str());
             }
         }
         ImGui::PopStyleColor();
         ImGui::End();
-    }
-
-    if (globals::Menu::active) {
-        SDL_Event e = {};
-
-        while (SDL_PollEvent(&e)) {
-            if (e.key.keysym.sym == SDLK_HOME && e.type == SDL_KEYDOWN) {
-                globals::Menu::active = false;
-            }
-            else if (e.key.keysym.sym == SDLK_END && e.type == SDL_KEYDOWN){
-                globals::Core::shouldUnload = true;
-            }
-
-            ImGui_ImplSDL2_ProcessEvent(&e);
-        }
-
-        menu::Render();
     }
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5.f);

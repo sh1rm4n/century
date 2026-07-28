@@ -5,6 +5,7 @@
 #ifndef CENTURY_C_BASEENTITY_HPP
 #define CENTURY_C_BASEENTITY_HPP
 
+#include "../C_MultiPlayerAnimState.hpp"
 #include "../../core/utils.hpp"
 
 class C_CollisionProperty;
@@ -132,11 +133,6 @@ public:
 
     constexpr int& GetFlags() noexcept {
         return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_BasePlayer", "m_fFlags"));
-    }
-
-    constexpr void SetLocalViewAngles(const Angle& angles) noexcept {
-        *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2BFC) = angles;
-        *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2D0C) = angles;
     }
 
     constexpr void SetClientSideAnimation(const bool value) noexcept {
