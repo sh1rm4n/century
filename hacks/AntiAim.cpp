@@ -36,28 +36,23 @@ void AntiAim::Run(CUserCmd* cmd) noexcept {
     cmd->viewAngles.p = 89.9f;
 
     static bool shouldDesync = false;
-    static int nextUpdateLby = 0;
     static Angle lastFakeAngle = {};
 
-    const int currentTick = interfaces->globalVars->tickCount;
+    static std::array<float, 8> jitterYaws = {135.f, -135.f, 45.f, -45.f, 90.f, -90.f, 180.f, -180.f};
 
-    if (currentTick >= nextUpdateLby) {
-        globals::Hacks::AntiAim::breakingLby = true;
-        cmd->viewAngles.y += 120.0f;
-        nextUpdateLby = currentTick + TIME_TO_TICKS(1.1f);
-    } else {
-        globals::Hacks::AntiAim::breakingLby = false;
-        if (shouldDesync) {
-            cmd->viewAngles.y += 120.0f;
-            lastFakeAngle = cmd->viewAngles;
-            globals::Core::sendPacket = false;
-        } else {
-            cmd->viewAngles.y -= 120.0f;
-            globals::Core::sendPacket = true;
-        }
+    if (shouldDesync) {
+        cmd->viewAngles.y += jitterYaws[utils::Random(0, 8)];
+        lastFakeAngle = cmd->viewAngles;
+    }
+    else {
+        cmd->viewAngles.y += jitterYaws[utils::Random(0, 8)];
     }
 
     shouldDesync = !shouldDesync;
+
+    if (!globals::Hacks::FakeLag::enabled)
+        globals::Core::sendPacket = shouldDesync;
+
     utils::CorrectMovement(oldViewAngles, cmd, oldForwardMove, oldSideMove);
 
     if (globals::Core::localPlayer->GetVelocity().Length2D() < 1.0f) {

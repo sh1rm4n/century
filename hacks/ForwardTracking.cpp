@@ -8,16 +8,11 @@
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 
 void ForwardTracking::Run(CUserCmd* cmd, C_BaseEntity* player) noexcept {
-    if (player->GetVelocity().Length2D() < 99.9f)
-        return;
+    const auto cmdHighestPossible = static_cast<int>(interfaces->globalVars->tickCount + ((1.f / interfaces->globalVars->intervalPerTick) * 2.5f));
 
-    const auto cmdHighestPossible = interfaces->globalVars->tickCount + ((1.f / interfaces->globalVars->intervalPerTick) * 2.5f);
+    //utils::InvalidateBoneCache();
 
+    player->SetAbsOrigin(player->GetNetworkedOrigin());
+    player->SetAbsAngles(player->GetNetworkedAngles());
     cmd->tickCount = cmdHighestPossible - 1;
-
-    utils::InvalidateBoneCache();
-
-    //player->SetAbsOrigin(player->GetNetworkedOrigin());
-    //player->SetAbsAngles(player->GetNetworkedAngles());
-    player->SetAbsOrigin(player->GetAbsOrigin() + (player->GetVelocity() * (interfaces->globalVars->intervalPerTick * globals::Hacks::ForwardTracking::ghettoPredictionAmount)));
 }

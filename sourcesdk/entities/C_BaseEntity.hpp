@@ -71,6 +71,14 @@ public:
 #endif
     }
 
+    constexpr int PushEntity() noexcept {
+#if defined(__linux__)
+        return memory::Call<const int>(this, 235);
+#else
+        return memory::Call<const int>(this, 175);
+#endif
+    }
+
     constexpr const char* GetLuaScriptName() noexcept {
 #if defined(__linux__)
         return memory::Call<const char*>(this, 245);
@@ -149,6 +157,14 @@ public:
 
     constexpr int& GetTickBase() noexcept {
         return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_LocalPlayerExclusive", "m_nTickBase"));
+    }
+
+    constexpr Angle& GetViewPunch() noexcept {
+        return *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2A48);
+    }
+
+    constexpr Angle& GetPunchAngles() noexcept {
+        return *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x29E8);
     }
 
     constexpr CMultiPlayerAnimState* GetAnimState() noexcept {

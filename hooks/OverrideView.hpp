@@ -5,6 +5,8 @@
 #ifndef CENTURY_OVERRIDEVIEW_HPP
 #define CENTURY_OVERRIDEVIEW_HPP
 
+#pragma once
+
 #include <polyhook2/Detour/x64Detour.hpp>
 
 #include "../core/globals.hpp"
@@ -33,14 +35,15 @@ void dtOverrideView(ClientModeGModNormal* vmt, CViewSetup* viewSetup) {
 
     Angle angles;
     interfaces->engineClient->GetViewAngles(angles);
+
     viewSetup->angles = angles;
 
     Vector forward, right, up;
     angles.Vectors(forward, right, up);
 
-    viewSetup->origin = globals::Core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
+    //viewSetup->origin = globals::Core::localPlayer->GetEyePosition() - ((forward * 100) / 2);
 
-    viewSetup->m_flAspectRatio = 1.f;
+    //viewSetup->m_flAspectRatio = 1.f;
 
     ogFunction(vmt, viewSetup);
 }

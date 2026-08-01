@@ -289,7 +289,7 @@ long dtEndScene(IDirect3DDevice9* device) {
                         auto weaponName = "";
 
                         if (weapon) {
-                            weaponName = weapon->GetName();
+                            weaponName = weapon->GetPrintName();
                         }
                         else {
                             weaponName = "none";

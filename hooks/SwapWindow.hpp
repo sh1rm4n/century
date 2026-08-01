@@ -5,6 +5,8 @@
 #ifndef CENTURY_SWAPWINDOW_HPP
 #define CENTURY_SWAPWINDOW_HPP
 
+#pragma once
+
 #include <SDL_events.h>
 #include <SDL_video.h>
 
@@ -314,7 +316,7 @@ void dtSwapWindow(SDL_Window* window) {
                         auto weaponName = "";
 
                         if (weapon) {
-                            weaponName = weapon->GetName();
+                            weaponName = weapon->GetPrintName();
                         }
                         else {
                             weaponName = "none";

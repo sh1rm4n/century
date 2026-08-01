@@ -5,6 +5,8 @@
 #ifndef CENTURY_CLMOVE_HPP
 #define CENTURY_CLMOVE_HPP
 
+#pragma once
+
 #include <polyhook2/Detour/x64Detour.hpp>
 
 #include "../core/globals.hpp"

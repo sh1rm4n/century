@@ -5,13 +5,14 @@
 #ifndef CENTURY_DRAWMODEL_HPP
 #define CENTURY_DRAWMODEL_HPP
 
+#pragma once
+
 #include "../core/globals.hpp"
 
 #include "../hacks/BackTracking.hpp"
 
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 #include "../sourcesdk/entities/IClientRenderable.hpp"
-#include "../sourcesdk/entities/IClientUnknown.hpp"
 
 #include "../sourcesdk/interfaces/IStudioRender.hpp"
 
@@ -53,6 +54,7 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
             chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_NOCULL, globals::Hacks::Chams::flags & CHAMS_NOCULL);
 
             chamsMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
+
             interfaces->modelRender->SuppressEngineLighting(true);
             interfaces->studioRender->SetColorModulation(globals::Hacks::Chams::hiddenColors);
             interfaces->studioRender->ForcedMaterialOverride(chamsMaterial, OVERRIDE_NORMAL);
@@ -68,10 +70,13 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
                 static auto backtrackChamsMaterial = interfaces->materialSystem->FindMaterial(globals::Hacks::Chams::material.c_str(), TEXTURE_GROUP_MODEL);
                 backtrackChamsMaterial->AddRef();
 
-                BacktrackRecord record{};
-                backTracking->GetRecordForTime(entity->EntIndex(), interfaces->globalVars->curTime - TICKS_TO_TIME(globals::Hacks::BackTracking::ticks), record);
+                const int nCmdMaxTickDelta = ( 1.f / interfaces->globalVars->intervalPerTick ) * 2.5f;
+                const int nMinDelta = std::max( 0, interfaces->globalVars->tickCount - nCmdMaxTickDelta );
 
-                static float color[] = {0, 0.5, 0.3};
+                BacktrackRecord record{};
+                backTracking->GetRecordForTime(entity->EntIndex(), TICKS_TO_TIME(globals::Core::currentCmd->tickCount-8), record);
+
+                static float color[] = {0, 0.3, 0.7};
 
                 interfaces->studioRender->SetColorModulation(color);
                 interfaces->studioRender->SetAlphaModulation(0.5);

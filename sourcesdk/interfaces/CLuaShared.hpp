@@ -7,13 +7,15 @@
 
 #include <cstdint>
 
+class CLuaInterface;
+
 class CLuaShared {
 public:
-    constexpr std::uint64_t GetLuaInterface(const int realm) noexcept {
+    constexpr CLuaInterface* GetLuaInterface(const int realm) noexcept {
 #if defined(__linux__)
-        return memory::Call<std::uint64_t>(this, 7, realm);
+        return memory::Call<CLuaInterface*>(this, 7, realm);
 #else
-        return memory::Call<std::uint64_t>(this, 6, realm);
+        return memory::Call<CLuaInterface*>(this, 6, realm);
 #endif
     }
 };

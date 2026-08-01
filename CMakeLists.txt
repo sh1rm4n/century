@@ -19,7 +19,12 @@ else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
 
-add_library(century SHARED main.cpp)
+add_library(century SHARED main.cpp
+        hacks/NoSpread.cpp
+        hacks/NoSpread.hpp
+        hooks/FireBullets.hpp
+        hacks/NameStealer.cpp
+        hacks/NameStealer.hpp)
 
 if(LINUX)
     target_sources(century PRIVATE
@@ -150,6 +155,10 @@ target_sources(century PRIVATE
         hacks/ForwardTracking.hpp
         hacks/BackTracking.cpp
         hacks/BackTracking.hpp
+        hooks/RunStringEx.hpp
+        sourcesdk/interfaces/CLuaInterface.hpp
+        hacks/ScriptHook.cpp
+        hacks/ScriptHook.hpp
 )
 
 if(WIN32)
@@ -161,6 +170,7 @@ endif()
 
 if(LINUX)
     target_compile_options(century PRIVATE
+            -Wreturn-type -Werror=return-type
             -O3
             -g3
             -mavx2

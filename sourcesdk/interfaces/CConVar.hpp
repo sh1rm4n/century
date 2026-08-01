@@ -52,8 +52,8 @@ public:
     virtual int InternalSetFloatValue(float) = 0; // 15
     virtual int InternalSetIntValue(int) = 0; // 16
     virtual int ClampValue(float &) = 0; // 17
-    virtual int ChangeStringValue(char const*,float) = 0; // 18
-    virtual void Create(char const*,char const*,int,char const*,bool,float,bool,float,void (*)(CConVar *,char const*,float)) = 0; // 19
+    virtual void Create(char const*,char const*,int,char const*,bool,float,bool,float,void (*)(CConVar *,char const*,float)) = 0; // 18
+    virtual int ChangeStringValue(char const*,float) = 0; // 19
     virtual int SetServerValue(char const*) = 0; // 20
     virtual int GetFlags(void) = 0; // 21
 

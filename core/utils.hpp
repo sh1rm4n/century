@@ -455,6 +455,12 @@ namespace utils {
         CBaseAnimating_InvalidateBoneCache();
     }
 
+    static std::int32_t& GetPredictionRandomSeed() noexcept {
+        static auto randomSeedAddr = memory::ResolveGOT(memory::GetAbsAddress(memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? ? ? 5D C3 66 0F 1F 84 00")));
+
+        return *reinterpret_cast<std::int32_t*>(randomSeedAddr);
+    }
+
     inline int TimeToTicks(float time, float interval) noexcept {
         return static_cast<int>(0.5f + time / interval);
     }

@@ -36,16 +36,16 @@
 
 class CUserCmd {
 public:
-    int commandNumber;
-    int tickCount;
-    Angle viewAngles;
-    float forwardMove;
-    float sideMove;
-    float upMove;
-    int buttons;
-    int weaponSelect;
-    int weaponSubtype;
-    int randomSeed;
+    int commandNumber; // 0
+    int tickCount; // 4
+    Angle viewAngles; // 16
+    float forwardMove; // 20
+    float sideMove; // 24
+    float upMove; // 28
+    int buttons; //32
+    int weaponSelect; //36
+    int weaponSubtype; // 40
+    int randomSeed; // 44
     short mouseX;
     short mouseY;
     bool hasBeenPredicted;

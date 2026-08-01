@@ -25,7 +25,7 @@
 #define	FL_SWIM					(1<<11)	// Changes the SV_Movestep() behavior to not need to be on ground (but stay in water)
 #define	FL_CONVEYOR				(1<<12)
 #define	FL_NPC					(1<<13)
-#define	FL_GODMODE				(1<<14)
+#define	FL_GODMODE				32768
 #define	FL_NOTARGET				(1<<15)
 #define	FL_AIMTARGET			(1<<16)	// set if the crosshair needs to aim onto the entity
 #define	FL_PARTIALGROUND		(1<<17)	// not all corners are valid
@@ -76,6 +76,8 @@
 #define FCVAR_SERVER_CANNOT_QUERY	536870912
 #define FCVAR_CLIENTCMD_CAN_EXECUTE	1073741824
 #define FCVAR_AVAILABLE31			2147483648
+
+class C_BaseEntity;
 
 enum ThinkMethods {
     THINK_FIRE_ALL_FUNCTIONS,
@@ -140,5 +142,22 @@ public:
     bool					m_useBlit;		// use FBO blit - sending context says it is available.
     bool					m_noBlit;		// the back buffer has already been populated by the caller (perhaps via direct MSAA resolve from multisampled RT tex)
     bool					m_onlySyncView;	// react to full/windowed state change only, do not present bits
+};
+
+struct FireBulletsInfo_t {
+    int shots;
+    Vector src;
+    Vector shootingDirection;
+    Vector spread;
+    float distance;
+    int ammoType;
+    int tracerFreq;
+    float damage;
+    int playerDamage;	// Damage to be used instead of m_flDamage if we hit a player
+    int flags;			// See FireBulletsFlags_t
+    float damageForceScale;
+    C_BaseEntity* attacker;
+    C_BaseEntity* additionalIgnoreEnt;
+    bool primaryAttack;
 };
 #endif //CENTURY_TYPEDEFS_HPP

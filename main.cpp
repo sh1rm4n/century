@@ -21,6 +21,9 @@
 #define DRAWMODEL_INDEX 33
 #define FRAMESTAGENOTIFY_INDEX 35
 #define OVERRIDEVIEW_INDEX 17
+#define CREATELUAINTERFACE_INDEX 5
+#define RUNSTRINGEX_INDEX 111
+#define CLOSELUAINTERFACE_INDEX 6
 
 #else
 
@@ -32,6 +35,9 @@
 #define DRAWMODEL_INDEX 33
 #define FRAMESTAGENOTIFY_INDEX 35
 #define OVERRIDEVIEW_INDEX 16
+#define CREATELUAINTERFACE_INDEX 5
+#define RUNSTRINGEX_INDEX 111
+#define CLOSELUAINTERFACE_INDEX 6
 
 #endif
 
@@ -39,6 +45,7 @@
 #include "hooks/DrawModel.hpp"
 #include "hooks/FrameStageNotify.hpp"
 #include "hooks/OverrideView.hpp"
+#include "hooks/RunStringEx.hpp"
 #include "hooks/TakeScreenshot.hpp"
 #include "hooks/TakeJpeg.hpp"
 #include "hooks/RenderCapture.hpp"
@@ -123,6 +130,14 @@ static void mainThread() {
         memory::GetVMTFunc<std::uint64_t>(interfaces->clientMode, OVERRIDEVIEW_INDEX),
         reinterpret_cast<std::uint64_t>(dtOverrideView), &ogOverrideView));
 
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::GetVMTFunc<std::uint64_t>(interfaces->luaShared, CREATELUAINTERFACE_INDEX),
+        reinterpret_cast<std::uint64_t>(dtCreateLuaInterface), &ogCreateLuaInterface));
+
+    hooks.push_back(std::make_unique<PLH::x64Detour>(
+        memory::GetVMTFunc<std::uint64_t>(interfaces->luaShared, CLOSELUAINTERFACE_INDEX),
+        reinterpret_cast<std::uint64_t>(dtCloseLuaInterface), &ogCloseLuaInterface));
+
 #if defined(__linux__)
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::FindPattern("engine_client.so", "55 48 89 E5 41 55 49 89 FD 41 54 53 48 83 EC ? 48 85 FF C6 05"),
@@ -191,8 +206,7 @@ static void mainThread() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         globals::Core::localPlayer = utils::GetLocalPlayer();
-
-        utils::Warn("localplayer: 0x{:x}", reinterpret_cast<std::uint64_t>(globals::Core::localPlayer));
+        //utils::Warn("localplayer: 0x{:x}", reinterpret_cast<std::uint64_t>(globals::Core::localPlayer));
     }
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/deactivated.wav");
@@ -200,6 +214,12 @@ static void mainThread() {
     events->Unload();
 
     globals::Core::sendPacket = true;
+
+    if (hkFireBullets)
+        hkFireBullets->unHook();
+
+    if (hkRunStringEx)
+        hkRunStringEx->unHook();
 
     if (!hooks.empty()) {
         for (const auto& hk : hooks) {

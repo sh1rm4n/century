@@ -5,20 +5,20 @@
 #ifndef CENTURY_CREATEMOVE_HPP
 #define CENTURY_CREATEMOVE_HPP
 
-#include <climits>
+#pragma once
+
 #include <polyhook2/Detour/x64Detour.hpp>
 
 #include "../core/globals.hpp"
+#include "../core/luaexecution.hpp"
 
 #include "../sourcesdk/CUserCmd.hpp"
-#include "../sourcesdk/entities/C_BaseEntity.hpp"
-
-#include "../core/utils.hpp"
 
 #include "../hacks/Aimbot.hpp"
 #include "../hacks/AntiAim.hpp"
 #include "../hacks/BunnyHop.hpp"
 #include "../hacks/FakeLag.hpp"
+#include "../hacks/NoSpread.hpp"
 
 inline std::uint64_t ogCreateMove = 0;
 
@@ -41,8 +41,6 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
 
     globals::Core::currentCmd = cmd;
 
-    //cmd->isTyping = true;
-
     if (interfaces->inputSystem->IsButtonDown(KEY_F))
         cmd->impulse = 100;
 
@@ -56,9 +54,18 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
         }
     }
 
+    const int nCmdMaxTickDelta = ( 1.f / interfaces->globalVars->intervalPerTick ) * 2.5f;
+    const int nMinDelta = std::max( 0, interfaces->globalVars->tickCount - nCmdMaxTickDelta );
+    const int nMaxDelta = interfaces->globalVars->tickCount + nCmdMaxTickDelta;
+
+    //cmd->tickCount = utils::Random(nMinDelta, nMaxDelta - 1);
+
     bunnyhop->Run(cmd);
 
-    antiAim->Run(cmd);
+    //antiAim->Run(cmd);
+
+    if (globals::Hacks::FakeLag::enabled && globals::Hacks::FakeLag::mode == Static)
+        fakeLag->Run(globals::Hacks::FakeLag::ticks);
 
     if (globals::Core::enginePrediction)
         interfaces->prediction->RunCommand(globals::Core::localPlayer, cmd, interfaces->moveHelper);
@@ -66,8 +73,7 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
     if (globals::Hacks::Aimbot::enabled)
         aimbot->Run(cmd);         // angles set first
 
-    if (globals::Hacks::FakeLag::enabled && globals::Hacks::FakeLag::mode == Static)
-        fakeLag->Run(globals::Hacks::FakeLag::ticks);
+    noSpread->Run(cmd);
 
     return false;
 };

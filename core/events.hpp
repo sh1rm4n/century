@@ -5,6 +5,8 @@
 #ifndef CENTURY_EVENTS_HPP
 #define CENTURY_EVENTS_HPP
 
+#pragma once
+
 #include <memory>
 
 class IGameEventListener2;

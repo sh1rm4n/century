@@ -52,6 +52,9 @@ void BackTracking::Update() noexcept {
         record.angles = player->GetNetworkedAngles();
         record.origin = player->GetNetworkedOrigin();
 
+        if (!record.IsValid())
+            continue;
+
         backtrackRecords[i].emplace_back(record);
 
         if (backtrackRecords[i].size() > static_cast<int>(1 / interfaces->globalVars->intervalPerTick))
@@ -107,5 +110,5 @@ void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRec
     player->SetAbsAngles(record.angles);
     player->SetAbsOrigin(record.origin);
 
-    cmd->tickCount = TIME_TO_TICKS(record.simulationTime + GetLerpTime());
+    //cmd->tickCount = TIME_TO_TICKS(record.simulationTime + GetLerpTime());
 }

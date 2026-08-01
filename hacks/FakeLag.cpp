@@ -19,6 +19,8 @@ void FakeLag::Run(const int ticks) noexcept {
     if (fakeLagCounter >= ticks) {
         globals::Core::sendPacket = true;
 
+        netChan->chokedPackets = 10;
+
         fakeLagCounter = 0;
     }
     else {

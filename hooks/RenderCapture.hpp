@@ -5,6 +5,8 @@
 #ifndef CENTURY_RENDERCAPTURE_HPP
 #define CENTURY_RENDERCAPTURE_HPP
 
+#pragma once
+
 #include <polyhook2/Detour/x64Detour.hpp>
 
 inline std::uint64_t ogRenderCapture = 0;

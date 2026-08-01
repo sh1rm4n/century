@@ -1,9 +1,5 @@
 #include "Aimbot.hpp"
 
-#include "BackTracking.hpp"
-#include "Bruteforce.hpp"
-#include "ForwardTracking.hpp"
-
 #include "../core/globals.hpp"
 #include "../core/interfaces.hpp"
 #include "../core/utils.hpp"
@@ -20,7 +16,6 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
 
     Angle bestAimAngles = {};
     C_BaseEntity* bestTarget = nullptr;
-    BacktrackRecord bestRecord = {};
 
     const auto eyePosition = globals::Core::localPlayer->GetEyePosition();
     const auto origin = globals::Core::localPlayer->GetNetworkedOrigin();
@@ -31,10 +26,13 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
     for (int i = 0; i <= interfaces->globalVars->maxClients; i++) {
         const auto player = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
-        if (!player || player == globals::Core::localPlayer || !player->IsPlayer() || !player->IsAlive() || player->GetHealth() <= 0)
+        if (!player || player == globals::Core::localPlayer || player->IsDormant() || !player->IsPlayer() || !player->IsAlive() || player->GetHealth() <= 0)
             continue;
 
         if (globals::Hacks::Aimbot::teamCheck && player->GetTeamNumber() == globals::Core::localPlayer->GetTeamNumber())
+            continue;
+
+        if (player->GetFlags() & FL_GODMODE)
             continue;
 
         player_info_s info;
@@ -44,29 +42,11 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
         if (globals::Core::friends.contains(info.name))
             continue;
 
-        if (globals::Hacks::ForwardTracking::enabled)
-            forwardTracking->Run(cmd, player);
-
         std::array<Matrix3x4, 256> bones = {};
+        if (!player->SetupBones(bones.data(), 256, 0x7FF00, interfaces->globalVars->curTime))
+            continue;
 
-        BacktrackRecord record{};
-
-        if (globals::Hacks::BackTracking::enabled) {
-            backTracking->GetRecordForTime(i, player->GetSimulationTime() - TICKS_TO_TIME(globals::Hacks::BackTracking::ticks), record);
-            utils::Warn("time target: {}", TIME_TO_TICKS(player->GetSimulationTime() - TICKS_TO_TIME(globals::Hacks::BackTracking::ticks)));
-
-            bones = record.bones;
-        }
-        else {
-            if (!player->SetupBones(bones.data(), 256, 0x7FF00, interfaces->globalVars->curTime))
-                continue;
-        }
-
-        //auto bone = bones[7].GetOrigin();
-        auto bone = bones[player->LookupBone("ValveBiped.Bip01_Head1")].GetOrigin();
-
-        if (globals::Hacks::Aimbot::bruteforce)
-            bone = bruteForcer->Brute(player, bone);
+        const auto bone = bones[player->LookupBone("ValveBiped.Bip01_Head1")].GetOrigin();
 
         const auto aimAngles = math::CalculateAngle(eyePosition, bone);
         const auto fov = math::GetFov(currentViewAngles, aimAngles);
@@ -76,15 +56,11 @@ void Aimbot::Run(CUserCmd* cmd) noexcept {
                 bestFov = fov;
                 bestAimAngles = aimAngles;
                 bestTarget = player;
-                bestRecord = record;
             }
         }
     }
 
     if (bestTarget) {
-        if (globals::Hacks::BackTracking::enabled)
-            backTracking->Apply(cmd, bestTarget, bestRecord);
-
         Angle deltaAngles = bestAimAngles - currentViewAngles;
         math::NormalizeAngles(deltaAngles);
 
