@@ -13,7 +13,7 @@ class C_BaseEntity;
 
 #if defined(__linux__)
 #define FIREBULLETS_INDEX 19
-#elif
+#else
 #define FIREBULLETS_INDEX 16
 #endif
 

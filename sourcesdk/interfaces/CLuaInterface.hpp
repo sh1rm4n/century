@@ -120,7 +120,7 @@ public:
     virtual int Insert(int) = 0; // 12
     virtual int Remove(int) = 0; // 13
     virtual int Next(int) = 0; // 14
-    virtual int NewUserdata(uint) = 0; // 15
+    virtual int NewUserdata(std::uint32_t) = 0; // 15
     virtual int ThrowError(char const*) = 0; // 16
     virtual int CheckType(int,int) = 0; // 17
     virtual int ArgError(int,char const*) = 0; // 18
@@ -228,7 +228,7 @@ public:
     virtual void PushPooledString(int) = 0; // 120
     virtual int GetPooledString(int) = 0; // 121
     virtual void AddThreadedCall(void**) = 0; // 122
-    virtual int AppendStackTrace(char *,ulong) = 0; // 123
+    virtual int AppendStackTrace(char *,std::uint32_t) = 0; // 123
     virtual int CreateConVar(char const*,char const*,char const*,int) = 0; // 124
     virtual void CreateConCommand(char const*,char const*,int,void (*)(void* const&),int (*)(char const*,char (*)[128])) = 0; // 125
     virtual int CheckStringOpt(int,char const*) = 0; // 126

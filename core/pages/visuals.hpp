@@ -7,6 +7,8 @@
 
 #include "../../3rd/imgui/imgui_toggle/imgui_toggle.h"
 
+#include <imgui_stdlib.h>
+
 namespace menu::pages::visuals {
     void Render() noexcept {
         ImGui::ToggleAnimated("Enable Player ESP?", &globals::Hacks::PlayerESP::enabled);
