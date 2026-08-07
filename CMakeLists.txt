@@ -19,15 +19,7 @@ else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
 
-add_library(century SHARED main.cpp
-        hacks/NoSpread.cpp
-        hacks/NoSpread.hpp
-        hooks/FireBullets.hpp
-        hacks/NameStealer.cpp
-        hacks/NameStealer.hpp
-        3rd/fonts/lilexFont.hpp
-        sourcesdk/interfaces/CPlayerResource.hpp
-)
+add_library(century SHARED main.cpp)
 
 if(LINUX)
     target_sources(century PRIVATE
@@ -162,6 +154,13 @@ target_sources(century PRIVATE
         sourcesdk/interfaces/CLuaInterface.hpp
         hacks/ScriptHook.cpp
         hacks/ScriptHook.hpp
+        hacks/NoSpread.cpp
+        hacks/NoSpread.hpp
+        hooks/FireBullets.hpp
+        hacks/NameStealer.cpp
+        hacks/NameStealer.hpp
+        3rd/fonts/lilexFont.hpp
+        sourcesdk/interfaces/CPlayerResource.hpp
 )
 
 if(WIN32)
