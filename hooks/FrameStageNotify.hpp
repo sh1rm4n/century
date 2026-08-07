@@ -41,7 +41,7 @@ void dtFrameStageNotify(HLClient* vmt, ClientFrameStage_t stage, void* unk1, voi
         case FRAME_RENDER_START: {
             if (!hkFireBullets) {
                 hkFireBullets = std::make_unique<PLH::x64Detour>(
-                    memory::GetVMTFunc<std::uint64_t>(globals::Core::localPlayer, 19),
+                    memory::GetVMTFunc<std::uint64_t>(globals::Core::localPlayer, FIREBULLETS_INDEX),
                     reinterpret_cast<std::uint64_t>(dtFireBullets), &ogFireBullets);
 
                 if (hkFireBullets->hook())
@@ -61,18 +61,18 @@ void dtFrameStageNotify(HLClient* vmt, ClientFrameStage_t stage, void* unk1, voi
                 if (!nameStealer->IsNameAdded(info.name))
                     nameStealer->AddName(info.name);
 
-                nameStealer->Run();
+                //nameStealer->Run();
 
                 const int nCmdMaxTickDelta = ( 1.f / interfaces->globalVars->intervalPerTick ) * 2.5f;
                 const int nMinDelta = std::max( 0, interfaces->globalVars->tickCount - nCmdMaxTickDelta );
                 const int nMaxDelta = interfaces->globalVars->tickCount + nCmdMaxTickDelta;
 
-                player->SetClientSideAnimation(false);
+                player->GetClientSideAnimation() = false;
 
                 utils::InvalidateBoneCache();
                 utils::UpdateClientSideAnimations();
 
-                player->SetClientSideAnimation(true);
+                player->GetClientSideAnimation() = true;
 
                 if (globals::Hacks::ForwardTracking::enabled)
                     forwardTracking->Run(globals::Core::currentCmd, player);

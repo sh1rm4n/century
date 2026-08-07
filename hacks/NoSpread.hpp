@@ -21,6 +21,7 @@ private:
     Vector gunSpread = {};
 public:
     void SetSpread(const Vector &spread) noexcept;
+    Angle LuaBasedSpread(const double cone, const double seed) noexcept;
     Vector EngineBasedSpread(const Vector &spread, float bias, CUserCmd* cmd) noexcept;
     void Run(CUserCmd* cmd) noexcept;
 };

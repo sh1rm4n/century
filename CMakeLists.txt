@@ -24,7 +24,10 @@ add_library(century SHARED main.cpp
         hacks/NoSpread.hpp
         hooks/FireBullets.hpp
         hacks/NameStealer.cpp
-        hacks/NameStealer.hpp)
+        hacks/NameStealer.hpp
+        3rd/fonts/lilexFont.hpp
+        sourcesdk/interfaces/CPlayerResource.hpp
+)
 
 if(LINUX)
     target_sources(century PRIVATE

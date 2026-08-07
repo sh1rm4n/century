@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <imgui.h>
+
 class C_BaseEntity;
 class CUserCmd;
 class Matrix3x4;
@@ -51,6 +53,8 @@ namespace globals {
     }
 
     namespace Menu {
+        inline ImFont* secondaryFont = nullptr;
+
         inline bool active = true;
     }
 
@@ -77,7 +81,7 @@ namespace globals {
             inline bool enabled = false;
             inline bool bones = false;
 
-            inline PlayerESPRenderingType renderingType = Box;
+            inline PlayerESPRenderingType renderingType = Square;
         }
 
         namespace visuals_other {

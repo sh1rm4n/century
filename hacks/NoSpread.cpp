@@ -13,10 +13,6 @@
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 #include "../sourcesdk/interfaces/CLuaInterface.hpp"
 
-void NoSpread::SetSpread(const Vector &spread) noexcept {
-    gunSpread = spread;
-}
-
 std::string GetLuaBase(C_BaseCombatWeapon* weapon) noexcept {
     auto base = std::string("none");
 
@@ -69,7 +65,11 @@ double LuaRandomFloat(lua_State* state, const double min, const double max) noex
     return result;
 }
 
-Angle LuaBasedSpread(const double cone, const double seed) noexcept {
+void NoSpread::SetSpread(const Vector &spread) noexcept {
+    gunSpread = spread;
+}
+
+Angle NoSpread::LuaBasedSpread(const double cone, const double seed) noexcept {
     if (!seed)
         return {0,0,0};
 

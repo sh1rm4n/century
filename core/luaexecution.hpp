@@ -70,6 +70,9 @@ inline lua_pushnumber_ lua_pushnumber = nullptr;
 using lua_pushstring_ = void(*)(lua_State*, const char*);
 inline lua_pushstring_ lua_pushstring = nullptr;
 
+using lua_remove_ = void(*)(lua_State*, int);
+inline lua_remove_ lua_remove = nullptr;
+
 enum {
     LUA_GLOBALSINDEX = -10002,
     LUA_ENVIRONINDEX = -10001,

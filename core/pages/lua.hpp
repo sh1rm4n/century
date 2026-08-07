@@ -6,12 +6,9 @@
 #define CENTURY_EXECUTOR_HPP
 
 #include "../menu.hpp"
-#include "../menu.hpp"
 #include "../../3rd/imgui/coloredtextbox/TextEditor.h"
 
 namespace menu::pages::lua {
-    inline ImFont* editorFont = nullptr;
-
     void Render() noexcept {
         static std::unique_ptr<TextEditor> editor = nullptr;
         if (!editor) {
@@ -30,13 +27,14 @@ namespace menu::pages::lua {
             for (int i = 0; i < static_cast<int>(realms.size()); ++i) {
                 if (ImGui::Selectable(realms[i].data(), globals::Core::luaRealm == i))
                     globals::Core::luaRealm = i;
+
                 if (globals::Core::luaRealm == i)
                     ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
         }
 
-        ImGui::PushFont(editorFont);
+        ImGui::PushFont(globals::Menu::secondaryFont);
         editor->Render("Editor");
         ImGui::PopFont();
     }

@@ -37,6 +37,14 @@ public:
         return memory::Call<const char*>(this, 355);
 #endif
     }
+
+    constexpr int& GetPrimaryClip() noexcept {
+        return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_LocalWeaponData", "m_iClip1"));
+    }
+
+    constexpr int& GetSecondaryClip() noexcept {
+        return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_LocalWeaponData", "m_iClip2"));
+    }
 };
 
 #endif //CENTURY_C_BASECOMBATWEAPON_HPP

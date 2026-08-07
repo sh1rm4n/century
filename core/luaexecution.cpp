@@ -27,6 +27,7 @@ void LuaExecution::Prepare() noexcept {
     lua_pushinteger = reinterpret_cast<lua_pushinteger_>(modules->GetExport(modules->luaShared, "lua_pushinteger"));
     lua_pushnumber = reinterpret_cast<lua_pushnumber_>(modules->GetExport(modules->luaShared, "lua_pushnumber"));
     lua_pushstring = reinterpret_cast<lua_pushstring_>(modules->GetExport(modules->luaShared, "lua_pushstring"));
+    lua_remove = reinterpret_cast<lua_remove_>(modules->GetExport(modules->luaShared, "lua_remove"));
 }
 
 lua_State *LuaExecution::GetLuaState(const int realm) noexcept {

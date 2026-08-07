@@ -11,6 +11,12 @@
 
 class C_BaseEntity;
 
+#if defined(__linux__)
+#define FIREBULLETS_INDEX 19
+#elif
+#define FIREBULLETS_INDEX 16
+#endif
+
 inline std::unique_ptr<PLH::x64Detour> hkFireBullets = nullptr;
 inline std::uint64_t ogFireBullets = 0;
 

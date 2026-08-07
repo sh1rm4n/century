@@ -110,7 +110,7 @@ namespace utils {
                   viewMatrix[3][2] * world.z +
                   viewMatrix[3][3];
 
-        if (w < 0.01f)
+        if (w <= 0.001f)
             return false;
 
         float x = viewMatrix[0][0] * world.x +
@@ -269,7 +269,7 @@ namespace utils {
         corner(s[3], s[7]);
     }
 
-    static void DrawBones(ImDrawList* drawList, const Matrix3x4* bones) noexcept {
+    static void DrawBones(ImDrawList* drawList, const std::array<Matrix3x4, 256> &bones) noexcept {
         // pelvis -> spines -> head
         Vector bone0 = bones[0].GetOrigin();
         Vector bone1 = bones[1].GetOrigin();
@@ -389,6 +389,32 @@ namespace utils {
             drawList->AddLine({outBone24.x, outBone24.y}, {outBone25.x, outBone25.y}, ImColor{255,255,255});
         }
     }
+
+    static void DrawOutlinedText(ImDrawList* drawList, ImFont* font, const float fontSize, const ImVec2 textPos, const ImColor outlineColor, const ImColor color, const std::string& text) noexcept {
+        drawList->AddText(font, fontSize, {textPos.x - 1, textPos.y}, outlineColor, text.c_str());
+        drawList->AddText(font, fontSize, {textPos.x + 1, textPos.y}, outlineColor, text.c_str());
+        drawList->AddText(font, fontSize, {textPos.x, textPos.y - 1}, outlineColor, text.c_str());
+        drawList->AddText(font, fontSize, {textPos.x, textPos.y + 1}, outlineColor, text.c_str());
+
+        drawList->AddText(font, fontSize, textPos, color, text.c_str());
+    }
+
+    /*static void DrawOutlinedBar(ImDrawList* drawList),  noexcept {
+        drawList->AddRectFilled(
+                                {left - 1, bottomOut.y + 3},
+                                {right + 1, bottomOut.y + 10 + 3},
+                                ImColor{50,50,50, 200}, 2.5);
+
+        drawList->AddRectFilled(
+            {left, bottomOut.y + 3},
+            {std::lerp(left, right, healthFrac), bottomOut.y + 10 + 3},
+            healthColor, 2.5);
+
+        drawList->AddRect(
+            {left - 1, bottomOut.y + 2},
+            {right + 1, bottomOut.y + 10 + 4},
+            outlineColor, 2.5, 1);
+    }*/
 
     static bool VisCheck(C_BaseEntity* filterEntity, C_BaseEntity* targetEntity, const Vector& start, const Vector& end) noexcept {
         CTraceFilterTest filter(filterEntity);

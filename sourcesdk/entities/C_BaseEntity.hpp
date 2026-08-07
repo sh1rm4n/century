@@ -143,8 +143,8 @@ public:
         return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_BasePlayer", "m_fFlags"));
     }
 
-    constexpr void SetClientSideAnimation(const bool value) noexcept {
-        *reinterpret_cast<bool*>(std::uint64_t(this) + 0x19E1) = value;
+    constexpr bool& GetClientSideAnimation() noexcept {
+        return *reinterpret_cast<bool*>(std::uint64_t(this) + utils::NetVar("DT_BaseAnimating", "m_bClientSideAnimation"));
     }
 
     constexpr Matrix3x4* GetCachedBones() noexcept {
@@ -153,6 +153,10 @@ public:
 
     constexpr void SetCachedBones(const Matrix3x4* bones) noexcept {
         *reinterpret_cast<const Matrix3x4**>(std::uint64_t(this) + 0x1A58) = bones;
+    }
+
+    constexpr int& GetMaxArmor() noexcept {
+        return *reinterpret_cast<int*>(std::uint64_t(this) + utils::NetVar("DT_GMOD_Player", "m_iMaxArmor"));
     }
 
     constexpr int& GetTickBase() noexcept {

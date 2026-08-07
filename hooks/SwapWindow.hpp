@@ -23,6 +23,7 @@
 #include "../3rd/fonts/fa-solid-900.h"
 #include "../3rd/fonts/firaCodeFont.hpp"
 #include "../3rd/fonts/robotoFont.hpp"
+#include "../3rd/fonts/lilexFont.hpp"
 
 #include "../sourcesdk/entities/IClientRenderable.hpp"
 #include "../sourcesdk/entities/C_BaseCombatWeapon.hpp"
@@ -70,7 +71,7 @@ void dtSwapWindow(SDL_Window* window) {
 
         temp.Fonts->AddFontFromMemoryTTF(robotoFont, sizeof(robotoFont), baseFontSize, nullptr, temp.Fonts->GetGlyphRangesCyrillic());
 
-        menu::pages::lua::editorFont = temp.Fonts->AddFontFromMemoryTTF(firaCodeFont, sizeof(firaCodeFont), baseFontSize, nullptr, temp.Fonts->GetGlyphRangesCyrillic());
+        globals::Menu::secondaryFont = temp.Fonts->AddFontFromMemoryTTF(lilexFont, sizeof(lilexFont), baseFontSize, nullptr, temp.Fonts->GetGlyphRangesCyrillic());
 
         static constexpr ImWchar iconsRanges[] = {ICON_MIN_FA, ICON_MAX_16_FA, 0};
         ImFontConfig iconsConfig;
@@ -117,10 +118,14 @@ void dtSwapWindow(SDL_Window* window) {
     }
 
     if (interfaces->engineClient->IsInGame()) {
+        ImGui::PushFont(globals::Menu::secondaryFont);
+
         ImGui::Begin("##Background", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
         {
             const auto maxEntities = interfaces->entityList->GetMaxEntities();
             const auto drawList = ImGui::GetBackgroundDrawList();
+
+            const auto font = ImGui::GetFont();
 
             if (globals::Hacks::EntityESP::enabled) {
                 globals::Hacks::EntityESP::entsToDraw.clear();
@@ -246,25 +251,27 @@ void dtSwapWindow(SDL_Window* window) {
                 }
             }
 
-            if (globals::Hacks::PlayerESP::bones ||
-                globals::Hacks::PlayerESP::enabled)
-            {
-                for (auto i = 0; i <= interfaces->globalVars->maxClients; i++) {
+            if (globals::Hacks::PlayerESP::enabled) {
+                for (auto i = 1; i <= interfaces->globalVars->maxClients; i++) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
-                    if (!entity || entity == utils::GetLocalPlayer() || !entity->IsPlayer() || !entity->IsAlive())
+                    if (!entity || entity == utils::GetLocalPlayer() || entity->IsDormant() || !entity->IsPlayer() || !entity->IsAlive())
                         continue;
 
                     player_info_s info;
                     if (!interfaces->engineClient->GetPlayerInfo(i, &info))
                         continue;
 
+                    const auto weapon = entity->GetActiveWeapon();
+                    if (!weapon)
+                        continue;
+
                     const auto head = entity->GetEyePosition();
                     const auto bottom = entity->GetAbsOrigin();
 
                     if (globals::Hacks::PlayerESP::bones) {
-                        Matrix3x4 bones[256];
-                        if (!entity->SetupBones(bones, 256, 0x7FF00, interfaces->globalVars->curTime))
+                        std::array<Matrix3x4, 256> bones = {};
+                        if (!entity->SetupBones(bones.data(), 256, 0x7FF00, interfaces->globalVars->curTime))
                             continue;
 
                         utils::DrawBones(drawList, bones);
@@ -274,104 +281,100 @@ void dtSwapWindow(SDL_Window* window) {
                         Vector bottomOut;
                         Vector topOut;
 
-                        const auto bottom = entity->GetAbsOrigin();
-                        const auto top = head + Vector{0.f,0.f,11.f};
+                        const auto top = head + Vector{0.f,0.f,5.f};
 
-                        if (utils::WorldToScreen(bottom, bottomOut) && utils::WorldToScreen(top, topOut)) {
+                        const auto healthFrac = std::clamp(
+                            static_cast<float>(entity->GetHealth()) / entity->GetMaxHealth(), 0.0f, 1.0f);
+
+                        const auto armorFrac = std::clamp(
+                            static_cast<float>(interfaces->playerResource->GetArmor(entity->EntIndex())) / entity->GetMaxArmor(), 0.0f, 1.0f);
+
+                        const auto weaponName = weapon->GetName();
+
+                        const auto color = ImColor{255,255,255};
+                        const auto outlineColor = ImColor{10,10,10};
+                        const auto healthColor = ImColor{static_cast<int>(255.0f * (1.0f - healthFrac)), static_cast<int>(255 * healthFrac), 0};
+                        const auto armorColor = ImColor{3, 107, 252};
+
+                        if (utils::WorldToScreen(bottom, bottomOut) &&
+                            utils::WorldToScreen(top, topOut)) {
                             const auto height = bottomOut.y - topOut.y;
-                            const auto width = height * 0.35f;
+                            const auto width = height * 0.25f;
 
                             const auto left = topOut.x - width;
                             const auto right = topOut.x + width;
 
-                            drawList->AddText({topOut.x, topOut.y}, ImColor{255,255,255}, info.name);
+                            const float fontSize = ImGui::GetFontSize();
 
-                            drawList->AddRect({left + 1.f, topOut.y + 1.f}, {right + 1.f, bottomOut.y + 1.f}, ImColor{35,35,35});
-                            drawList->AddRect({left, topOut.y}, {right, bottomOut.y}, ImColor{255,255,255});
-                            drawList->AddRect({left - 1.f, topOut.y - 1.f}, {right - 1.f, bottomOut.y - 1.f}, ImColor{35,35,35});
+                            const auto heightOffset = 25.0f;
+
+                            const ImVec2 weaponNamePos = {
+                                topOut.x - ImGui::CalcTextSize(weaponName).x * 0.5f,
+                                topOut.y - heightOffset * 1
+                            };
+
+                            const ImVec2 namePos = {
+                                topOut.x - ImGui::CalcTextSize(info.name).x * 0.5f,
+                                topOut.y - heightOffset * 1.6f
+                            };
+
+                            utils::DrawOutlinedText(drawList, font, fontSize, weaponNamePos, outlineColor, ImColor{255,255,255}, weaponName);
+                            utils::DrawOutlinedText(drawList, font, fontSize, namePos, outlineColor, ImColor{255,255,255}, info.name);
+
+                            utils::DrawOutlinedText(drawList, font, fontSize, {right + 2.f, topOut.y}, outlineColor, healthColor, fmt::format("Health: {}", entity->GetHealth()));
+                            utils::DrawOutlinedText(drawList, font, fontSize, {right + 2.f, topOut.y + 12.f}, outlineColor, armorColor, fmt::format("Armor: {}", interfaces->playerResource->GetArmor(i)));
+
+                            drawList->AddRect(
+                                {left, topOut.y},
+                                {right, bottomOut.y},
+                                color, 2.5, 1.5);
+
+                            drawList->AddRect(
+                                {left - 1, topOut.y - 1},
+                                {right + 1, bottomOut.y + 1},
+                                outlineColor, 2.5, 1);
+
+                            // health bar
+
+                            drawList->AddRectFilled(
+                                {left - 1, bottomOut.y + 3},
+                                {right + 1, bottomOut.y + 10 + 3},
+                                ImColor{50,50,50, 200}, 2.5);
+
+                            drawList->AddRectFilled(
+                                {left, bottomOut.y + 3},
+                                {std::lerp(left, right, healthFrac), bottomOut.y + 10 + 3},
+                                healthColor, 2.5);
+
+                            drawList->AddRect(
+                                {left - 1, bottomOut.y + 2},
+                                {right + 1, bottomOut.y + 10 + 4},
+                                outlineColor, 2.5, 1);
+
+                            // armor bar
+
+                            drawList->AddRectFilled(
+                                {left - 1, bottomOut.y + 16},
+                                {right + 1, bottomOut.y + 10 + 16},
+                                ImColor{50,50,50, 200}, 2.5);
+
+                            drawList->AddRectFilled(
+                                {left, bottomOut.y + 16},
+                                {std::lerp(left, right, armorFrac), bottomOut.y + 10 + 16},
+                                armorColor, 2.5);
+
+                            drawList->AddRect(
+                                {left - 1, bottomOut.y + 15},
+                                {right + 1, bottomOut.y + 10 + 17},
+                                outlineColor, 2.5, 1);
                         }
-                    }
-                    else if (globals::Hacks::PlayerESP::renderingType == PlayerESPRenderingType::Box) {
-                        Vector headOut, bottomOut;
-
-                        if (!utils::WorldToScreen(head + Vector{0, 0, 15}, headOut) ||
-                            !utils::WorldToScreen(bottom, bottomOut))
-                            continue;
-
-                        // Box dimensions based on screen projection
-                        float height = bottomOut.y - headOut.y;
-                        float width  = height * 0.45f;
-
-                        float x = bottomOut.x - width * 0.5f;
-                        float y = headOut.y;
-
-                        float x2 = bottomOut.x + width * 0.5f;
-                        float y2 = bottomOut.y;
-
-                        // ---------------- BOX ----------------
-                        utils::Draw3DBox(drawList, bottom, entity->GetAbsAngles(), entity->GetCollisionProp()->OBBMins(), entity->GetCollisionProp()->OBBMaxs());
-
-                        // ---------------- NAME ----------------
-                        const auto weapon = entity->GetActiveWeapon();
-                        auto weaponName = "";
-
-                        if (weapon) {
-                            weaponName = weapon->GetPrintName();
-                        }
-                        else {
-                            weaponName = "none";
-                        }
-
-                        ImVec2 weaponNameSize = ImGui::CalcTextSize(weaponName);
-                        drawList->AddText(
-                            ImVec2(bottomOut.x - weaponNameSize.x * 0.5f, y - weaponNameSize.y - 2.f),
-                            IM_COL32(255, 255, 255, 255),
-                            weaponName
-                        );
-
-                        ImVec2 nameSize = ImGui::CalcTextSize(info.name);
-                        drawList->AddText(
-                            ImVec2(bottomOut.x - nameSize.x * 0.5f, y - nameSize.y - 14.f),
-                            IM_COL32(255, 255, 255, 255),
-                            info.name
-                        );
-
-                        // ---------------- STEAM / ID LABEL ----------------
-                        ImVec2 idSize = ImGui::CalcTextSize(info.guid);
-                        drawList->AddText(
-                            ImVec2(bottomOut.x - idSize.x * 0.5f, y2 + 8.f),
-                            IM_COL32(180, 180, 180, 255),
-                            info.guid
-                        );
-
-                        // ---------------- HEALTH BAR ----------------
-                        float hp = std::clamp(static_cast<float>(entity->GetHealth()), 0.0f, 100.0f) / 100.0f;
-
-                        float barW = width;
-                        float barH = 4.0f;
-
-                        ImVec2 barMin(x, y2 + 4.0f);       // bottom of box + padding
-                        ImVec2 barMax(x + barW, y2 + 4.0f + barH);
-
-                        // background
-                        drawList->AddRectFilled(barMin, barMax, IM_COL32(20,20,20,220));
-
-                        // fill (left → right)
-                        drawList->AddRectFilled(
-                            barMin,
-                            ImVec2(barMin.x + barW * hp, barMax.y),
-                            IM_COL32(
-                                (int)(255 * (1.0f - hp)),
-                                (int)(255 * hp),
-                                0,
-                                255
-                            )
-                        );
                     }
                 }
             }
         }
         ImGui::End();
+
+        ImGui::PopFont();
 
         ImGui::SetNextWindowPos({20, (static_cast<float>(h) / 2) - 30});
         ImGui::SetNextWindowSize({200, 150});

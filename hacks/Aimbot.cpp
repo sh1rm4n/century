@@ -5,10 +5,15 @@
 #include "../core/utils.hpp"
 
 #include "../sourcesdk/CUserCmd.hpp"
+#include "../sourcesdk/entities/C_BaseCombatWeapon.hpp"
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 
 void Aimbot::Run(CUserCmd* cmd) noexcept {
     if (!globals::Core::localPlayer || !globals::Core::localPlayer->IsAlive())
+        return;
+
+    const auto weapon = globals::Core::localPlayer->GetActiveWeapon();
+    if (!weapon)
         return;
 
     float bestFov = globals::Hacks::Aimbot::fov;

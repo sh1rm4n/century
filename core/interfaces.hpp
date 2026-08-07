@@ -29,6 +29,7 @@
 #include "../sourcesdk/interfaces/CUniformRandomStream.hpp"
 #include "../sourcesdk/interfaces/CMoveHelperClient.hpp"
 #include "../sourcesdk/interfaces/CGameEventsManager.hpp"
+#include "../sourcesdk/interfaces/CPlayerResource.hpp"
 
 class Interfaces {
 public:
@@ -59,6 +60,7 @@ public:
     CUniformRandomStream *randomStream = nullptr;
     CMoveHelperClient *moveHelper = nullptr;
     CGameEventsManager *gameEventsManager = nullptr;
+    CPlayerResource *playerResource = nullptr;
 };
 
 inline auto interfaces = std::make_shared<Interfaces>();
