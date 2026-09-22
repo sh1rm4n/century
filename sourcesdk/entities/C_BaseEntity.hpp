@@ -12,6 +12,8 @@ class C_CollisionProperty;
 class IClientUnknown;
 class IClientRenderable;
 
+class CStudioHdr;
+
 class ClientClass;
 class C_GMOD_Player;
 class C_BaseCombatWeapon;
@@ -65,7 +67,7 @@ public:
 
     constexpr bool UsesLua() noexcept {
 #if defined(__linux__)
-        return memory::Call<const bool>(this, 234);
+        return memory::Call<const bool>(this, 233);
 #else
         return memory::Call<const bool>(this, 172);
 #endif
@@ -92,6 +94,14 @@ public:
         return memory::Call<C_BaseCombatWeapon*>(this, 343);
 #else
         return memory::Call<C_BaseCombatWeapon*>(this, 279);
+#endif
+    }
+
+    constexpr void UpdateClientSideAnimation() noexcept {
+#if defined(__linux__)
+        memory::Call<C_BaseCombatWeapon*>(this, 298);
+#else
+        memory::Call<C_BaseCombatWeapon*>(this, 298);
 #endif
     }
 
@@ -124,7 +134,7 @@ public:
     }
 
     constexpr MoveType& GetMoveType() noexcept {
-        return *reinterpret_cast<MoveType*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_MoveType"));
+        return *reinterpret_cast<MoveType*>(std::uint64_t(this) + utils::NetVar("DT_BaseEntity", "m_vecVelocity[0]") + 0xAC);
     }
 
     constexpr C_CollisionProperty* GetCollisionProp() noexcept {
@@ -145,6 +155,10 @@ public:
 
     constexpr bool& GetClientSideAnimation() noexcept {
         return *reinterpret_cast<bool*>(std::uint64_t(this) + utils::NetVar("DT_BaseAnimating", "m_bClientSideAnimation"));
+    }
+
+    constexpr float* GetPoseParameters() noexcept {
+        return reinterpret_cast<float*>(std::uint64_t(this) + utils::NetVar("DT_BaseAnimating", "m_flPoseParameter"));
     }
 
     constexpr Matrix3x4* GetCachedBones() noexcept {
@@ -171,11 +185,25 @@ public:
         return *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x29E8);
     }
 
+    constexpr void SetLocalViewAngles(Angle angles) noexcept {
+        *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2BFC) = angles;
+        *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x2D0C) = angles;
+        *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x398) = angles;
+    }
+
     constexpr CMultiPlayerAnimState* GetAnimState() noexcept {
 #if defined(__linux__)
         return *reinterpret_cast<CMultiPlayerAnimState**>(std::uint64_t(this) + 0x35B8);
 #else
         return *reinterpret_cast<CMultiPlayerAnimState**>(std::uint64_t(this) + 0x35C8);
+#endif
+    }
+
+    constexpr Angle& GetEyeAngles() noexcept {
+#if defined(__linux__)
+        return *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x398);
+#else
+        return *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x35CC);
 #endif
     }
 
@@ -197,7 +225,7 @@ public:
     constexpr void SetAbsAngles(const Angle& angles) noexcept {
         using _CBaseEntity__SetAbsAngles = void(*)(C_BaseEntity*, const Angle&);
 #if defined(__linux__)
-        static auto CBaseEntity__SetAbsAngles = reinterpret_cast<_CBaseEntity__SetAbsAngles>(memory::FindPattern("client_client.so", "55 48 89 E5 41 57 41 56 41 55 41 54 49 89 F4 53 48 89 FB 48 81 EC ? ? ? ? E8"));
+        static auto CBaseEntity__SetAbsAngles = reinterpret_cast<_CBaseEntity__SetAbsAngles>(memory::FindPattern("client_client.so", "55 48 89 E5 41 57 41 56 41 55 41 54 49 89 F4 53 48 89 FB 48 81 EC 98 00 00 00 E8"));
 #else
         static auto CBaseEntity__SetAbsAngles = reinterpret_cast<_CBaseEntity__SetAbsAngles>(memory::FindPattern("client.dll", "40 53 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 48 8B FA"));
 #endif
@@ -224,6 +252,36 @@ public:
 #endif
 
         return CBaseAnimating__LookupBone(this, bone);
+    }
+
+    constexpr CStudioHdr* GetStudioHdr() noexcept {
+#if defined(__linux__)
+        return *reinterpret_cast<CStudioHdr**>(std::uint64_t(this) + 0x1AD0);
+#else
+        return *reinterpret_cast<Angle*>(std::uint64_t(this) + 0x1AD0);
+#endif
+    }
+
+    constexpr float SetPoseParameter(CStudioHdr* studioHdr, const char* name, float value) noexcept {
+        using _CBaseAnimating__SetPoseParameter = float(*)(C_BaseEntity*, CStudioHdr*, const char*, float);
+#if defined(__linux__)
+        static auto CBaseAnimating__SetPoseParameter = reinterpret_cast<_CBaseAnimating__SetPoseParameter>(memory::FindPattern("client_client.so", "55 48 89 E5 41 54 49 89 F4 53 48 89 FB 48 83 EC 10 F3 0F 11 45 ? E8 ? ? ? ? F3 0F 10 45 ? 48 83 C4 10"));
+#else
+        static auto CBaseAnimating__SetPoseParameter = reinterpret_cast<_CBaseAnimating_>(memory::FindPattern("client.dll", "48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B FA 48 8B D9 74 ? 33 C9 48 8B 5C 24 ? 48 83 C4 ? 5F E9 ? ? ? ? 48 8B 89 ? ? ? ? 48 85 C9 75 ? 48 8B CB E8 ? ? ? ? 48 8B 8B ? ? ? ? 48 8B D7 48 8B 5C 24 ? 48 83 C4 ? 5F E9 ? ? ? ? ? ? ? ? ? ? ? ? ? 48 89 74 24"));
+#endif
+
+        return CBaseAnimating__SetPoseParameter(this, studioHdr, name, value);
+    }
+
+    constexpr void InvalidateBoneCache() noexcept {
+        using _CBaseAnimating__InvalidateBoneCache = void(*)(C_BaseEntity*);
+#if defined(__linux__)
+        static auto CBaseAnimating__InvalidateBoneCache = reinterpret_cast<_CBaseAnimating__InvalidateBoneCache>(memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? 55 F2 0F 10 05 ? ? ? ? 48 89 E5 F2 0F 11 87"));
+#else
+        static auto CBaseAnimating__InvalidateBoneCache = reinterpret_cast<_CBaseAnimating_>(memory::FindPattern("client.dll", "48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B FA 48 8B D9 74 ? 33 C9 48 8B 5C 24 ? 48 83 C4 ? 5F E9 ? ? ? ? 48 8B 89 ? ? ? ? 48 85 C9 75 ? 48 8B CB E8 ? ? ? ? 48 8B 8B ? ? ? ? 48 8B D7 48 8B 5C 24 ? 48 83 C4 ? 5F E9 ? ? ? ? ? ? ? ? ? ? ? ? ? 48 89 74 24"));
+#endif
+
+        return CBaseAnimating__InvalidateBoneCache(this);
     }
 
     // IClientNetworkable (0x10)

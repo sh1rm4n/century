@@ -14,7 +14,7 @@ namespace menu::pages::accuracy {
         ImGui::BeginChild("##Aimbot", ImVec2(240, 0), ImGuiChildFlags_Borders);
         ImGui::SeparatorText("Aimbot");
         ImGui::ToggleAnimated("Enabled", &globals::Hacks::Aimbot::enabled);
-        ImGui::ToggleAnimated("AA Bruteforce", &globals::Hacks::Aimbot::bruteforce);
+        ImGui::ToggleAnimated("Resolver", &globals::Hacks::Aimbot::resolver);
         ImGui::ToggleAnimated("Silent aim", &globals::Hacks::Aimbot::silentAim);
         ImGui::ToggleAnimated("pSilent aim", &globals::Hacks::Aimbot::perfectSilent);
         ImGui::ToggleAnimated("Team checking", &globals::Hacks::Aimbot::teamCheck);

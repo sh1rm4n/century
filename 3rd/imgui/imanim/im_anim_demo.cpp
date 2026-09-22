@@ -59,7 +59,7 @@ static void DrawRotatedRect(ImDrawList* dl, ImVec2 ctr, ImVec2 size, float angle
 		ImVec2(-size.x * 0.5f,  size.y * 0.5f)
 	};
 	ImVec2 pts[4];
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; ++i) {
 		pts[i].x = ctr.x + corners[i].x * c - corners[i].y * s;
 		pts[i].y = ctr.y + corners[i].x * s + corners[i].y * c;
 	}
@@ -72,7 +72,7 @@ static void DrawRotatedRect(ImDrawList* dl, ImVec2 ctr, ImVec2 size, float angle
 static void DrawRotatedEllipse(ImDrawList* dl, ImVec2 ctr, ImVec2 radii, float angle, ImU32 fill, int segments = 32) {
 	float c = ImCos(angle), s = ImSin(angle);
 	ImVec2* pts = (ImVec2*)alloca(sizeof(ImVec2) * segments);
-	for (int i = 0; i < segments; i++) {
+	for (int i = 0; i < segments; ++i) {
 		float a = (float)i / segments * 3.14159265f * 2.0f;
 		float lx = ImCos(a) * radii.x;
 		float ly = ImSin(a) * radii.y;
@@ -165,7 +165,7 @@ static void ShowHeroAnimation()
 				int slot = -1;
 				float oldest_ratio = -1.0f;
 				int oldest_slot = 0;
-				for (int i = 0; i < 64; i++) {
+				for (int i = 0; i < 64; ++i) {
 					// Check if particle is dead/expired
 					if (particles[i].max_life <= 0 || particles[i].life >= particles[i].max_life) {
 						slot = i;
@@ -200,7 +200,7 @@ static void ShowHeroAnimation()
 		last_mouse = mouse;
 
 		// Update and render particles
-		for (int i = 0; i < 64; i++) {
+		for (int i = 0; i < 64; ++i) {
 			TrailParticle& p = particles[i];
 			if (p.life < p.max_life && p.max_life > 0) {
 				p.life += dt;
@@ -252,7 +252,7 @@ static void ShowHeroAnimation()
 			{ BL, 2.0f, 0.6f, TEAL },
 			{ BR, 1.6f, 0.9f, PURPLE },
 		};
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			CornerPulse& p = pulses[i];
 			float pt = ImFmod(t + p.phase, p.period) / p.period;
 			float expand = iam_eval_preset(iam_ease_out_expo, pt);
@@ -271,7 +271,7 @@ static void ShowHeroAnimation()
 	// ================================================================
 	{
 		// TL -> TR (top edge)
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float start = 0.2f + i * 0.15f, dur = 2.0f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -285,7 +285,7 @@ static void ShowHeroAnimation()
 			}
 		}
 		// TR -> BR (right edge)
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float start = 0.3f + i * 0.15f, dur = 2.0f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -299,7 +299,7 @@ static void ShowHeroAnimation()
 			}
 		}
 		// BR -> BL (bottom edge)
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float start = 0.4f + i * 0.15f, dur = 2.0f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -313,7 +313,7 @@ static void ShowHeroAnimation()
 			}
 		}
 		// BL -> TL (left edge)
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float start = 0.5f + i * 0.15f, dur = 2.0f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -334,7 +334,7 @@ static void ShowHeroAnimation()
 	// ================================================================
 	{
 		// TL -> BR diagonal
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			float start = 1.5f + i * 0.12f, dur = 2.5f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -351,7 +351,7 @@ static void ShowHeroAnimation()
 			}
 		}
 		// TR -> BL diagonal
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			float start = 1.6f + i * 0.12f, dur = 2.5f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -378,7 +378,7 @@ static void ShowHeroAnimation()
 		float corner_angles[] = { 0.785f, 2.356f, -0.785f, -2.356f }; // 45deg directions away from center
 
 		for (int c = 0; c < 4; c++) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; ++i) {
 				float start = 3.0f + c * 0.05f + i * 0.08f, dur = 2.0f;
 				if (t >= start && t < start + dur) {
 					float local = (t - start) / dur;
@@ -406,7 +406,7 @@ static void ShowHeroAnimation()
 	// ================================================================
 	{
 		// Left wave moving right
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 8; ++i) {
 			float start = 4.5f + i * 0.06f, dur = 2.0f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -422,7 +422,7 @@ static void ShowHeroAnimation()
 			}
 		}
 		// Right wave moving left
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 8; ++i) {
 			float start = 4.6f + i * 0.06f, dur = 2.0f;
 			if (t >= start && t < start + dur) {
 				float local = (t - start) / dur;
@@ -448,7 +448,7 @@ static void ShowHeroAnimation()
 		float orbit_speeds[] = { 3.0f, -2.5f, 2.8f, -3.2f };
 
 		for (int c = 0; c < 4; c++) {
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; ++i) {
 				float start = 5.5f + c * 0.1f, dur = 2.5f;
 				if (t >= start && t < start + dur) {
 					float local = (t - start) / dur;
@@ -482,7 +482,7 @@ static void ShowHeroAnimation()
 			{ TL, BR, 7.3f, GOLD },
 			{ TR, BL, 7.5f, CYAN },
 		};
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			LineDraw& l = lines[i];
 			float dur = 2.0f;
 			if (t >= l.start && t < l.start + dur) {
@@ -509,7 +509,7 @@ static void ShowHeroAnimation()
 			ImVec2 targets[] = { BR, BL, TR, TL }; // opposite corners
 			ImU32 cols[] = { CYAN, CORAL, TEAL, PURPLE };
 
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; ++i) {
 				float start = 8.5f + c * 0.08f + i * 0.05f, dur = 1.3f;
 				if (t >= start && t < start + dur) {
 					float local = (t - start) / dur;
@@ -592,7 +592,7 @@ static void ShowHeroAnimation()
 			start_x = cc.x - total_w * 0.5f;
 
 			float char_x = start_x;
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				char ch[2] = { logo[i], '\0' };
 				ImVec2 ch_size = ImGui::CalcTextSize(ch);
 
@@ -865,7 +865,7 @@ static void ShowEasingDemo()
 		IM_COL32(80, 80, 85, 255));
 
 	// Grid lines
-	for (int i = 1; i < 4; i++) {
+	for (int i = 1; i < 4; ++i) {
 		float x = canvas_pos.x + canvas_size.x * (i / 4.0f);
 		float y = canvas_pos.y + canvas_size.y * (i / 4.0f);
 		draw_list->AddLine(ImVec2(x, canvas_pos.y), ImVec2(x, canvas_pos.y + canvas_size.y), IM_COL32(60, 60, 65, 255));
@@ -875,7 +875,7 @@ static void ShowEasingDemo()
 	// Draw curve using direct evaluation
 	ImVec2 prev_pt(canvas_pos.x, canvas_pos.y + canvas_size.y);
 
-	for (int i = 1; i <= 100; i++) {
+	for (int i = 1; i <= 100; ++i) {
 		float t = i / 100.0f;
 		float val = iam_eval_preset(selected_ease, t);
 
@@ -1058,7 +1058,7 @@ static void ShowEasingDemo()
 
 		// Draw spring curve
 		ImVec2 spring_prev_pt(spring_canvas_pos.x, spring_canvas_pos.y + spring_canvas_size.y);
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 100; ++i) {
 			float t = (float)i / 100.0f;
 			float val = eval_spring(t * 2.0f, mass, stiffness, damping, v0);  // 2 seconds worth
 
@@ -1146,7 +1146,7 @@ static void ShowEasingDemo()
 
 		// Draw step function
 		float prev_val = eval_steps(0.0f, step_count, step_mode);
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 100; ++i) {
 			float t = (float)i / 100.0f;
 			float val = eval_steps(t, step_count, step_mode);
 
@@ -1251,7 +1251,7 @@ static void ShowEasingDemo()
 
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
-		for (int i = 0; i < num_eases; i++) {
+		for (int i = 0; i < num_eases; ++i) {
 			if (i % cols != 0) ImGui::SameLine();
 
 			ImGui::BeginGroup();
@@ -1570,7 +1570,7 @@ static void ShowBasicTweensDemo()
 		float size = 40.0f * scale;
 		float rad = rotation * 3.14159f / 180.0f;
 		ImVec2 corners[4];
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float angle = rad + (float)i * 3.14159f * 0.5f + 3.14159f * 0.25f;
 			corners[i].x = center.x + ImCos(angle) * size * 0.707f;
 			corners[i].y = center.y + ImSin(angle) * size * 0.707f;
@@ -1608,7 +1608,7 @@ static void ShowBasicTweensDemo()
 		draw_list->AddRectFilled(origin, ImVec2(origin.x + 400, origin.y + 80), IM_COL32(40, 40, 45, 255));
 
 		const int num_dots = 12;
-		for (int i = 0; i < num_dots; i++) {
+		for (int i = 0; i < num_dots; ++i) {
 			ImGuiID id = GetID(i + 100);
 			float stagger_delay = (float)i * 0.08f;
 			float local_time = wave_active ? ImMax(0.0f, wave_time - stagger_delay) : 0.0f;
@@ -1675,7 +1675,7 @@ static void ShowBasicTweensDemo()
 
 		float const vis_width = 300.0f;
 		float const text_width = 100.0f;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			ImGuiID id = GetID(i + 200);
 			float x_pos = iam_tween_float(id, ImHashStr("spring_x"),
 				spring_triggered ? (vis_width - 20.0f) : 20.0f,
@@ -1749,7 +1749,7 @@ static void ShowColorTweensDemo()
 	const char* space_names[] = { "sRGB", "Linear sRGB", "HSV", "OKLAB", "OKLCH" };
 	int spaces[] = { iam_col_srgb, iam_col_srgb_linear, iam_col_hsv, iam_col_oklab, iam_col_oklch };
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; ++i) {
 		ImGuiID id = ImHashStr("color_space_demo");
 		ImVec4 value = iam_tween_color(id, (ImGuiID)i, target, 1.5f,
 			iam_ease_preset(iam_ease_out_cubic), iam_policy_crossfade, spaces[i], dt);
@@ -2104,7 +2104,7 @@ static void ShowWidgetsDemo()
 		ImVec2 buttons_area(400, 60);
 		ImGui::BeginChild("##buttons_area", buttons_area, false, ImGuiWindowFlags_NoScrollbar);
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; ++i) {
 			char label[32];
 			snprintf(label, sizeof(label), "Button %d", i + 1);
 
@@ -2930,7 +2930,7 @@ static void ShowClipSystemDemo()
 		static ImGuiID inst_ids[NUM_ITEMS];
 		static bool initialized = false;
 		if (!initialized) {
-			for (int i = 0; i < NUM_ITEMS; i++) {
+			for (int i = 0; i < NUM_ITEMS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "stagger_dot_%d", i);
 				inst_ids[i] = ImHashStr(buf);
@@ -2939,13 +2939,13 @@ static void ShowClipSystemDemo()
 		}
 
 		if (ImGui::Button("Play Wave")) {
-			for (int i = 0; i < NUM_ITEMS; i++) {
+			for (int i = 0; i < NUM_ITEMS; ++i) {
 				iam_play_stagger(CLIP_STAGGER, inst_ids[i], i);
 			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset")) {
-			for (int i = 0; i < NUM_ITEMS; i++) {
+			for (int i = 0; i < NUM_ITEMS; ++i) {
 				iam_instance inst = iam_get_instance(inst_ids[i]);
 				if (inst.valid()) inst.destroy();
 			}
@@ -2966,7 +2966,7 @@ static void ShowClipSystemDemo()
 		float spacing = canvas_w / (NUM_ITEMS + 1);
 		float base_y = canvas_pos.y + canvas_h * 0.5f;
 
-		for (int i = 0; i < NUM_ITEMS; i++) {
+		for (int i = 0; i < NUM_ITEMS; ++i) {
 			iam_instance inst = iam_get_instance(inst_ids[i]);
 			float alpha = 0.0f, pos_y = 40.0f, scale = 0.0f;
 			if (inst.valid()) {
@@ -3015,7 +3015,7 @@ static void ShowClipSystemDemo()
 		static ImGuiID list_inst_ids[NUM_LIST_ITEMS];
 		static bool list_initialized = false;
 		if (!list_initialized) {
-			for (int i = 0; i < NUM_LIST_ITEMS; i++) {
+			for (int i = 0; i < NUM_LIST_ITEMS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "stagger_list_%d", i);
 				list_inst_ids[i] = ImHashStr(buf);
@@ -3024,13 +3024,13 @@ static void ShowClipSystemDemo()
 		}
 
 		if (ImGui::Button("Play List")) {
-			for (int i = 0; i < NUM_LIST_ITEMS; i++) {
+			for (int i = 0; i < NUM_LIST_ITEMS; ++i) {
 				iam_play_stagger(CLIP_STAGGER_LIST, list_inst_ids[i], i);
 			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset##list")) {
-			for (int i = 0; i < NUM_LIST_ITEMS; i++) {
+			for (int i = 0; i < NUM_LIST_ITEMS; ++i) {
 				iam_instance inst = iam_get_instance(list_inst_ids[i]);
 				if (inst.valid()) inst.destroy();
 			}
@@ -3052,7 +3052,7 @@ static void ShowClipSystemDemo()
 			IM_COL32(30, 32, 38, 255), 6.0f);
 
 		const char* list_labels[] = { "Dashboard", "Projects", "Tasks", "Calendar", "Settings", "Help" };
-		for (int i = 0; i < NUM_LIST_ITEMS; i++) {
+		for (int i = 0; i < NUM_LIST_ITEMS; ++i) {
 			iam_instance inst = iam_get_instance(list_inst_ids[i]);
 			float alpha = 0.0f, pos_x = -50.0f;
 			if (inst.valid()) {
@@ -3096,7 +3096,7 @@ static void ShowClipSystemDemo()
 		static ImGuiID grid_inst_ids[NUM_GRID_ITEMS];
 		static bool grid_initialized = false;
 		if (!grid_initialized) {
-			for (int i = 0; i < NUM_GRID_ITEMS; i++) {
+			for (int i = 0; i < NUM_GRID_ITEMS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "stagger_grid_%d", i);
 				grid_inst_ids[i] = ImHashStr(buf);
@@ -3105,13 +3105,13 @@ static void ShowClipSystemDemo()
 		}
 
 		if (ImGui::Button("Play Grid")) {
-			for (int i = 0; i < NUM_GRID_ITEMS; i++) {
+			for (int i = 0; i < NUM_GRID_ITEMS; ++i) {
 				iam_play_stagger(CLIP_STAGGER_GRID, grid_inst_ids[i], i);
 			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset##grid")) {
-			for (int i = 0; i < NUM_GRID_ITEMS; i++) {
+			for (int i = 0; i < NUM_GRID_ITEMS; ++i) {
 				iam_instance inst = iam_get_instance(grid_inst_ids[i]);
 				if (inst.valid()) inst.destroy();
 			}
@@ -3183,7 +3183,7 @@ static void ShowClipSystemDemo()
 		static ImGuiID card_inst_ids[NUM_CARDS];
 		static bool cards_initialized = false;
 		if (!cards_initialized) {
-			for (int i = 0; i < NUM_CARDS; i++) {
+			for (int i = 0; i < NUM_CARDS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "stagger_card_%d", i);
 				card_inst_ids[i] = ImHashStr(buf);
@@ -3192,13 +3192,13 @@ static void ShowClipSystemDemo()
 		}
 
 		if (ImGui::Button("Drop Cards")) {
-			for (int i = 0; i < NUM_CARDS; i++) {
+			for (int i = 0; i < NUM_CARDS; ++i) {
 				iam_play_stagger(CLIP_STAGGER_CARDS, card_inst_ids[i], i);
 			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset##cards")) {
-			for (int i = 0; i < NUM_CARDS; i++) {
+			for (int i = 0; i < NUM_CARDS; ++i) {
 				iam_instance inst = iam_get_instance(card_inst_ids[i]);
 				if (inst.valid()) inst.destroy();
 			}
@@ -3228,7 +3228,7 @@ static void ShowClipSystemDemo()
 			IM_COL32(220, 60, 60, 255),   // Red
 		};
 
-		for (int i = 0; i < NUM_CARDS; i++) {
+		for (int i = 0; i < NUM_CARDS; ++i) {
 			iam_instance inst = iam_get_instance(card_inst_ids[i]);
 			float alpha = 0.0f, pos_y = -80.0f, scale = 0.8f;
 			if (inst.valid()) {
@@ -3550,7 +3550,7 @@ static void ShowClipSystemDemo()
 		static ImGuiID grid_inst_ids[NUM_ITEMS];
 		static bool grid_initialized = false;
 		if (!grid_initialized) {
-			for (int i = 0; i < NUM_ITEMS; i++) {
+			for (int i = 0; i < NUM_ITEMS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "var_grid_%d", i);
 				grid_inst_ids[i] = ImHashStr(buf);
@@ -3559,13 +3559,13 @@ static void ShowClipSystemDemo()
 		}
 
 		if (ImGui::Button("Start")) {
-			for (int i = 0; i < NUM_ITEMS; i++) {
+			for (int i = 0; i < NUM_ITEMS; ++i) {
 				iam_play_stagger(CLIP_VAR_PARTICLES, grid_inst_ids[i], i);
 			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset##grid")) {
-			for (int i = 0; i < NUM_ITEMS; i++) {
+			for (int i = 0; i < NUM_ITEMS; ++i) {
 				iam_instance inst = iam_get_instance(grid_inst_ids[i]);
 				if (inst.valid()) inst.destroy();
 			}
@@ -3645,7 +3645,7 @@ static void ShowClipSystemDemo()
 		static ImGuiID racer_inst_ids[NUM_RACERS];
 		static bool racers_initialized = false;
 		if (!racers_initialized) {
-			for (int i = 0; i < NUM_RACERS; i++) {
+			for (int i = 0; i < NUM_RACERS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "var_racer_%d", i);
 				racer_inst_ids[i] = ImHashStr(buf);
@@ -3654,7 +3654,7 @@ static void ShowClipSystemDemo()
 		}
 
 		if (ImGui::Button("Start Race")) {
-			for (int i = 0; i < NUM_RACERS; i++) {
+			for (int i = 0; i < NUM_RACERS; ++i) {
 				iam_instance inst = iam_play_stagger(CLIP_VAR_RACE, racer_inst_ids[i], i);
 				// Set timescale so all arrive at the same time
 				// Row i has delay = i * DELAY_STEP, so travel time = TOTAL_TIME - delay
@@ -3667,7 +3667,7 @@ static void ShowClipSystemDemo()
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset##race")) {
-			for (int i = 0; i < NUM_RACERS; i++) {
+			for (int i = 0; i < NUM_RACERS; ++i) {
 				iam_instance inst = iam_get_instance(racer_inst_ids[i]);
 				if (inst.valid()) inst.destroy();
 			}
@@ -3705,7 +3705,7 @@ static void ShowClipSystemDemo()
 			ImVec2(canvas_pos.x + margin, canvas_pos.y + canvas_h - 5),
 			IM_COL32(100, 255, 100, 150), 2.0f);
 
-		for (int i = 0; i < NUM_RACERS; i++) {
+		for (int i = 0; i < NUM_RACERS; ++i) {
 			float pos_x = margin;  // Default to start position
 			float alpha = 0.5f;
 			iam_instance inst = iam_get_instance(racer_inst_ids[i]);
@@ -4514,7 +4514,7 @@ static void ShowDrawListDemo()
 		static bool rings_started = false;
 
 		if (!rings_initialized) {
-			for (int i = 0; i < NUM_RINGS; i++) {
+			for (int i = 0; i < NUM_RINGS; ++i) {
 				char buf[32];
 				snprintf(buf, sizeof(buf), "dl_ring_%d", i);
 				ring_inst_ids[i] = ImHashStr(buf);
@@ -4523,14 +4523,14 @@ static void ShowDrawListDemo()
 		}
 
 		if (!rings_started) {
-			for (int i = 0; i < NUM_RINGS; i++) {
+			for (int i = 0; i < NUM_RINGS; ++i) {
 				iam_play_stagger(CLIP_DL_RING, ring_inst_ids[i], i);
 			}
 			rings_started = true;
 		}
 
 		if (ImGui::Button("Restart##rings")) {
-			for (int i = 0; i < NUM_RINGS; i++) {
+			for (int i = 0; i < NUM_RINGS; ++i) {
 				iam_play_stagger(CLIP_DL_RING, ring_inst_ids[i], i);
 			}
 		}
@@ -4849,7 +4849,7 @@ static void ShowOscillatorsDemo()
 		IM_COL32(255, 255, 100, 255)
 	};
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; ++i) {
 		float phase = i * 0.25f;
 		float x = canvas_pos.x + 50.0f + i * (canvas_size.x - 100.0f) / 3.0f;
 
@@ -5068,7 +5068,7 @@ static void ShowScrollDemo()
 	}
 
 	// Content - many items to scroll through
-	for (int i = 0; i < 50; i++) {
+	for (int i = 0; i < 50; ++i) {
 		bool is_special = (i == 0 || i == 24 || i == 49);
 		if (is_special) {
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.2f, 1.0f));
@@ -5238,7 +5238,7 @@ static void ShowPathMorphingDemo()
 		// Star-like path
 		float sr = 70, sir = 30; // outer and inner radius
 		ImVec2 star_points[10];
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; ++i) {
 			float angle = (float)i * IM_PI * 2.0f / 10.0f - IM_PI / 2.0f;
 			float rad = (i % 2 == 0) ? sr : sir;
 			star_points[i] = ImVec2(cx + rad * ImCos(angle), cy + rad * ImSin(angle));
@@ -5303,7 +5303,7 @@ static void ShowPathMorphingDemo()
 		opts.samples = 100;
 
 		ImVec2 prev_pt;
-		for (int i = 0; i <= 100; i++) {
+		for (int i = 0; i <= 100; ++i) {
 			float t = (float)i / 100.0f;
 			ImVec2 pt = iam_path_morph(pa, pb, t, blend, opts);
 			pt.x += canvas_pos.x;
@@ -5380,7 +5380,7 @@ static void ShowPathMorphingDemo()
 		opts.samples = 100;
 
 		ImVec2 prev_pt;
-		for (int i = 0; i <= 100; i++) {
+		for (int i = 0; i <= 100; ++i) {
 			float t = (float)i / 100.0f;
 			ImVec2 pt = iam_path_morph(pa, pb, t, blend, opts);
 			pt.x += canvas_pos.x;
@@ -5428,7 +5428,7 @@ static void ShowPathMorphingDemo()
 
 		// Draw morphed path
 		ImVec2 prev_pt;
-		for (int i = 0; i <= 100; i++) {
+		for (int i = 0; i <= 100; ++i) {
 			float t = (float)i / 100.0f;
 			ImVec2 pt = iam_path_morph(path_circle_id, path_star_id, t, path_blend, opts);
 			pt.x += canvas_pos.x;
@@ -5660,7 +5660,7 @@ static void ShowTimelineMarkersDemo()
 
 	if (ImGui::Button("Play Clip with Markers")) {
 		// Clear log
-		for (int i = 0; i < marker_log.Size; i++) delete[] marker_log[i];
+		for (int i = 0; i < marker_log.Size; ++i) delete[] marker_log[i];
 		marker_log.clear();
 		marker_inst = iam_play(marker_clip_id, ImHashStr("marker_inst"));
 	}
@@ -5677,7 +5677,7 @@ static void ShowTimelineMarkersDemo()
 	ImVec2 bar_size = ImGui::GetItemRectSize();
 	ImDrawList* draw = ImGui::GetWindowDrawList();
 	float marker_times[] = { 0.5f, 1.0f, 1.5f, 2.0f, 2.5f };
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; ++i) {
 		float t = marker_times[i] / 3.0f;  // Normalize to 0-1
 		float x = bar_pos.x + bar_size.x * t;
 		draw->AddLine(ImVec2(x, bar_pos.y), ImVec2(x, bar_pos.y + bar_size.y), IM_COL32(255, 200, 100, 255), 2.0f);
@@ -5687,7 +5687,7 @@ static void ShowTimelineMarkersDemo()
 	ImGui::Text("Marker Events:");
 	marker_log_time -= GetSafeDeltaTime();
 	if (marker_log_time > 0) {
-		for (int i = 0; i < marker_log.Size; i++) {
+		for (int i = 0; i < marker_log.Size; ++i) {
 			ImGui::BulletText("%s", marker_log[i]);
 		}
 	}
@@ -5891,7 +5891,7 @@ static void ShowTextStaggerDemo()
 		const char* texts[] = {"Fade In", "Scale Up", "Slide Up", "Bounce!", "Wave~"};
 		int effects[] = {iam_text_fx_fade, iam_text_fx_scale, iam_text_fx_slide_up, iam_text_fx_bounce, iam_text_fx_wave};
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; ++i) {
 			iam_text_stagger_opts o;
 			o.pos = ImVec2(pos.x + 20.0f, pos.y + 30.0f + i * 55.0f);
 			o.effect = effects[i];
@@ -6006,7 +6006,7 @@ static void ShowNoiseChannelsDemo()
 			IM_COL32(255, 255, 100, 255)
 		};
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float x = canvas_pos.x + 50.0f + i * (canvas_size.x - 100.0f) / 3.0f;
 			char id_buf[32];
 			snprintf(id_buf, sizeof(id_buf), "noise_demo_%d", i);
@@ -6460,7 +6460,7 @@ static void ShowDragFeedbackDemo()
 			IM_COL32(30, 30, 40, 255), 4.0f);
 
 		// Draw snap points
-		for (int i = 0; i < IM_ARRAYSIZE(snap_points); i++) {
+		for (int i = 0; i < IM_ARRAYSIZE(snap_points); ++i) {
 			ImVec2 pt(canvas_pos.x + snap_points[i].x, canvas_pos.y + snap_points[i].y);
 			draw_list->AddCircleFilled(pt, 6.0f, IM_COL32(80, 80, 100, 255));
 			draw_list->AddCircle(pt, 6.0f, IM_COL32(120, 120, 140, 255));
@@ -6553,7 +6553,7 @@ static void ShowGradientKeyframesDemo()
 		ImDrawList* draw = ImGui::GetWindowDrawList();
 
 		int segments = 50;
-		for (int i = 0; i < segments; i++) {
+		for (int i = 0; i < segments; ++i) {
 			float t0 = (float)i / segments;
 			float t1 = (float)(i + 1) / segments;
 			ImVec4 c0 = result.sample(t0);
@@ -6602,7 +6602,7 @@ static void ShowGradientKeyframesDemo()
 				  .add(0.66f, ImVec4(1.0f, 1.0f, 0.0f, 1.0f))
 				  .add(1.0f, ImVec4(1.0f, 0.0f, 1.0f, 1.0f));
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			if (ImGui::RadioButton(gradient_names[i], target_idx == i)) {
 				target_idx = i;
 			}
@@ -6626,7 +6626,7 @@ static void ShowGradientKeyframesDemo()
 		ImDrawList* draw = ImGui::GetWindowDrawList();
 
 		int segments = 60;
-		for (int i = 0; i < segments; i++) {
+		for (int i = 0; i < segments; ++i) {
 			float t0 = (float)i / segments;
 			float t1 = (float)(i + 1) / segments;
 			ImVec4 c0 = current.sample(t0);
@@ -6670,7 +6670,7 @@ static void ShowGradientKeyframesDemo()
 		// Filled portion with gradient
 		int segments = 30;
 		float fill_width = bar_size.x * health;
-		for (int i = 0; i < segments; i++) {
+		for (int i = 0; i < segments; ++i) {
 			float t0 = (float)i / segments;
 			float t1 = (float)(i + 1) / segments;
 			if (t1 * bar_size.x > fill_width) break;
@@ -6736,7 +6736,7 @@ static void ShowTransformInterpolationDemo()
 		};
 
 		ImVec2 transformed[4];
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			transformed[i].x = center.x + corners[i].x * cos_r - corners[i].y * sin_r;
 			transformed[i].y = center.y + corners[i].x * sin_r + corners[i].y * cos_r;
 		}
@@ -6779,7 +6779,7 @@ static void ShowTransformInterpolationDemo()
 		poses[3].rotation = 3.14159f;
 		poses[3].scale = ImVec2(1.0f, 1.0f);
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			if (ImGui::RadioButton(pose_names[i], target_idx == i)) {
 				target_idx = i;
 			}
@@ -6818,7 +6818,7 @@ static void ShowTransformInterpolationDemo()
 		};
 
 		ImVec2 transformed[4];
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			transformed[i].x = center.x + corners[i].x * cos_r - corners[i].y * sin_r;
 			transformed[i].y = center.y + corners[i].x * sin_r + corners[i].y * cos_r;
 		}
@@ -6902,7 +6902,7 @@ static void ShowTransformInterpolationDemo()
 		};
 
 		ImVec2 transformed[4];
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			transformed[i].x = center.x + corners[i].x * cos_r - corners[i].y * sin_r;
 			transformed[i].y = center.y + corners[i].x * sin_r + corners[i].y * cos_r;
 		}
@@ -6971,7 +6971,7 @@ static void ShowTransformInterpolationDemo()
 				ImVec2(-hw, -hh), ImVec2(hw, -hh), ImVec2(hw, hh), ImVec2(-hw, hh)
 			};
 			ImVec2 transformed[4];
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; ++i) {
 				transformed[i].x = center.x + corners[i].x * cos_r - corners[i].y * sin_r;
 				transformed[i].y = center.y + corners[i].x * sin_r + corners[i].y * cos_r;
 			}
@@ -6990,7 +6990,7 @@ static void ShowTransformInterpolationDemo()
 				ImVec2(-hw, -hh), ImVec2(hw, -hh), ImVec2(hw, hh), ImVec2(-hw, hh)
 			};
 			ImVec2 transformed[4];
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; ++i) {
 				transformed[i].x = center.x + corners[i].x * cos_r - corners[i].y * sin_r;
 				transformed[i].y = center.y + corners[i].x * sin_r + corners[i].y * cos_r;
 			}
@@ -7072,7 +7072,7 @@ static void ShowStressTestDemo()
 			min_ms = 999.0f;
 			max_ms = 0.0f;
 			avg_ms = 0.0f;
-			for (int i = 0; i < 120; i++) ms_history[i] = 0.0f;
+			for (int i = 0; i < 120; ++i) ms_history[i] = 0.0f;
 			ms_idx = 0;
 		}
 	} else {
@@ -7085,7 +7085,7 @@ static void ShowStressTestDemo()
 		min_ms = 999.0f;
 		max_ms = 0.0f;
 		avg_ms = 0.0f;
-		for (int i = 0; i < 120; i++) ms_history[i] = 0.0f;
+		for (int i = 0; i < 120; ++i) ms_history[i] = 0.0f;
 		ms_idx = 0;
 	}
 
@@ -7105,7 +7105,7 @@ static void ShowStressTestDemo()
 		// Calculate average
 		float sum = 0.0f;
 		int count = 0;
-		for (int i = 0; i < 120; i++) {
+		for (int i = 0; i < 120; ++i) {
 			if (ms_history[i] > 0.0f) {
 				sum += ms_history[i];
 				count++;
@@ -7178,7 +7178,7 @@ static void ShowStressTestDemo()
 
 		// Each animation has its own phase based on stagger
 		// They ping-pong between two states independently
-		for (int i = 0; i < anim_count; i++) {
+		for (int i = 0; i < anim_count; ++i) {
 			ImGuiID id = base_id + (ImGuiID)i;
 
 			// Staggered phase - each animation starts at a different time
@@ -7321,7 +7321,7 @@ static void ShowStressTestDemo()
 
 		// Draw each animation as a cell using STORED values (not re-querying the tween)
 		float padding = 2.0f;
-		for (int i = 0; i < anim_count; i++) {
+		for (int i = 0; i < anim_count; ++i) {
 				int grid_col = i % items_per_row;
 				int grid_row = i / items_per_row;
 				float cx = canvas_pos.x + (float)grid_col * item_size + item_size * 0.5f;

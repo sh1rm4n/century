@@ -9,6 +9,8 @@
 #include "globals.hpp"
 #include "interfaces.hpp"
 #include "utils.hpp"
+#include "../3rd/imgui/imgui_notify/ImGuiNotify.hpp"
+#include "../hacks/Resolver.hpp"
 #include "../sourcesdk/entities/C_BaseCombatWeapon.hpp"
 
 static std::string ReplaceVariables(
@@ -34,12 +36,29 @@ public:
         const auto attackerId = interfaces->engineClient->GetPlayerForUserID(event->GetInt("attacker"));
         const auto victimId = interfaces->engineClient->GetPlayerForUserID(event->GetInt("userid"));
 
+        const auto remainingHealth = event->GetInt("health");
+
+        const auto victim = interfaces->entityList->GetClientEntity<C_BaseEntity>(victimId);
+        if (!victim)
+            return;
+
+        player_info_s attackerInfo{};
+        if (!interfaces->engineClient->GetPlayerInfo(attackerId, &attackerInfo))
+            return;
+
+        player_info_s victimInfo{};
+        if (!interfaces->engineClient->GetPlayerInfo(victimId, &victimInfo))
+            return;
+
         if (attackerId == 0) {
             return;
         }
 
         if (attackerId == interfaces->engineClient->GetLocalPlayer()) {
             interfaces->engineClient->ClientCmd_Unrestricted("play plats/elevbell1.wav");
+
+            ImGui::InsertNotification({ImGuiToastType::Success, fmt::format("{} now has {}HP!", victimInfo.name, remainingHealth).c_str()});
+
             return;
         }
     }
@@ -51,6 +70,10 @@ public:
         const auto attackerId = event->GetInt("entindex_attacker");
         const auto victimId = event->GetInt("entindex_killed");
 
+        const auto victim = interfaces->entityList->GetClientEntity<C_BaseEntity>(victimId);
+        if (!victim)
+            return;
+
         player_info_s attackerInfo{};
         if (!interfaces->engineClient->GetPlayerInfo(attackerId, &attackerInfo))
             return;
@@ -58,6 +81,9 @@ public:
         player_info_s victimInfo{};
         if (!interfaces->engineClient->GetPlayerInfo(victimId, &victimInfo))
             return;
+
+        if (resolver->ContainsPlayer(victim))
+            resolver->RemovePlayer(victim);
 
         if (attackerId == 0) {
             interfaces->engineClient->ClientCmd_Unrestricted("say упал отжался");

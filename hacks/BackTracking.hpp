@@ -33,8 +33,11 @@ private:
 public:
     void Update() noexcept;
     static float GetLerpTime() noexcept;
-    bool GetRecordForTime(int playerIndex, float targetTime, BacktrackRecord& out) noexcept;
-    void Apply(CUserCmd* cmd, C_BaseEntity* player, const BacktrackRecord& record);
+    bool GetRecordForTime(int playerIndex, double targetTime, BacktrackRecord& out) noexcept;
+    void Apply(CUserCmd* cmd, C_BaseEntity* player, BacktrackRecord& record);
+    double GetBestTime(C_BaseEntity* player) noexcept;
+    bool IsBreakingLC(C_BaseEntity* entity) noexcept;
+    std::deque<BacktrackRecord> GetRecords(C_BaseEntity* entity) noexcept;
 };
 
 inline auto backTracking = std::make_unique<BackTracking>();

@@ -49,6 +49,7 @@ void Modules::Prepare() noexcept {
     studioRender = GetModule("studiorender_client.so");
     luaShared = GetModule("lua_shared_client.so");
     vstdlib = GetModule("libvstdlib_client.so");
+    vphysics = GetModule("vphysics_client.so");
 #else
     tier0 = GetModule("tier0.dll");
     inputSystem = GetModule("inputsystem.dll");
@@ -61,5 +62,6 @@ void Modules::Prepare() noexcept {
     studioRender = GetModule("studiorender.dll");
     luaShared = GetModule("lua_shared.dll");
     vstdlib = GetModule("vstdlib.dll");
+    vphysics = GetModule("vphysics.dll");
 #endif
 }

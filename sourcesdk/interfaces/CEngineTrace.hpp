@@ -172,7 +172,7 @@ public:
 	}
 
 	virtual bool ShouldHitClientEntities() const {
-		return false;
+		return true;
 	}
 
 	virtual void SetPassEntity(void* ent) {

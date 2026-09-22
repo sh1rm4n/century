@@ -716,7 +716,7 @@ struct profiler_section {
 
 	profiler_section() : start_time(0), accumulated_time(0), call_count(0), history_idx(0), active(false) {
 		name[0] = '\0';
-		for (int i = 0; i < PROFILER_HISTORY_SIZE; i++) history[i] = 0.0f;
+		for (int i = 0; i < PROFILER_HISTORY_SIZE; ++i) history[i] = 0.0f;
 	}
 };
 
@@ -733,12 +733,12 @@ struct profiler_state {
 
 	profiler_state() : enabled(false), frame_start_time(0), frame_total_time(0),
 		frame_history_idx(0), section_count(0), stack_depth(0) {
-		for (int i = 0; i < PROFILER_HISTORY_SIZE; i++) frame_history[i] = 0.0f;
+		for (int i = 0; i < PROFILER_HISTORY_SIZE; ++i) frame_history[i] = 0.0f;
 	}
 
 	int find_or_create_section(char const* name) {
 		// Find existing section
-		for (int i = 0; i < section_count; i++) {
+		for (int i = 0; i < section_count; ++i) {
 			if (strcmp(sections[i].name, name) == 0) return i;
 		}
 		// Create new section
@@ -850,7 +850,7 @@ void iam_profiler_enable(bool enable) {
 	iam_detail::g_profiler.enabled = enable;
 	if (enable) {
 		// Reset all sections when enabling
-		for (int i = 0; i < iam_detail::g_profiler.section_count; i++) {
+		for (int i = 0; i < iam_detail::g_profiler.section_count; ++i) {
 			iam_detail::g_profiler.sections[i].accumulated_time = 0;
 			iam_detail::g_profiler.sections[i].call_count = 0;
 		}
@@ -866,7 +866,7 @@ void iam_profiler_begin_frame() {
 	iam_detail::g_profiler.frame_start_time = iam_detail::get_time_ms();
 	iam_detail::g_profiler.stack_depth = 0;
 	// Reset per-frame accumulators
-	for (int i = 0; i < iam_detail::g_profiler.section_count; i++) {
+	for (int i = 0; i < iam_detail::g_profiler.section_count; ++i) {
 		iam_detail::g_profiler.sections[i].accumulated_time = 0;
 		iam_detail::g_profiler.sections[i].call_count = 0;
 	}
@@ -883,7 +883,7 @@ void iam_profiler_end_frame() {
 	idx = (idx + 1) % iam_detail::PROFILER_HISTORY_SIZE;
 
 	// Store section times in history
-	for (int i = 0; i < iam_detail::g_profiler.section_count; i++) {
+	for (int i = 0; i < iam_detail::g_profiler.section_count; ++i) {
 		auto& sec = iam_detail::g_profiler.sections[i];
 		sec.history[sec.history_idx] = (float)sec.accumulated_time;
 		sec.history_idx = (sec.history_idx + 1) % iam_detail::PROFILER_HISTORY_SIZE;
@@ -4007,7 +4007,7 @@ struct shake_state {
 	float noise_val[4];
 	int noise_idx;
 	shake_state() : time_since_trigger(0), noise_time(0), last_frame(0), triggered(false), noise_idx(0) {
-		for (int i = 0; i < 4; i++) noise_val[i] = 0;
+		for (int i = 0; i < 4; ++i) noise_val[i] = 0;
 	}
 };
 
@@ -4253,7 +4253,7 @@ struct scroll_anim {
 static ImVector<scroll_anim> g_scroll_anims;
 
 static scroll_anim* find_or_create(ImGuiID window_id) {
-	for (int i = 0; i < g_scroll_anims.Size; i++) {
+	for (int i = 0; i < g_scroll_anims.Size; ++i) {
 		if (g_scroll_anims[i].window_id == window_id) {
 			return &g_scroll_anims[i];
 		}
@@ -4471,7 +4471,7 @@ struct path_segment {
 static float approx_segment_length(path_segment const& seg, int subdivisions = 16) {
 	float len = 0.0f;
 	ImVec2 prev = seg.evaluate(0.0f);
-	for (int i = 1; i <= subdivisions; i++) {
+	for (int i = 1; i <= subdivisions; ++i) {
 		float t = (float)i / (float)subdivisions;
 		ImVec2 cur = seg.evaluate(t);
 		float dx = cur.x - prev.x;
@@ -4503,7 +4503,7 @@ struct path_data {
 
 	void compute_lengths() {
 		total_length = 0;
-		for (int i = 0; i < segments.Size; i++) {
+		for (int i = 0; i < segments.Size; ++i) {
 			segments[i].length = approx_segment_length(segments[i]);
 			total_length += segments[i].length;
 		}
@@ -4529,7 +4529,7 @@ struct path_data {
 
 		float target_dist = global_t * total_length;
 		float accum = 0;
-		for (int i = 0; i < segments.Size; i++) {
+		for (int i = 0; i < segments.Size; ++i) {
 			if (accum + segments[i].length >= target_dist) {
 				*out_seg_idx = i;
 				float local_dist = target_dist - accum;
@@ -4576,7 +4576,7 @@ struct path_data {
 		ImVec2 prev = evaluate(0.0f);
 		float cumulative = 0;
 
-		for (int i = 1; i <= subdivisions; i++) {
+		for (int i = 1; i <= subdivisions; ++i) {
 			float t = (float)i / (float)subdivisions;
 			ImVec2 cur = evaluate(t);
 			float dx = cur.x - prev.x;
@@ -5067,7 +5067,7 @@ void sample_path(ImGuiID path_id, int samples, ImVector<ImVec2>& out_points, boo
 	iam_path_detail::path_data* path = iam_path_detail::get_path(path_id);
 	if (!path || path->segments.Size == 0) {
 		// Fill with zeros if path doesn't exist
-		for (int i = 0; i < samples; i++) {
+		for (int i = 0; i < samples; ++i) {
 			out_points[i] = ImVec2(0, 0);
 		}
 		return;
@@ -5078,7 +5078,7 @@ void sample_path(ImGuiID path_id, int samples, ImVector<ImVec2>& out_points, boo
 		path->build_arc_lut(64);
 	}
 
-	for (int i = 0; i < samples; i++) {
+	for (int i = 0; i < samples; ++i) {
 		float t = (samples > 1) ? (float)i / (float)(samples - 1) : 0.0f;
 
 		if (use_arc_length && path->has_arc_lut) {
@@ -5290,7 +5290,7 @@ void iam_transform_quad(ImVec2* quad, ImVec2 center, float angle_rad, ImVec2 tra
 	float cos_a = ImCos(angle_rad);
 	float sin_a = ImSin(angle_rad);
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; ++i) {
 		// Translate to origin (relative to center)
 		float x = quad[i].x - center.x;
 		float y = quad[i].y - center.y;
@@ -5837,7 +5837,7 @@ void iam_text_stagger(ImGuiID id, char const* text, float progress, iam_text_sta
 			float hh = glyph_height * 0.5f;
 			float local_corners[4][2] = {{-hw, -hh}, {hw, -hh}, {hw, hh}, {-hw, hh}};
 
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; ++i) {
 				float lx = local_corners[i][0];
 				float ly = local_corners[i][1];
 				corners[i].x = center_x + lx * cos_r - ly * sin_r;
@@ -6138,7 +6138,7 @@ float iam_noise_2d(float x, float y, iam_noise_opts const& opts) {
 	float frequency = 1.0f;
 	float max_value = 0.0f;
 
-	for (int i = 0; i < opts.octaves; i++) {
+	for (int i = 0; i < opts.octaves; ++i) {
 		float nx = x * frequency;
 		float ny = y * frequency;
 
@@ -6174,7 +6174,7 @@ float iam_noise_3d(float x, float y, float z, iam_noise_opts const& opts) {
 	float frequency = 1.0f;
 	float max_value = 0.0f;
 
-	for (int i = 0; i < opts.octaves; i++) {
+	for (int i = 0; i < opts.octaves; ++i) {
 		float nx = x * frequency;
 		float ny = y * frequency;
 		float nz = z * frequency;
@@ -6307,7 +6307,7 @@ void blend_styles(ImGuiStyle const& a, ImGuiStyle const& b, float t, ImGuiStyle*
 	out->SeparatorTextPadding = lerp_vec2(a.SeparatorTextPadding, b.SeparatorTextPadding, t);
 
 	// Blend all colors using the existing color space infrastructure
-	for (int i = 0; i < ImGuiCol_COUNT; i++) {
+	for (int i = 0; i < ImGuiCol_COUNT; ++i) {
 		out->Colors[i] = iam_detail::color::lerp_color(a.Colors[i], b.Colors[i], t, color_space);
 	}
 }
@@ -6949,7 +6949,7 @@ void iam_show_unified_inspector(bool* p_open) {
 			if (instances.Size == 0) {
 				ImGui::TextDisabled("No active animation instances");
 			} else {
-				for (int i = 0; i < instances.Size; i++) {
+				for (int i = 0; i < instances.Size; ++i) {
 					auto& inst = instances[i];
 					ImGui::PushID(i);
 					if (ImGui::TreeNode("Instance", "Instance %d (clip 0x%08X)", i, inst.clip_id)) {
@@ -6987,7 +6987,7 @@ void iam_show_unified_inspector(bool* p_open) {
 					// Calculate average frame time
 					float avg_frame_time = 0.0f;
 					float max_frame_time = 0.0f;
-					for (int i = 0; i < iam_detail::PROFILER_HISTORY_SIZE; i++) {
+					for (int i = 0; i < iam_detail::PROFILER_HISTORY_SIZE; ++i) {
 						avg_frame_time += prof.frame_history[i];
 						if (prof.frame_history[i] > max_frame_time) max_frame_time = prof.frame_history[i];
 					}
@@ -7027,7 +7027,7 @@ void iam_show_unified_inspector(bool* p_open) {
 						ImGui::Separator();
 
 						float row_height = ImGui::GetTextLineHeight() * 1.5f;
-						for (int i = 0; i < prof.section_count; i++) {
+						for (int i = 0; i < prof.section_count; ++i) {
 							auto& sec = prof.sections[i];
 							// Calculate max for this section's history
 							float sec_max = 0.0f;
@@ -7168,7 +7168,7 @@ iam_drag_feedback iam_drag_release(ImGuiID id, ImVec2 pos, iam_drag_opts const& 
 	// Point snapping (find closest)
 	if (opts.snap_points && opts.snap_points_count > 0) {
 		float min_dist = FLT_MAX;
-		for (int i = 0; i < opts.snap_points_count; i++) {
+		for (int i = 0; i < opts.snap_points_count; ++i) {
 			float dx = opts.snap_points[i].x - pos.x;
 			float dy = opts.snap_points[i].y - pos.y;
 			float dist = dx * dx + dy * dy;
@@ -7310,7 +7310,7 @@ void iam_show_debug_timeline(ImGuiID instance_id) {
 	float timeline_x = cp.x + label_width + margin;
 
 	// Draw tracks
-	for (int i = 0; i < clip->iam_tracks.Size; i++) {
+	for (int i = 0; i < clip->iam_tracks.Size; ++i) {
 		iam_track& track = clip->iam_tracks[i];
 		float track_y = timeline_y + (track_height + track_spacing) * i;
 

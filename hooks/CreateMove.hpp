@@ -36,7 +36,7 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
     const auto result = ogFunction(vmt, inputSampleTime, cmd);
 #endif
 
-    if (!cmd || cmd->commandNumber == 0)
+    if (!globals::Core::localPlayer || !cmd || cmd->commandNumber == 0)
         return result;
 
     globals::Core::currentCmd = cmd;
@@ -44,7 +44,7 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
     if (interfaces->inputSystem->IsButtonDown(KEY_F))
         cmd->impulse = 100;
 
-    if (cmd->buttons & IN_USE) {
+    /*if (cmd->buttons & IN_USE) {
         const auto shouldSpam = (cmd->commandNumber & 2);
         if (shouldSpam == 0) {
             cmd->buttons &= ~IN_USE;
@@ -52,13 +52,7 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
         else {
             cmd->buttons |= IN_USE;
         }
-    }
-
-    const int nCmdMaxTickDelta = ( 1.f / interfaces->globalVars->intervalPerTick ) * 2.5f;
-    const int nMinDelta = std::max( 0, interfaces->globalVars->tickCount - nCmdMaxTickDelta );
-    const int nMaxDelta = interfaces->globalVars->tickCount + nCmdMaxTickDelta;
-
-    //cmd->tickCount = utils::Random(nMinDelta, nMaxDelta - 1);
+    }*/
 
     bunnyhop->Run(cmd);
 
@@ -67,13 +61,20 @@ bool dtCreateMove(ClientModeGModNormal* vmt, float inputSampleTime, CUserCmd* cm
     if (globals::Hacks::FakeLag::enabled && globals::Hacks::FakeLag::mode == Static)
         fakeLag->Run(globals::Hacks::FakeLag::ticks);
 
-    if (globals::Core::enginePrediction)
-        interfaces->prediction->RunCommand(globals::Core::localPlayer, cmd, interfaces->moveHelper);
+    interfaces->prediction->RunCommand(globals::Core::localPlayer, cmd, interfaces->moveHelper);
+
+    //if (!(globals::Core::localPlayer->GetFlags() & FL_ONGROUND))
+    //    cmd->buttons |= IN_DUCK;
 
     if (globals::Hacks::Aimbot::enabled)
         aimbot->Run(cmd);         // angles set first
 
     noSpread->Run(cmd);
+
+    // p2c anim fix
+    globals::Core::localPlayer->GetClientSideAnimation() = true;
+    globals::Core::localPlayer->UpdateClientSideAnimation();
+    globals::Core::localPlayer->GetClientSideAnimation() = false;
 
     return false;
 };

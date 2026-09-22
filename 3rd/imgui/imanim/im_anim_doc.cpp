@@ -559,7 +559,7 @@ static void DocSection_Easing()
 
 		// Draw curve
 		ImVec2 prev(canvas_pos.x, canvas_pos.y + canvas_size.y);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			float y = iam_eval_preset(selected_ease, t);
 			ImVec2 curr(canvas_pos.x + t * canvas_size.x, canvas_pos.y + canvas_size.y - y * canvas_size.y);
@@ -735,7 +735,7 @@ static void DocSection_Easing()
 
 		// Draw custom curve
 		ImVec2 prev(canvas_pos.x, canvas_pos.y + canvas_size.y);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			float y = t * t * (3.0f - 2.0f * t);
 			ImVec2 curr(canvas_pos.x + t * canvas_size.x, canvas_pos.y + canvas_size.y - y * canvas_size.y);
@@ -789,7 +789,7 @@ static void DocSection_ColorSpaces()
 
 		ImGui::Separator();
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; ++i) {
 			ImGuiID id = ImGui::GetID(space_names[i]);
 			ImVec4 color = iam_tween_color(id, DOC_CH_COLOR, target, 1.0f,
 				iam_ease_preset(iam_ease_linear), iam_policy_crossfade, spaces[i], dt);
@@ -1322,7 +1322,7 @@ static void DocSection_ClipSystem()
 			"    .end();\n"
 			"\n"
 			"// Play with stagger index\n"
-			"for (int i = 0; i < 10; i++) {\n"
+			"for (int i = 0; i < 10; ++i) {\n"
 			"    iam_play_stagger(CLIP_ID, inst_ids[i], i);\n"
 			"}");
 
@@ -1343,13 +1343,13 @@ static void DocSection_ClipSystem()
 		static ImGuiID stagger_inst_ids[6];
 		static bool stagger_initialized = false;
 		if (!stagger_initialized) {
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 6; ++i)
 				stagger_inst_ids[i] = ImHashStr("doc_stagger_inst") + i;
 			stagger_initialized = true;
 		}
 
 		if (ImGui::Button("Play Stagger")) {
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 6; ++i)
 				iam_play_stagger(DOC_CLIP_STAGGER, stagger_inst_ids[i], i);
 		}
 
@@ -1358,7 +1358,7 @@ static void DocSection_ClipSystem()
 		dl->AddRectFilled(canvas_pos, ImVec2(canvas_pos.x + 300, canvas_pos.y + 150),
 			IM_COL32(30, 30, 40, 255), 4.0f);
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			iam_instance inst = iam_get_instance(stagger_inst_ids[i]);
 			float alpha = 0.0f;
 			ImVec2 offset(0, 0);
@@ -1823,7 +1823,7 @@ static void DocSection_MotionPaths()
 
 		// Draw curve
 		ImVec2 prev = iam_path_evaluate(DOC_PATH_EVAL_DEMO, 0.0f);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			ImVec2 curr = iam_path_evaluate(DOC_PATH_EVAL_DEMO, t);
 			dl->AddLine(
@@ -1937,7 +1937,7 @@ static void DocSection_MotionPaths()
 		// Draw path with gradient coloring to show direction
 		int segments = 100;
 		ImVec2 prev = iam_path_evaluate(DOC_PATH_KNOT, 0.0f);
-		for (int i = 1; i <= segments; i++) {
+		for (int i = 1; i <= segments; ++i) {
 			float t = (float)i / (float)segments;
 			ImVec2 curr = iam_path_evaluate(DOC_PATH_KNOT, t);
 			// Color gradient: start=dim, end=bright to show direction
@@ -2045,7 +2045,7 @@ static void DocSection_MotionPaths()
 		int segments = 80;
 		iam_morph_opts opts;  // Use defaults
 		ImVec2 prev = iam_path_morph(DOC_PATH_CIRCLE, DOC_PATH_SQUARE, 0.0f, morph_blend, opts);
-		for (int i = 1; i <= segments; i++) {
+		for (int i = 1; i <= segments; ++i) {
 			float t = (float)i / (float)segments;
 			ImVec2 curr = iam_path_morph(DOC_PATH_CIRCLE, DOC_PATH_SQUARE, t, morph_blend, opts);
 			dl->AddLine(
@@ -2293,7 +2293,7 @@ static void DocSection_Procedural()
 			trail[trail_idx] = dot_pos;
 			trail_idx = (trail_idx + 1) % 16;
 		}
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; ++i) {
 			int idx = (trail_idx + i) % 16;
 			if (trail[idx].x > 0) {
 				float alpha = (float)i / 16.0f * 100.0f;
@@ -2381,7 +2381,7 @@ static void DocSection_TextAnimation()
 
 		// Draw path
 		ImVec2 prev = iam_path_evaluate(DOC_PATH_TEXT_DEMO, 0.0f);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			ImVec2 curr = iam_path_evaluate(DOC_PATH_TEXT_DEMO, t);
 			dl->AddLine(
@@ -2612,7 +2612,7 @@ static void DocSection_Advanced()
 
 		int steps = 50;
 		float step_w = canvas_size.x / (float)steps;
-		for (int i = 0; i < steps; i++) {
+		for (int i = 0; i < steps; ++i) {
 			float t = (float)i / (float)(steps - 1);
 			// Gradient A: Red to Yellow
 			ImVec4 col_a(1.0f, t, 0.0f, 1.0f);
@@ -2716,7 +2716,7 @@ static void DocSection_Advanced()
 		};
 
 		// Rotate and translate
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; ++i) {
 			float x = corners[i].x * cos_r - corners[i].y * sin_r;
 			float y = corners[i].x * sin_r + corners[i].y * cos_r;
 			corners[i] = ImVec2(center.x + x, center.y + y);
@@ -2974,7 +2974,7 @@ static void DocSection_Advanced()
 			IM_COL32(30, 30, 40, 255), 4.0f);
 
 		// Draw target markers
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; ++i) {
 			ImU32 col = (i == target_idx) ? IM_COL32(255, 200, 100, 255) : IM_COL32(100, 100, 100, 150);
 			dl->AddCircle(ImVec2(canvas_pos.x + targets[i], canvas_pos.y + 25), 8.0f, col, 0, 2.0f);
 		}
@@ -3589,7 +3589,7 @@ static void DocSection_ArcLength()
 				.end();
 
 			// Calculate path lengths at different resolutions
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; ++i) {
 				iam_path_build_arc_lut(DOC_PATH_LUT_DEMO, resolutions[i]);
 				path_lengths[i] = iam_path_length(DOC_PATH_LUT_DEMO);
 			}
@@ -3599,7 +3599,7 @@ static void DocSection_ArcLength()
 		// Resolution selector
 		ImGui::Text("LUT Resolution:");
 		int res_idx = 3;  // Default to 64
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; ++i) {
 			if (resolutions[i] == lut_resolution) res_idx = i;
 		}
 		if (ImGui::RadioButton("8##lut", &res_idx, 0)) lut_resolution = 8;
@@ -3625,7 +3625,7 @@ static void DocSection_ArcLength()
 
 		// Draw the curve
 		ImVec2 prev = iam_path_evaluate(DOC_PATH_LUT_DEMO, 0.0f);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			ImVec2 curr = iam_path_evaluate(DOC_PATH_LUT_DEMO, t);
 			dl->AddLine(
@@ -3636,7 +3636,7 @@ static void DocSection_ArcLength()
 		}
 
 		// Draw sample points based on resolution (show how the LUT samples the curve)
-		for (int i = 0; i <= lut_resolution; i++) {
+		for (int i = 0; i <= lut_resolution; ++i) {
 			float t = (float)i / (float)lut_resolution;
 			ImVec2 pt = iam_path_evaluate(DOC_PATH_LUT_DEMO, t);
 			ImU32 col = (i == 0 || i == lut_resolution) ? IM_COL32(255, 200, 100, 255) : IM_COL32(255, 255, 255, 150);
@@ -3649,7 +3649,7 @@ static void DocSection_ArcLength()
 		// Show path length comparison
 		ImGui::Text("Path Length: %.2f px", current_length);
 		ImGui::Text("Length at different resolutions:");
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; ++i) {
 			float diff = path_lengths[i] - path_lengths[4];  // Diff from highest res
 			ImGui::TextDisabled("  %3d subdivs: %.2f px (%.2f from true)", resolutions[i], path_lengths[i], diff);
 		}
@@ -3757,7 +3757,7 @@ static void DocSection_ArcLength()
 
 		// Draw path with more detail
 		ImVec2 prev = iam_path_evaluate(DOC_PATH_ARC_DEMO, 0.0f);
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 100; ++i) {
 			float t = (float)i / 100.0f;
 			ImVec2 curr = iam_path_evaluate(DOC_PATH_ARC_DEMO, t);
 			dl->AddLine(
@@ -4338,7 +4338,7 @@ static void DocSection_AnchorRelativeKeyframes()
 			IM_COL32(30, 30, 40, 255), 4.0f);
 
 		// Draw percentage markers with labels
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0; i <= 10; ++i) {
 			float x = canvas_pos.x + (i / 10.0f) * canvas_size.x;
 			dl->AddLine(ImVec2(x, canvas_pos.y + canvas_size.y - 15),
 				ImVec2(x, canvas_pos.y + canvas_size.y - 5), IM_COL32(80, 80, 100, 255));
@@ -5062,7 +5062,7 @@ static void DocSection_PathMorphingTween()
 		opts.use_arc_length = true;
 
 		ImVec2 prev = iam_path_morph(DOC_PATH_MORPH_A, DOC_PATH_MORPH_B, 0.0f, morph_blend, opts);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			ImVec2 curr = iam_path_morph(DOC_PATH_MORPH_A, DOC_PATH_MORPH_B, t, morph_blend, opts);
 			dl->AddLine(
@@ -5138,7 +5138,7 @@ static void DocSection_CurveFunctions()
 
 		// Draw curve
 		ImVec2 prev = iam_bezier_cubic(p0, p1, p2, p3, 0.0f);
-		for (int i = 1; i <= 40; i++) {
+		for (int i = 1; i <= 40; ++i) {
 			float t = (float)i / 40.0f;
 			ImVec2 curr = iam_bezier_cubic(p0, p1, p2, p3, t);
 			dl->AddLine(ImVec2(canvas_pos.x + prev.x, canvas_pos.y + prev.y),
@@ -5227,7 +5227,7 @@ static void DocSection_CurveFunctions()
 
 		// Draw curve
 		ImVec2 prev = iam_bezier_cubic(p0, p1, p2, p3, 0.0f);
-		for (int i = 1; i <= 50; i++) {
+		for (int i = 1; i <= 50; ++i) {
 			float t = (float)i / 50.0f;
 			ImVec2 curr = iam_bezier_cubic(p0, p1, p2, p3, t);
 			dl->AddLine(ImVec2(canvas_pos.x + prev.x, canvas_pos.y + prev.y),
@@ -5624,7 +5624,7 @@ static void DocSection_GradientHelpers()
 
 		auto draw_gradient_bar = [&](ImVec2 pos, const char* label, iam_gradient& grad, int color_space)
 		{
-			for (int i = 0; i < (int)bar_size.x; i++)
+			for (int i = 0; i < (int)bar_size.x; ++i)
 			{
 				float t = (float)i / bar_size.x;
 				ImVec4 col = grad.sample(t, color_space);
@@ -5796,7 +5796,7 @@ static void DocSection_TransformMatrix()
 			ImVec2(half, half), ImVec2(-half, half)
 		};
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			float sx = corners[i].x * mat_scale;
 			float sy = corners[i].y * mat_scale;

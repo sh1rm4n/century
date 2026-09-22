@@ -10,6 +10,7 @@
 #include <polyhook2/Detour/x64Detour.hpp>
 
 #include "FireBullets.hpp"
+
 #include "../sourcesdk/interfaces/HLClient.hpp"
 #include "../sourcesdk/interfaces/CEngineClient.hpp"
 
@@ -45,10 +46,10 @@ void dtFrameStageNotify(HLClient* vmt, ClientFrameStage_t stage, void* unk1, voi
                     reinterpret_cast<std::uint64_t>(dtFireBullets), &ogFireBullets);
 
                 if (hkFireBullets->hook())
-                    utils::Warn("successfully hooked firebullets");
+                    utils::Warn("successfully hooked hkFireBullets");
             }
 
-            for (auto i = 1; i <= interfaces->globalVars->maxClients; i++) {
+            for (auto i = 1; i <= interfaces->globalVars->maxClients; ++i) {
                 const auto player = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
                 if (!player || player == globals::Core::localPlayer || player->IsDormant() || !player->IsPlayer() || !player->IsAlive())
@@ -57,6 +58,9 @@ void dtFrameStageNotify(HLClient* vmt, ClientFrameStage_t stage, void* unk1, voi
                 player_info_s info{};
                 if (!interfaces->engineClient->GetPlayerInfo(i, &info))
                     continue;
+
+                player->GetClientSideAnimation() = true;
+                player->UpdateClientSideAnimation();
 
                 if (!nameStealer->IsNameAdded(info.name))
                     nameStealer->AddName(info.name);
@@ -67,25 +71,14 @@ void dtFrameStageNotify(HLClient* vmt, ClientFrameStage_t stage, void* unk1, voi
                 const int nMinDelta = std::max( 0, interfaces->globalVars->tickCount - nCmdMaxTickDelta );
                 const int nMaxDelta = interfaces->globalVars->tickCount + nCmdMaxTickDelta;
 
-                player->GetClientSideAnimation() = false;
-
-                utils::InvalidateBoneCache();
-                utils::UpdateClientSideAnimations();
-
-                player->GetClientSideAnimation() = true;
-
                 if (globals::Hacks::ForwardTracking::enabled)
                     forwardTracking->Run(globals::Core::currentCmd, player);
 
                 if (globals::Hacks::BackTracking::enabled) {
                     BacktrackRecord record{};
-                    backTracking->GetRecordForTime(i, TICKS_TO_TIME(globals::Core::currentCmd->tickCount - 8), record);
+                    backTracking->GetRecordForTime(i, backTracking->GetBestTime(player), record);
 
-                    /*backTracking->Apply(
-                        globals::Core::currentCmd,
-                        player,
-                        record);*/
-                    globals::Core::currentCmd->tickCount -= 8;
+                    backTracking->Apply(globals::Core::currentCmd, player, record);
                 }
             }
         } break;

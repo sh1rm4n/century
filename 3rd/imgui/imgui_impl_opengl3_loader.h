@@ -941,14 +941,14 @@ GL3W_API union ImGL3WProcs imgl3wProcs;
 static void load_procs(GL3WGetProcAddressProc proc)
 {
     size_t i;
-    for (i = 0; i < GL3W_ARRAY_SIZE(proc_names); i++)
+    for (i = 0; i < GL3W_ARRAY_SIZE(proc_names); ++i)
         imgl3wProcs.ptr[i] = proc(proc_names[i]);
 }
 
 static void clear_procs()
 {
     size_t i;
-    for (i = 0; i < GL3W_ARRAY_SIZE(proc_names); i++)
+    for (i = 0; i < GL3W_ARRAY_SIZE(proc_names); ++i)
         imgl3wProcs.ptr[i] = nullptr;
 }
 

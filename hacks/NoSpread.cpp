@@ -136,8 +136,10 @@ void NoSpread::Run(CUserCmd* cmd) noexcept {
         return;
 
     const auto weapon = globals::Core::localPlayer->GetActiveWeapon();
-    if (!weapon)
+    if (!weapon) {
+        //utils::Warn("test");
         return;
+    }
 
     const auto oldAngles = cmd->viewAngles;
     const auto oldForwardMove = cmd->forwardMove;
@@ -145,8 +147,10 @@ void NoSpread::Run(CUserCmd* cmd) noexcept {
 
     if (weapon->UsesLua()) {
         const auto state = luaExecution->GetLuaState(0);
-        if (!state)
+        if (!state) {
+            //utils::Warn("test");
             return;
+        }
 
         const auto base = GetLuaBase(weapon);
 

@@ -91,7 +91,9 @@ namespace globals {
 
         namespace Aimbot {
             inline bool enabled = false;
-            inline bool bruteforce = false;
+            inline bool shooting = false;
+
+            inline bool resolver = false;
 
             inline bool teamCheck = false;
 
@@ -129,6 +131,12 @@ namespace globals {
             inline bool         enabled = false;
 
             inline std::vector<std::string> words = {};
+        }
+
+        namespace Slowmotion {
+            inline bool         enabled = false;
+
+            inline int          ticks = 1;
         }
     }
 }

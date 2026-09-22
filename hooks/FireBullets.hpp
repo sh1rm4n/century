@@ -23,7 +23,8 @@ inline std::uint64_t ogFireBullets = 0;
 void dtFireBullets(C_BaseEntity* vmt, FireBulletsInfo_t& info) {
     static auto ogFunction = PLH::FnCast(ogFireBullets, dtFireBullets);
 
-    noSpread->SetSpread(info.spread);
+    if (info.spread.x != 0 && info.spread.y != 0)
+        noSpread->SetSpread(info.spread);
 
     utils::Warn("spread.x: {}; spread.y: {}", info.spread.x, info.spread.y);
 

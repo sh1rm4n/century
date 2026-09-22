@@ -54,6 +54,7 @@ void Interfaces::Prepare() noexcept {
     cvar = GetInterface<CCvar>(modules->vstdlib, "VEngineCvar007");
     randomStream = GetInterface<CUniformRandomStream>(modules->engine, "VEngineRandom001");
     gameEventsManager = GetInterface<CGameEventsManager>(modules->engine, "GAMEEVENTSMANAGER002");
+    physicsSurfaceProps = GetInterface<CPhysicsSurfaceProps>(modules->vphysics, "VPhysicsSurfaceProps001");
 #if defined(__linux__)
     clientMode = *reinterpret_cast<ClientModeGModNormal**>(memory::GetAbsAddress(
         memory::FindPattern("client_client.so",

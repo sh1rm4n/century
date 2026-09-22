@@ -9,9 +9,18 @@
 
 #include <memory>
 
+#include "../sourcesdk/math.hpp"
+
 class FakeLag {
+private:
+    Vector lastServerPos;
+    double lastServerSimulationTime;
+    std::array<Matrix3x4, 256> lastServerMatrix;
 public:
     void Run(int ticks) noexcept;
+    Vector GetLastServerPos() noexcept;
+    double GetLastServerSimulationTime() noexcept;
+    std::array<Matrix3x4, 256> GetLastServerMatrix() noexcept;
 };
 
 inline auto fakeLag = std::make_unique<FakeLag>();

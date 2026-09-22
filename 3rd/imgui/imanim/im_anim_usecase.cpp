@@ -218,7 +218,7 @@ static void ShowUsecase_ToastNotifications()
 	float toast_spacing = 8.0f;
 	float toast_padding = 32.0f;  // Padding on both sides
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		if (!toast_active[i]) continue;
 
@@ -324,7 +324,7 @@ static void ShowUsecase_SidebarNavigation()
 		float item_height = 36.0f;
 		float stagger_delay = 0.05f;
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 		{
 			// Calculate stagger offset for each item
 			float item_delay = i * stagger_delay;
@@ -379,7 +379,7 @@ static void ShowUsecase_LoadingSpinners()
 		ImGuiID id = ImGui::GetID("spinner1");
 		ImVec2 center(cursor.x + spinner_size, cursor.y + spinner_size);
 
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; ++i)
 		{
 			float angle = (float)i / 8.0f * 3.14159f * 2.0f;
 			float phase = iam_oscillate(id + i, 1.0f, 1.5f, iam_wave_sine, (float)i / 8.0f, dt);
@@ -409,7 +409,7 @@ static void ShowUsecase_LoadingSpinners()
 
 		// Draw arc as line segments
 		int segments = 20;
-		for (int i = 0; i < segments; i++)
+		for (int i = 0; i < segments; ++i)
 		{
 			float t = (float)i / segments;
 			float a1 = arc_start + t * arc_length;
@@ -430,7 +430,7 @@ static void ShowUsecase_LoadingSpinners()
 		ImGuiID id = ImGui::GetID("spinner3");
 		float base_y = cursor.y + spinner_size;
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; ++i)
 		{
 			float bounce = iam_oscillate(id + i, 15.0f, 2.0f, iam_wave_sine, (float)i * 0.15f, dt);
 			float x = cursor.x + spinner_size * 0.5f + i * 16.0f;
@@ -459,7 +459,7 @@ static void ShowUsecase_LoadingSpinners()
 
 		float c = ImCos(rotation), s = ImSin(rotation);
 		ImVec2 corners[4];
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			float angle = (float)i * 3.14159f * 0.5f + 3.14159f * 0.25f;
 			float x = ImCos(angle) * size;
@@ -473,7 +473,7 @@ static void ShowUsecase_LoadingSpinners()
 			float scale = 1.0f + layer * 0.1f;
 			int alpha = 255 / (layer + 1);
 			ImVec2 scaled_corners[4];
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; ++i)
 			{
 				scaled_corners[i] = ImVec2(
 					center.x + (corners[i].x - center.x) * scale,
@@ -507,7 +507,7 @@ static void ShowUsecase_CardHover()
 	const char* titles[3] = { "Analytics", "Reports", "Settings" };
 	const char* descriptions[3] = { "View insights", "Export data", "Configure" };
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImGuiID id = ImGui::GetID(titles[i]);
 		ImVec2 card_pos(start_pos.x + i * (card_size.x + spacing), start_pos.y);
@@ -596,7 +596,7 @@ static void ShowUsecase_TabTransitions()
 
 	// Calculate tab widths
 	float total_width = 0.0f;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		tab_widths[i] = ImGui::CalcTextSize(tab_names[i]).x + 32.0f;
 		total_width += tab_widths[i];
@@ -608,7 +608,7 @@ static void ShowUsecase_TabTransitions()
 
 	// Calculate target indicator position
 	float target_x = tabs_pos.x;
-	for (int i = 0; i < active_tab; i++)
+	for (int i = 0; i < active_tab; ++i)
 		target_x += tab_widths[i];
 	float target_width = tab_widths[active_tab];
 
@@ -621,7 +621,7 @@ static void ShowUsecase_TabTransitions()
 
 	// Draw tabs
 	float x = tabs_pos.x;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImVec2 tab_min(x, tabs_pos.y);
 		ImVec2 tab_max(x + tab_widths[i], tabs_pos.y + tab_height);
@@ -720,7 +720,7 @@ static void ShowUsecase_ProgressBar()
 
 		// Glow effect at the edge
 		float glow_x = bar_pos.x + filled_width - 4.0f;
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			float alpha = 0.3f * (1.0f - i * 0.25f);
 			float offset = i * 4.0f;
@@ -791,7 +791,7 @@ static void ShowUsecase_ModalDialog()
 	// Fake app content
 	dl->AddText(ImVec2(canvas_pos.x + 20.0f, canvas_pos.y + 20.0f),
 		IM_COL32(100, 100, 110, 255), "Application Content");
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		dl->AddRectFilled(
 			ImVec2(canvas_pos.x + 20.0f, canvas_pos.y + 50.0f + i * 40.0f),
@@ -918,7 +918,7 @@ static void ShowUsecase_Accordion()
 	float header_height = 40.0f;
 	float current_y = start_pos.y;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImGuiID id = ImGui::GetID(section_titles[i]);
 
@@ -1049,7 +1049,7 @@ static void ShowUsecase_FABMenu()
 	static bool child_hovered[4] = { false, false, false, false };
 
 	// Draw child buttons (arc pattern)
-	for (int i = 0; i < child_count; i++)
+	for (int i = 0; i < child_count; ++i)
 	{
 		// Calculate angle for this button
 		float angle_t = (float)i / (float)(child_count - 1);
@@ -1193,7 +1193,7 @@ static void ShowUsecase_AnimatedCounter()
 		{ "Rating", 49, "/5", 0.3f }
 	};
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImVec2 card_pos(start_pos.x + i * (card_width + spacing), start_pos.y);
 		ImGuiID id = ImGui::GetID(stats[i].label);
@@ -1636,7 +1636,7 @@ static void ShowUsecase_RippleEffect()
 			ImVec2(pos.x + btn_size.x, pos.y + btn_size.y),
 			ImVec2(pos.x, pos.y + btn_size.y)
 		};
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			float dx = corners[i].x - ripple_origin.x;
 			float dy = corners[i].y - ripple_origin.y;
@@ -1989,7 +1989,7 @@ static void ShowUsecase_GradientAnimation()
 	int segments = 20;
 	float segment_width = size.x / segments;
 
-	for (int i = 0; i < segments; i++)
+	for (int i = 0; i < segments; ++i)
 	{
 		float t1 = (float)i / segments;
 		float t2 = (float)(i + 1) / segments;
@@ -2062,7 +2062,7 @@ static void ShowUsecase_TooltipAnimation()
 	int new_hovered = -1;
 	float hover_radius = 18.0f;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		// Calculate text size and center position
 		ImVec2 text_size = ImGui::CalcTextSize(items[i].label);
@@ -2201,7 +2201,7 @@ static void ShowUsecase_PulseBadge()
 		{ ImVec2(0.8f, 0.5f), &badge_counts[2], false }  // Just a dot
 	};
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImVec2 icon_center(pos.x + canvas_size.x * items[i].offset.x, pos.y + canvas_size.y * items[i].offset.y);
 		float icon_size = 24.0f;
@@ -2418,7 +2418,7 @@ static void ShowUsecase_Carousel()
 	dl->PushClipRect(content_pos, ImVec2(content_pos.x + content_size.x, content_pos.y + content_size.y), true);
 
 	// Draw slides
-	for (int i = 0; i < slide_count; i++)
+	for (int i = 0; i < slide_count; ++i)
 	{
 		float slide_x = content_pos.x + (i - offset) * slide_width;
 
@@ -2474,7 +2474,7 @@ static void ShowUsecase_Carousel()
 	float dots_y = pos.y + carousel_size.y - 25;
 	float dots_start_x = pos.x + (carousel_size.x - (slide_count * 20)) * 0.5f;
 
-	for (int i = 0; i < slide_count; i++)
+	for (int i = 0; i < slide_count; ++i)
 	{
 		ImVec2 dot_center(dots_start_x + i * 20 + 6, dots_y);
 
@@ -2557,7 +2557,7 @@ static void ShowUsecase_Stepper()
 	}
 
 	// Draw steps
-	for (int i = 0; i < step_count; i++)
+	for (int i = 0; i < step_count; ++i)
 	{
 		float step_x = pos.x + padding + i * step_spacing;
 		ImVec2 step_center(step_x, line_y);
@@ -2755,7 +2755,7 @@ static void ShowUsecase_ToggleSwitch()
 	float switch_height = 28.0f;
 	float row_height = 40.0f;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImVec2 row_pos(pos.x, pos.y + i * row_height);
 		ImGuiID id = ImGui::GetID(labels[i]);
@@ -2869,7 +2869,7 @@ static void ShowUsecase_CircularProgress()
 	float ring_thickness = 8.0f;
 	float spacing = canvas_size.x / 3.0f;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImVec2 center(pos.x + spacing * (i + 0.5f), pos.y + canvas_size.y * 0.45f);
 
@@ -2945,7 +2945,7 @@ static void ShowUsecase_RatingStars()
 
 	hover_rating = 0;
 
-	for (int i = 0; i < star_count; i++)
+	for (int i = 0; i < star_count; ++i)
 	{
 		ImVec2 star_center(start_x + i * star_spacing, center_y);
 
@@ -3033,7 +3033,7 @@ static void ShowUsecase_AnimatedCheckbox()
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	float line_height = 32.0f * scale;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -3149,7 +3149,7 @@ static void ShowUsecase_SlideDrawer()
 	float line_gap = 5.0f * scale;
 
 	// Animate between hamburger and X
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float y_offset = (i - 1) * line_gap * (1.0f - icon_anim);
 		float rotation = icon_anim * (i == 1 ? 0.0f : (i == 0 ? 0.785f : -0.785f));
@@ -3198,7 +3198,7 @@ static void ShowUsecase_SlideDrawer()
 
 		// Menu items
 		const char* menu_items[] = { "Home", "Profile", "Settings" };
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; ++i)
 		{
 			float item_y = pos.y + header_height + 8 * scale + i * 36 * scale;
 			dl->AddText(ImVec2(drawer_x + 16 * scale, item_y), IM_COL32(180, 180, 190, 255), menu_items[i]);
@@ -3234,7 +3234,7 @@ static void ShowUsecase_AnimatedRadio()
 	float line_height = 32.0f * scale;
 	float radio_size = 20.0f * scale;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -3429,7 +3429,7 @@ static void ShowUsecase_AnimatedTags()
 	float padding = 10 * scale;
 	float spacing = 8 * scale;
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -3508,7 +3508,7 @@ static void ShowUsecase_AnimatedTags()
 	// Add tag buttons
 	ImGui::Text("Add:");
 	ImGui::SameLine();
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 	{
 		if (!tag_active[i] && tag_scales[i] < 0.1f)
 		{
@@ -3547,7 +3547,7 @@ static void ShowUsecase_PendingButton()
 	float button_height = 40.0f * scale;
 	float spacing = 20.0f * scale;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -3641,7 +3641,7 @@ static void ShowUsecase_AnimatedSlider()
 	float thumb_radius = 12.0f * scale;
 	float line_height = 50.0f * scale;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -3744,7 +3744,7 @@ static void ShowUsecase_ColorSwatches()
 	float swatch_size = 36.0f * scale;
 	float spacing = 10.0f * scale;
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -3869,7 +3869,7 @@ static void ShowUsecase_TimelineScrubber()
 
 	// Keyframe markers
 	float keyframes[] = { 0.0f, 0.25f, 0.5f, 0.75f, 1.0f };
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; ++i)
 	{
 		float kf_x = pos.x + track_margin + keyframes[i] * track_width;
 		float kf_y = track_y + track_height * 0.5f;
@@ -3967,7 +3967,7 @@ static void ShowUsecase_KeyframeCurve()
 	ImVec2 graph_max(pos.x + margin + graph_width, pos.y + margin + graph_height);
 
 	// Grid lines
-	for (int i = 0; i <= 4; i++)
+	for (int i = 0; i <= 4; ++i)
 	{
 		float t = i / 4.0f;
 		// Vertical
@@ -3986,7 +3986,7 @@ static void ShowUsecase_KeyframeCurve()
 
 		// Find which segment we're in
 		int seg = 0;
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; ++i)
 		{
 			if (t >= keyframe_values[i].x && t <= keyframe_values[i + 1].x)
 			{
@@ -4011,7 +4011,7 @@ static void ShowUsecase_KeyframeCurve()
 	}
 
 	// Draw and handle keyframe points
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -4085,7 +4085,7 @@ static void ShowUsecase_LayerStack()
 	float layer_height = 36 * scale;
 	float panel_width = 250 * scale;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImGui::PushID(i);
 
@@ -4210,7 +4210,7 @@ static void ShowUsecase_NodeConnector()
 	int dot_count = 5;
 	float dot_spacing = 1.0f / dot_count;
 
-	for (int i = 0; i < dot_count; i++)
+	for (int i = 0; i < dot_count; ++i)
 	{
 		float t = ImFmod((float)i * dot_spacing + flow_offset * 0.01f, 1.0f);
 
@@ -4250,7 +4250,7 @@ static void ShowUsecase_AnimatedBarChart()
 
 	if (ImGui::Button("Randomize Data##BarChart"))
 	{
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; ++i)
 			target_values[i] = 0.2f + (float)(rand() % 80) / 100.0f;
 	}
 
@@ -4280,7 +4280,7 @@ static void ShowUsecase_AnimatedBarChart()
 	float chart_height = canvas_size.y - margin * 2 - 20 * scale;
 	float bar_width = chart_width / 6 - 10 * scale;
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		// Animate bar height
 		ImGuiID id = ImGui::GetID("barchart") + i;
@@ -4335,7 +4335,7 @@ static void ShowUsecase_AnimatedLineChart()
 
 	if (!initialized)
 	{
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 20; ++i)
 		{
 			data_points[i] = 0.3f + (float)(i % 5) * 0.1f + ImSin(i * 0.5f) * 0.2f;
 			target_points[i] = data_points[i];
@@ -4351,7 +4351,7 @@ static void ShowUsecase_AnimatedLineChart()
 	{
 		update_timer = 0.0f;
 		// Shift data left and add new point
-		for (int i = 0; i < 19; i++)
+		for (int i = 0; i < 19; ++i)
 			target_points[i] = target_points[i + 1];
 		target_points[19] = 0.2f + (float)(rand() % 60) / 100.0f;
 	}
@@ -4371,7 +4371,7 @@ static void ShowUsecase_AnimatedLineChart()
 	float chart_height = canvas_size.y - margin * 2;
 
 	// Grid lines
-	for (int i = 0; i <= 4; i++)
+	for (int i = 0; i <= 4; ++i)
 	{
 		float y = pos.y + margin + (i / 4.0f) * chart_height;
 		dl->AddLine(ImVec2(pos.x + margin, y), ImVec2(pos.x + canvas_size.x - margin, y),
@@ -4380,7 +4380,7 @@ static void ShowUsecase_AnimatedLineChart()
 
 	// Animate and draw line only (no dots, no fill)
 	ImVec2 prev_pt;
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 20; ++i)
 	{
 		// Animate each point
 		ImGuiID id = ImGui::GetID("linechart") + i;
@@ -4419,13 +4419,13 @@ static void ShowUsecase_AnimatedPieChart()
 	if (ImGui::Button("Shuffle##PieChart"))
 	{
 		float total = 0.0f;
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 		{
 			target_values[i] = 0.1f + (float)(rand() % 40) / 100.0f;
 			total += target_values[i];
 		}
 		// Normalize
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 			target_values[i] /= total;
 	}
 
@@ -4470,7 +4470,7 @@ static void ShowUsecase_AnimatedPieChart()
 	float start_angle = -IM_PI * 0.5f;  // Start from top
 	float cumulative_angle = 0.0f;  // Track cumulative angle for hover check
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; ++i)
 	{
 		// Animate value
 		ImGuiID id = ImGui::GetID("pie") + i;
@@ -4525,7 +4525,7 @@ static void ShowUsecase_AnimatedPieChart()
 
 	// Legend - positioned at top right, above the chart
 	float legend_x = pos.x + 200 * scale;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; ++i)
 	{
 		float y = pos.y + 10 * scale + i * 22 * scale;
 
@@ -4676,7 +4676,7 @@ static void ShowUsecase_Sparkline()
 	if (!initialized)
 	{
 		for (int s = 0; s < 3; s++)
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 12; ++i)
 			{
 				sparkline_data[s][i] = 0.3f + (float)(rand() % 50) / 100.0f;
 				target_data[s][i] = sparkline_data[s][i];
@@ -4687,7 +4687,7 @@ static void ShowUsecase_Sparkline()
 	if (ImGui::Button("Update Trends##Sparkline"))
 	{
 		for (int s = 0; s < 3; s++)
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 12; ++i)
 				target_data[s][i] = 0.2f + (float)(rand() % 60) / 100.0f;
 	}
 
@@ -4736,7 +4736,7 @@ static void ShowUsecase_Sparkline()
 		float spark_y = y + 8 * scale;
 
 		ImVec2 prev_pt;
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 12; ++i)
 		{
 			// Animate
 			ImGuiID id = ImGui::GetID("spark") + s * 12 + i;
@@ -4776,7 +4776,7 @@ static void ShowUsecase_RadarChart()
 
 	if (ImGui::Button("Randomize##RadarChart"))
 	{
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; ++i)
 		{
 			target_a[i] = 0.3f + (float)(rand() % 70) / 100.0f;
 			target_b[i] = 0.3f + (float)(rand() % 70) / 100.0f;
@@ -4819,7 +4819,7 @@ static void ShowUsecase_RadarChart()
 	}
 
 	// Draw axis lines and labels
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		float angle = -IM_PI * 0.5f + (i / 6.0f) * IM_PI * 2;
 		ImVec2 axis_end(center.x + ImCos(angle) * max_radius, center.y + ImSin(angle) * max_radius);
@@ -4835,7 +4835,7 @@ static void ShowUsecase_RadarChart()
 
 	// Animate and draw data polygons
 	ImVec2 points_a[6], points_b[6];
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		// Animate values
 		ImGuiID id = ImGui::GetID("radar");
@@ -4852,7 +4852,7 @@ static void ShowUsecase_RadarChart()
 	}
 
 	// Draw filled polygons using triangles from center (handles concave shapes)
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		int next = (i + 1) % 6;
 		dl->AddTriangleFilled(center, points_a[i], points_a[next], IM_COL32(91, 194, 231, 80));
@@ -4860,7 +4860,7 @@ static void ShowUsecase_RadarChart()
 	}
 
 	// Draw polygon outlines
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		int next = (i + 1) % 6;
 		dl->AddLine(points_a[i], points_a[next], IM_COL32(91, 194, 231, 255), 2 * scale);
@@ -4868,7 +4868,7 @@ static void ShowUsecase_RadarChart()
 	}
 
 	// Draw data points
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; ++i)
 	{
 		dl->AddCircleFilled(points_a[i], 4 * scale, IM_COL32(91, 194, 231, 255));
 		dl->AddCircleFilled(points_b[i], 4 * scale, IM_COL32(233, 30, 99, 255));
@@ -4959,7 +4959,7 @@ static void ShowUsecase_GaugeMeter()
 	}
 
 	// Draw tick marks
-	for (int i = 0; i <= 10; i++)
+	for (int i = 0; i <= 10; ++i)
 	{
 		float t = i / 10.0f;
 		float angle = start_angle + (end_angle - start_angle) * t;
@@ -5056,7 +5056,7 @@ static void ShowUsecase_SankeyFlow()
 
 	// Draw source nodes
 	float y_offset = pos.y + 30 * scale;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float node_height = flow_height * source_weights[i];
 
@@ -5077,7 +5077,7 @@ static void ShowUsecase_SankeyFlow()
 	// Draw target nodes
 	float target_weights[] = { 0.45f, 0.30f, 0.25f };
 	y_offset = pos.y + 30 * scale;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float node_height = flow_height * target_weights[i];
 
@@ -5110,7 +5110,7 @@ static void ShowUsecase_SankeyFlow()
 	float target_y[3], target_heights[3];
 
 	float sy = pos.y + 30 * scale;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		source_y[i] = sy;
 		source_heights[i] = flow_height * source_weights[i];
@@ -5118,7 +5118,7 @@ static void ShowUsecase_SankeyFlow()
 	}
 
 	float ty = pos.y + 30 * scale;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		target_y[i] = ty;
 		target_heights[i] = flow_height * target_weights[i];
@@ -5230,7 +5230,7 @@ static void ShowUsecase_FunnelChart()
 	if (ImGui::Button("Randomize##FunnelChart"))
 	{
 		float prev = 1.0f;
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 		{
 			target_values[i] = prev * (0.5f + (float)(rand() % 50) / 100.0f);
 			prev = target_values[i];
@@ -5261,7 +5261,7 @@ static void ShowUsecase_FunnelChart()
 	float max_width = canvas_size.x * 0.7f;
 	float stage_height = (canvas_size.y - 60 * scale) / 5;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; ++i)
 	{
 		// Animate value
 		ImGuiID id = ImGui::GetID("funnel") + i;
@@ -5306,7 +5306,7 @@ static void ShowUsecase_ScatterPlot()
 
 	if (!initialized)
 	{
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 30; ++i)
 		{
 			points_x[i] = (float)(rand() % 100) / 100.0f;
 			points_y[i] = (float)(rand() % 100) / 100.0f;
@@ -5318,7 +5318,7 @@ static void ShowUsecase_ScatterPlot()
 
 	if (ImGui::Button("Cluster A##ScatterPlot"))
 	{
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 30; ++i)
 		{
 			target_x[i] = 0.2f + (float)(rand() % 30) / 100.0f;
 			target_y[i] = 0.7f + (float)(rand() % 25) / 100.0f;
@@ -5327,7 +5327,7 @@ static void ShowUsecase_ScatterPlot()
 	ImGui::SameLine();
 	if (ImGui::Button("Cluster B##ScatterPlot"))
 	{
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 30; ++i)
 		{
 			target_x[i] = 0.7f + (float)(rand() % 25) / 100.0f;
 			target_y[i] = 0.3f + (float)(rand() % 30) / 100.0f;
@@ -5336,7 +5336,7 @@ static void ShowUsecase_ScatterPlot()
 	ImGui::SameLine();
 	if (ImGui::Button("Scatter##ScatterPlot"))
 	{
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 30; ++i)
 		{
 			target_x[i] = 0.1f + (float)(rand() % 80) / 100.0f;
 			target_y[i] = 0.1f + (float)(rand() % 80) / 100.0f;
@@ -5359,7 +5359,7 @@ static void ShowUsecase_ScatterPlot()
 	float chart_height = canvas_size.y - margin * 2;
 
 	// Grid
-	for (int i = 0; i <= 4; i++)
+	for (int i = 0; i <= 4; ++i)
 	{
 		float t = i / 4.0f;
 		// Horizontal
@@ -5375,7 +5375,7 @@ static void ShowUsecase_ScatterPlot()
 	}
 
 	// Animate and draw points
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 30; ++i)
 	{
 		ImGuiID id = ImGui::GetID("scatter") + i;
 		points_x[i] = iam_tween_float(id, ImHashStr("x"), target_x[i], 0.5f + (i % 10) * 0.03f,
@@ -5416,7 +5416,7 @@ static void ShowUsecase_ProgressDashboard()
 
 	if (ImGui::Button("Update Metrics##Dashboard"))
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 			targets[i] = 0.1f + (float)(rand() % 90) / 100.0f;
 	}
 
@@ -5443,7 +5443,7 @@ static void ShowUsecase_ProgressDashboard()
 	float ring_radius = 28 * scale;
 	float ring_thickness = 6 * scale;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		// Animate value
 		ImGuiID id = ImGui::GetID("dashboard") + i;
@@ -5511,7 +5511,7 @@ static void ShowUsecase_AreaChart()
 
 	if (!init)
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; ++i)
 		{
 			target_a[i] = series_a[i];
 			target_b[i] = series_b[i];
@@ -5521,7 +5521,7 @@ static void ShowUsecase_AreaChart()
 
 	if (ImGui::Button("Update Data##AreaChart"))
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; ++i)
 		{
 			target_a[i] = 0.15f + (float)(rand() % 50) / 100.0f;
 			target_b[i] = 0.1f + (float)(rand() % 35) / 100.0f;
@@ -5545,7 +5545,7 @@ static void ShowUsecase_AreaChart()
 	float point_spacing = chart_width / 9;
 
 	// Animate values
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; ++i)
 	{
 		ImGuiID id = ImGui::GetID("area") + i;
 		series_a[i] = iam_tween_float(id, ImHashStr("a"), target_a[i], 0.5f,
@@ -5558,7 +5558,7 @@ static void ShowUsecase_AreaChart()
 	float base_y = pos.y + margin + chart_height;
 
 	// Area for series B (top layer - cyan)
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 9; ++i)
 	{
 		float x1 = pos.x + margin + i * point_spacing;
 		float x2 = pos.x + margin + (i + 1) * point_spacing;
@@ -5572,7 +5572,7 @@ static void ShowUsecase_AreaChart()
 	}
 
 	// Area for series A (bottom layer - green)
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 9; ++i)
 	{
 		float x1 = pos.x + margin + i * point_spacing;
 		float x2 = pos.x + margin + (i + 1) * point_spacing;
@@ -5584,7 +5584,7 @@ static void ShowUsecase_AreaChart()
 	}
 
 	// Draw line on top
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 9; ++i)
 	{
 		float x1 = pos.x + margin + i * point_spacing;
 		float x2 = pos.x + margin + (i + 1) * point_spacing;
@@ -5598,7 +5598,7 @@ static void ShowUsecase_AreaChart()
 	}
 
 	// Grid lines
-	for (int i = 1; i <= 4; i++)
+	for (int i = 1; i <= 4; ++i)
 	{
 		float y = pos.y + margin + chart_height * i / 5;
 		dl->AddLine(ImVec2(pos.x + margin, y), ImVec2(pos.x + margin + chart_width, y),
@@ -5670,7 +5670,7 @@ static void ShowUsecase_PopoverMenu()
 			IM_COL32(255, 100, 100, 255)
 		};
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			float delay = i * 0.05f;
 			float item_alpha = popover_time > delay ?
@@ -5853,7 +5853,7 @@ static void ShowUsecase_ExpandableListItem()
 	float y_cursor = pos.y;
 	float line_height = ImGui::GetTextLineHeight();
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		bool is_expanded = (expanded_item == i);
 		float expand_anim = iam_tween_float(ImGui::GetID("list_expand") + i, 0,
@@ -6108,7 +6108,7 @@ static void ShowUsecase_ParticleBurst()
 		}
 		else
 		{
-			for (int i = 0; i < num_particles; i++)
+			for (int i = 0; i < num_particles; ++i)
 			{
 				float angle = (float)i / num_particles * 6.28318f;
 				float speed = 80.0f + (i % 3) * 30.0f;
@@ -6259,7 +6259,7 @@ static void ShowUsecase_AnimatedGraphNode()
 	}
 
 	// Draw nodes
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImVec2 node_pos(canvas_pos.x + nodes[i].pos.x * scale,
 					    canvas_pos.y + nodes[i].pos.y * scale);
@@ -6457,7 +6457,7 @@ static void ShowUsecase_IconButtonRotation()
 	float btn_size = 50 * scale;
 	float spacing = 70 * scale;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		ImVec2 btn_pos(pos.x + i * spacing, pos.y);
 		ImVec2 btn_center(btn_pos.x + btn_size * 0.5f, btn_pos.y + btn_size * 0.5f);
@@ -6667,7 +6667,7 @@ static void ShowUsecase_LikeHeartButton()
 	// Particles burst when liked
 	if (liked && like_time < 0.6f)
 	{
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 12; ++i)
 		{
 			float angle = i * 3.14159f * 2.0f / 12.0f + like_time * 0.5f;
 			float dist = like_time * 100 * scale;
@@ -6860,7 +6860,7 @@ static void ShowUsecase_PillNavigation()
 	float tab_widths[4];
 	float tab_positions[4];
 	float total_width = 0;
-	for (int i = 0; i < tab_count; i++)
+	for (int i = 0; i < tab_count; ++i)
 	{
 		ImVec2 text_size = ImGui::CalcTextSize(tabs[i]);
 		tab_widths[i] = text_size.x + tab_padding * 2;
@@ -6887,7 +6887,7 @@ static void ShowUsecase_PillNavigation()
 		IM_COL32(70, 130, 180, 255), tab_height * 0.5f);
 
 	// Draw tabs
-	for (int i = 0; i < tab_count; i++)
+	for (int i = 0; i < tab_count; ++i)
 	{
 		ImVec2 tab_pos(pos.x + outer_padding + tab_positions[i], pos.y + outer_padding);
 		ImGui::SetCursorScreenPos(tab_pos);
@@ -6959,7 +6959,7 @@ static void ShowUsecase_DropdownMenu()
 		dl->AddRectFilled(menu_pos, ImVec2(menu_pos.x + btn_width, menu_pos.y + menu_height),
 			IM_COL32(50, 55, 65, 255), 4 * scale);
 
-		for (int i = 0; i < item_count; i++)
+		for (int i = 0; i < item_count; ++i)
 		{
 			float item_y = menu_pos.y + i * item_height;
 			if (item_y + item_height > menu_pos.y + menu_height) break;
@@ -7024,7 +7024,7 @@ static void ShowUsecase_ContextMenu()
 		dl->AddRect(menu_pos, ImVec2(menu_pos.x + menu_width, menu_pos.y + menu_height),
 			IM_COL32(70, 75, 85, 255), 4 * scale);
 
-		for (int i = 0; i < item_count; i++)
+		for (int i = 0; i < item_count; ++i)
 		{
 			float item_y = menu_pos.y + i * item_height * menu_scale;
 			dl->AddText(ImVec2(menu_pos.x + 10 * scale, item_y + (item_height * menu_scale - ImGui::GetFontSize()) * 0.5f),
@@ -7138,7 +7138,7 @@ static void ShowUsecase_Snackbar()
 	// Simulated page content - larger text and more lines
 	dl->AddText(ImVec2(pos.x + 25 * scale, pos.y + 25 * scale),
 		IM_COL32(200, 200, 210, 255), "Welcome to Our Website");
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; ++i)
 	{
 		dl->AddRectFilled(
 			ImVec2(pos.x + 25 * scale, pos.y + 60 * scale + i * 28 * scale),
@@ -7178,7 +7178,7 @@ static void ShowUsecase_Snackbar()
 		float cookie_r = 30 * scale;
 		dl->AddCircleFilled(cookie_center, cookie_r, IM_COL32(210, 160, 90, 255));
 		// Cookie chips - larger
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; ++i)
 		{
 			float angle = (i * 1.1f) + wobble;
 			float dist = (i % 2 == 0) ? 12 * scale : 18 * scale;
@@ -7207,7 +7207,7 @@ static void ShowUsecase_Snackbar()
 		float btn_x = text_x;
 		float btn_y = banner_pos.y + 110 * scale;
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; ++i)
 		{
 			ImVec2 text_size = ImGui::CalcTextSize(btn_labels[i]);
 			float btn_w = text_size.x + 32 * scale;  // More padding
@@ -7288,7 +7288,7 @@ static void ShowUsecase_Lightbox()
 
 	// Thumbnail grid
 	float thumb_size = 50 * scale;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		ImVec2 thumb_pos(pos.x + 15 * scale + i * (thumb_size + 10 * scale), pos.y + 15 * scale);
 		ImU32 thumb_col = IM_COL32(100 + i * 30, 80 + i * 20, 120, 255);
@@ -7397,7 +7397,7 @@ static void ShowUsecase_CommandPalette()
 			IM_COL32(100, 100, 110, (int)(palette_alpha * 255)), "Type a command...");
 
 		// Commands
-		for (int i = 0; i < cmd_count && i < 4; i++)
+		for (int i = 0; i < cmd_count && i < 4; ++i)
 		{
 			float item_y = pal_pos.y + 45 * scale + i * 25 * scale;
 			dl->AddText(ImVec2(pal_pos.x + 15 * scale, item_y),
@@ -7641,7 +7641,7 @@ static void ShowUsecase_MultiStepProgress()
 	ImGui::SetCursorScreenPos(ImVec2(pos.x + 10 * scale, pos.y + 10 * scale));
 	if (ImGui::Button("Reset Upload"))
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; ++i)
 		{
 			files[i].progress = 0.0f;
 			files[i].target_progress = 0.0f;
@@ -7655,7 +7655,7 @@ static void ShowUsecase_MultiStepProgress()
 	float bar_width = 180 * scale;
 	float bar_height = 6 * scale;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		// Animate progress bar
 		files[i].progress = iam_tween_float(ImGui::GetID("file_prog") + i, ImHashStr("fp") + i,
@@ -7726,7 +7726,7 @@ static void ShowUsecase_InfiniteScrollLoader()
 		IM_COL32(40, 45, 55, 255), 4 * scale);
 
 	// Simulated items
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float item_y = pos.y + 10 * scale + i * 25 * scale;
 		dl->AddRectFilled(ImVec2(pos.x + 10 * scale, item_y),
@@ -7744,7 +7744,7 @@ static void ShowUsecase_InfiniteScrollLoader()
 		ImVec2 loader_center(pos.x + container_size.x * 0.5f, pos.y + container_size.y - 20 * scale);
 
 		// Spinning dots
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; ++i)
 		{
 			float dot_angle = spinner_angle + i * 0.5f;
 			float dot_alpha = (sinf(dot_angle * 2.0f) * 0.5f + 0.5f);
@@ -7970,7 +7970,7 @@ static void ShowUsecase_SegmentedControl()
 	float toggle_height = 24 * scale;
 	float knob_radius = 10 * scale;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float item_y = pos.y + 15 * scale + i * 28 * scale;
 
@@ -8106,7 +8106,7 @@ static void ShowUsecase_QuantityStepper()
 	float start_angle = IM_PI * 0.75f;  // 135 degrees
 	float end_angle = IM_PI * 2.25f;    // 405 degrees (270 degree range)
 	int num_ticks = 11;
-	for (int i = 0; i < num_ticks; i++)
+	for (int i = 0; i < num_ticks; ++i)
 	{
 		float t = (float)i / (num_ticks - 1);
 		float angle = start_angle + t * (end_angle - start_angle);
@@ -8184,7 +8184,7 @@ static void ShowUsecase_StrengthMeter()
 	const char* strength_labels[] = { "", "Weak", "Fair", "Good", "Strong" };
 
 	// Draw strength bar segments
-	for (int i = 0; i < num_segments; i++)
+	for (int i = 0; i < num_segments; ++i)
 	{
 		float seg_x = pos.x + i * (segment_width + segment_gap);
 		bool is_filled = (i < strength);
@@ -8233,7 +8233,7 @@ static void ShowUsecase_StrengthMeter()
 	float col1_max = ImMax(ImGui::CalcTextSize(req_labels[0]).x, ImGui::CalcTextSize(req_labels[2]).x);
 	float column_width = box_size + label_gap + col1_max + 20 * scale;  // checkbox + gap + text + padding
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		float check_x = pos.x + (i % 2) * column_width;  // Use calculated column width
 		float y = check_y + (i / 2) * 32 * scale;       // More vertical space
@@ -8332,7 +8332,7 @@ static void ShowUsecase_RangeSlider()
 	// Draw direction indicators
 	const char* dirs[] = { "N", "E", "S", "W" };
 	float angles[] = { -IM_PI * 0.5f, 0.0f, IM_PI * 0.5f, IM_PI };
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		float dist = base_radius * 0.75f;
 		ImVec2 dir_pos(center.x + cosf(angles[i]) * dist, center.y + sinf(angles[i]) * dist);
@@ -8519,7 +8519,7 @@ static void ShowUsecase_SearchInput()
 			IM_COL32(80, 85, 95, (int)(200 * picker_anim)), 20 * scale * picker_anim, 0, 1.5f * scale);
 
 		// Draw reaction options
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; ++i)
 		{
 			float rx = picker_pos.x + 8 * scale + i * (picker_btn_size + 8 * scale);
 			float ry = picker_pos.y + 8 * scale;
@@ -8764,7 +8764,7 @@ static void ShowUsecase_ProductCard()
 	// Animated waveform when playing
 	float wave_y = pos.y + 180 * scale;
 	float wave_width = card_size.x - info_x + pos.x - 60 * scale;
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < 40; ++i)
 	{
 		float bar_x = info_x + i * (wave_width / 40);
 		float height_factor = playing ?
@@ -8856,7 +8856,7 @@ static void ShowUsecase_TimelineCard()
 
 	const char* events[] = {"Created project", "Added team member", "Completed task", "Deployed v1.0"};
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		// Staggered entrance
 		float item_progress = ImClamp((anim_time - i * 0.15f) * 2.0f, 0.0f, 1.0f);
@@ -9095,7 +9095,7 @@ static void ShowUsecase_WordCloud()
 	float x_positions[] = {20, 240, 400, 100, 320, 20, 200};
 	float y_positions[] = {20, 10, 80, 90, 110, 150, 140};
 
-	for (int i = 0; i < word_count; i++)
+	for (int i = 0; i < word_count; ++i)
 	{
 		ImVec2 word_pos(pos.x + x_positions[i] * scale, pos.y + y_positions[i] * scale);
 
@@ -9199,7 +9199,7 @@ static void ShowUsecase_CharacterReveal()
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	float x_offset = 0.0f;
 
-	for (int i = 0; i < text_len; i++)
+	for (int i = 0; i < text_len; ++i)
 	{
 		float char_progress = ImClamp((anim_time - i * 0.05f) * 3.0f, 0.0f, 1.0f);
 
@@ -9239,7 +9239,7 @@ static void ShowUsecase_PulseRing()
 	ImVec2 center(pos.x + 50 * scale, pos.y + 50 * scale);
 
 	// Multiple expanding rings
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float ring_time = fmodf(pulse_time + i * 0.5f, 1.5f);
 		float ring_radius = 15 * scale + ring_time * 30 * scale;
@@ -9301,7 +9301,7 @@ static void ShowUsecase_BouncingDots()
 
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		float phase = bounce_time + i * 0.5f;
 		float bounce = fabsf(sinf(phase)) * 20 * scale;
@@ -9339,7 +9339,7 @@ static void ShowUsecase_ConfettiBurst()
 	if (burst_time >= 0 && burst_time < 2.0f)
 	{
 		// Draw confetti particles
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 20; ++i)
 		{
 			float angle = (float)i / 20.0f * 6.28318f;
 			float speed = 50 + (i % 5) * 30;

@@ -5,6 +5,7 @@
 #ifndef CENTURY_HLCLIENT_HPP
 #define CENTURY_HLCLIENT_HPP
 
+#include "../bitbuf.hpp"
 #include "../../core/memory.hpp"
 
 enum ClientFrameStage_t
@@ -89,7 +90,7 @@ public:
     int	classID;	// 36
 
     constexpr const char* GetNetworkedName() noexcept {
-        return *reinterpret_cast<const char **>(std::uint64_t(this) + 0x10);
+        return *reinterpret_cast<const char**>(std::uint64_t(this) + 0x10);
     }
 
     constexpr RecvTable* GetRecvTable() noexcept {
@@ -107,7 +108,7 @@ public:
         return memory::Call<ClientClass*>(this, 8);
     }
 
-    constexpr bool WriteUsercmdDeltaToBuffer(void* buf, int from, int to, bool isnewcommand) {
+    constexpr bool WriteUsercmdDeltaToBuffer(bf_write* buf, int from, int to, bool isnewcommand) {
         return memory::Call<bool>(this, 10, buf, from, to, isnewcommand);
     }
 };

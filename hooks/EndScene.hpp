@@ -104,7 +104,7 @@ long dtEndScene(IDirect3DDevice9* device) {
                 globals::Hacks::EntityESP::entsToDraw.clear();
                 globals::Hacks::EntityESP::entsToDraw.reserve(maxEntities);
 
-                for (auto i = 0; i < maxEntities; i++) {
+                for (auto i = 0; i < maxEntities; ++i) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
                     if (!entity || entity->IsPlayer())
@@ -225,7 +225,7 @@ long dtEndScene(IDirect3DDevice9* device) {
             }
 
             if (globals::Hacks::PlayerESP::enabled) {
-                for (auto i = 1; i <= interfaces->globalVars->maxClients; i++) {
+                for (auto i = 1; i <= interfaces->globalVars->maxClients; ++i) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
                     if (!entity || entity == utils::GetLocalPlayer() || entity->IsDormant() || !entity->IsPlayer() || !entity->IsAlive())

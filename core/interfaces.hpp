@@ -30,6 +30,7 @@
 #include "../sourcesdk/interfaces/CMoveHelperClient.hpp"
 #include "../sourcesdk/interfaces/CGameEventsManager.hpp"
 #include "../sourcesdk/interfaces/CPlayerResource.hpp"
+#include "../sourcesdk/interfaces/CPhysicsSurfaceProps.hpp"
 
 class Interfaces {
 public:
@@ -61,6 +62,7 @@ public:
     CMoveHelperClient *moveHelper = nullptr;
     CGameEventsManager *gameEventsManager = nullptr;
     CPlayerResource *playerResource = nullptr;
+    CPhysicsSurfaceProps *physicsSurfaceProps = nullptr;
 };
 
 inline auto interfaces = std::make_shared<Interfaces>();

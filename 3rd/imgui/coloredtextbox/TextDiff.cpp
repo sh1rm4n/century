@@ -146,7 +146,7 @@ void TextDiff::createCombinedView() {
 	cursors.clearAll();
 	clearMarkers();
 
-	for (size_t i = 0; i < lineInfo.size(); i++) {
+	for (size_t i = 0; i < lineInfo.size(); ++i) {
 		auto& line = lineInfo[i];
 
 		switch(line.status) {
@@ -289,7 +289,7 @@ void TextDiff::renderSideBySideBackground() {
 	auto y = ImGui::GetCursorScreenPos().y + firstVisibleLine * glyphSize.y;
 	char buffer[32];
 
-	for (auto i = firstVisibleLine; i <= lastVisibleLine; i++) {
+	for (auto i = firstVisibleLine; i <= lastVisibleLine; ++i) {
 		auto& line = lineInfo[i];
 		auto lineLeft = static_cast<int>(line.leftLine + 1);
 		auto lineRight = static_cast<int>(line.rightLine + 1);
@@ -344,7 +344,7 @@ void TextDiff::renderSideBySideText() {
 	// render left text
 	drawList->PushClipRect(ImVec2(leftTextPos, yTop), ImVec2(rightLineNumberPos, yBottom), false);
 
-	for (auto i = firstVisibleLine; i <= lastVisibleLine; i++) {
+	for (auto i = firstVisibleLine; i <= lastVisibleLine; ++i) {
 		auto& line = lineInfo[i];
 		auto y = cursorScreenPos.y + i * glyphSize.y;
 
@@ -364,7 +364,7 @@ void TextDiff::renderSideBySideText() {
 	// render right text
 	drawList->PushClipRect(ImVec2(rightTextPos, yTop), ImVec2(rightTextEnd, yBottom), false);
 
-	for (auto i = firstVisibleLine; i <= lastVisibleLine; i++) {
+	for (auto i = firstVisibleLine; i <= lastVisibleLine; ++i) {
 		auto& line = lineInfo[i];
 		auto y = cursorScreenPos.y + i * glyphSize.y;
 
@@ -538,7 +538,7 @@ void TextDiff::renderSideBySideMiniMap() {
 			drawList->PushClipRect(rect.Min, rect.Max, false);
 
 			// render diff locations
-			for (size_t i = 0; i < lineInfo.size(); i++) {
+			for (size_t i = 0; i < lineInfo.size(); ++i) {
 				auto& line = lineInfo[i];
 
 				if (line.status != LineStatus::common) {

@@ -18,6 +18,8 @@
 
 class Matrix3x4;
 
+static float white[] = {1, 1, 1};
+
 inline std::uint64_t ogDrawModel = 0;
 
 void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawModelInfo_t& drawModelInfo, Matrix3x4* boneToWorld,
@@ -70,22 +72,60 @@ void dtDrawModel(IStudioRender* vmt, DrawModelResults_t* results, const DrawMode
                 static auto backtrackChamsMaterial = interfaces->materialSystem->FindMaterial(globals::Hacks::Chams::material.c_str(), TEXTURE_GROUP_MODEL);
                 backtrackChamsMaterial->AddRef();
 
-                const int nCmdMaxTickDelta = ( 1.f / interfaces->globalVars->intervalPerTick ) * 2.5f;
-                const int nMinDelta = std::max( 0, interfaces->globalVars->tickCount - nCmdMaxTickDelta );
+                const auto records = backTracking->GetRecords(entity);
 
                 BacktrackRecord record{};
-                backTracking->GetRecordForTime(entity->EntIndex(), TICKS_TO_TIME(globals::Core::currentCmd->tickCount-8), record);
+                if (!backTracking->GetRecordForTime(entity->EntIndex(), backTracking->GetBestTime(entity), record))
+                    return ogFunction(vmt, results, drawModelInfo, boneToWorld, flexWeights, flexDelayedWeights, modelOrigin, flags);
 
-                static float color[] = {0, 0.3, 0.7};
+                static float color[] = {0, 1, 0};
+                static float color2[] = {0.5, 0.5, 0};
+
+                for (auto i : records) {
+                    if (std::abs(i.simulationTime - interfaces->globalVars->curTime) >= 0.2f || i.simulationTime == record.simulationTime)
+                        continue;
+
+                    interfaces->studioRender->SetColorModulation(color2);
+                    interfaces->studioRender->SetAlphaModulation(0.2);
+
+                    interfaces->studioRender->ForcedMaterialOverride(backtrackChamsMaterial, OVERRIDE_NORMAL);
+
+                    ogFunction(vmt, results, drawModelInfo, i.bones.data(), flexWeights, flexDelayedWeights, i.origin, flags);
+
+                    interfaces->studioRender->SetColorModulation(color);
+                    interfaces->studioRender->SetAlphaModulation(0.2);
+                }
 
                 interfaces->studioRender->SetColorModulation(color);
                 interfaces->studioRender->SetAlphaModulation(0.5);
+
                 interfaces->studioRender->ForcedMaterialOverride(backtrackChamsMaterial, OVERRIDE_NORMAL);
+
                 ogFunction(vmt, results, drawModelInfo, record.bones.data(), flexWeights, flexDelayedWeights, record.origin, flags);
+
                 interfaces->studioRender->SetAlphaModulation(1);
             }
 
             return interfaces->studioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL);
+        }
+
+        if (entity == globals::Core::localPlayer) {
+            static float color[] = {0, 0, 1};
+
+            static auto fakeLagChamsMaterial = interfaces->materialSystem->FindMaterial(globals::Hacks::Chams::material.c_str(), TEXTURE_GROUP_MODEL);
+            fakeLagChamsMaterial->AddRef();
+
+            interfaces->studioRender->SetColorModulation(color);
+            interfaces->studioRender->SetAlphaModulation(0.8);
+
+            interfaces->studioRender->ForcedMaterialOverride(fakeLagChamsMaterial, OVERRIDE_NORMAL);
+
+            ogFunction(vmt, results, drawModelInfo, fakeLag->GetLastServerMatrix().data(), flexWeights, flexDelayedWeights, fakeLag->GetLastServerPos(), flags);
+
+            interfaces->studioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL);
+
+            interfaces->studioRender->SetColorModulation(white);
+            interfaces->studioRender->SetAlphaModulation(1);
         }
     }
 

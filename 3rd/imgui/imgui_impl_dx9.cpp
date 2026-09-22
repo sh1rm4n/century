@@ -239,7 +239,7 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
     for (const ImDrawList* draw_list : draw_data->CmdLists)
     {
         const ImDrawVert* vtx_src = draw_list->VtxBuffer.Data;
-        for (int i = 0; i < draw_list->VtxBuffer.Size; i++)
+        for (int i = 0; i < draw_list->VtxBuffer.Size; ++i)
         {
             vtx_dst->pos[0] = vtx_src->pos.x;
             vtx_dst->pos[1] = vtx_src->pos.y;

@@ -13,25 +13,15 @@
 #include "../sourcesdk/entities/C_BaseEntity.hpp"
 
 void BunnyHop::Autostrafe(CUserCmd *cmd, AutoStrafeType type) noexcept {
-    if (!cmd || !type)
+    if (!globals::Core::localPlayer || !cmd || !globals::Core::localPlayer->IsAlive())
         return;
 
-    if (!globals::Core::localPlayer)
-        return;
-
-    if (globals::Core::localPlayer->GetFlags() & FL_INWATER)
-        return;
-
-    if (globals::Core::localPlayer->GetFlags() & FL_SWIM)
-        return;
-
-    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP)
-        return;
-
-    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_FLY)
-        return;
-
-    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
+    if (globals::Core::localPlayer->GetFlags() & FL_INWATER ||
+        globals::Core::localPlayer->GetFlags() & FL_SWIM ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_FLY ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_LADDER ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_OBSERVER)
         return;
 
     if (cmd->buttons & IN_ATTACK)
@@ -98,22 +88,15 @@ void BunnyHop::Autostrafe(CUserCmd *cmd, AutoStrafeType type) noexcept {
 }
 
 void BunnyHop::Run(CUserCmd *cmd) noexcept {
-    if (!globals::Core::localPlayer)
+    if (!globals::Core::localPlayer || !cmd || !globals::Core::localPlayer->IsAlive())
         return;
 
-    if (globals::Core::localPlayer->GetFlags() & FL_INWATER)
-        return;
-
-    if (globals::Core::localPlayer->GetFlags() & FL_SWIM)
-        return;
-
-    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP)
-        return;
-
-    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_FLY)
-        return;
-
-    if (globals::Core::localPlayer->GetMoveType() == MOVETYPE_LADDER)
+    if (globals::Core::localPlayer->GetFlags() & FL_INWATER ||
+        globals::Core::localPlayer->GetFlags() & FL_SWIM ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_NOCLIP ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_FLY ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_LADDER ||
+        globals::Core::localPlayer->GetMoveType() == MOVETYPE_OBSERVER)
         return;
 
     if (!(globals::Core::localPlayer->GetFlags() & FL_ONGROUND)) {

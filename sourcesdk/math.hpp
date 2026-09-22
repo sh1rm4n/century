@@ -585,7 +585,7 @@ namespace math {
         Matrix3x4 rot;
         AngleMatrix(deltaAngles, Vector(0,0,0), rot);
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; ++i) {
             // translate bone to local space (relative to origin)
             Vector boneOrigin = src[i].GetOrigin() - origin;
 

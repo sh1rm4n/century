@@ -416,10 +416,12 @@ namespace utils {
             outlineColor, 2.5, 1);
     }*/
 
-    static bool VisCheck(C_BaseEntity* filterEntity, C_BaseEntity* targetEntity, const Vector& start, const Vector& end) noexcept {
+    static bool VisCheck(C_BaseEntity* filterEntity, C_BaseEntity* targetEntity, const Vector& start, const Vector& end, bool wallBang) noexcept {
         CTraceFilterTest filter(filterEntity);
+
         Ray ray;
         ray.Init(start, end);
+
         Trace trace;
 
         interfaces->engineTrace->TraceRay(ray, MASK_SHOT_HULL | CONTENTS_HITBOX, &filter, &trace);
@@ -427,8 +429,25 @@ namespace utils {
         if (trace.startSolid || trace.allSolid)
             return false;
 
-        const bool hitTarget = static_cast<C_BaseEntity*>(trace.entity) == targetEntity;
-        const bool notBlocked = trace.fraction >= 0.97f;
+        const auto hitTarget = static_cast<C_BaseEntity*>(trace.entity) == targetEntity;
+        const auto notBlocked = trace.fraction >= 0.97f;
+
+        if (wallBang) {
+            if (hitTarget)
+                return true;
+
+            const auto surfaceData = interfaces->physicsSurfaceProps->GetSurfaceData(trace.surface.surfaceProps);
+
+            const auto surfaceName = std::string(trace.surface.name);
+
+            utils::Warn("thickness: {}", surfaceData->physics.thickness);
+            utils::Warn("density: {}", surfaceData->physics.density);
+            utils::Warn("surface: {}", trace.surface.name);
+            utils::Warn("fraction: {}", trace.fraction);
+
+            if (surfaceName.contains("TOOLS/TOOLSNODRAW"))
+                return true;
+        }
 
         return (hitTarget || notBlocked);
     }

@@ -8,6 +8,8 @@
     "name" : "freetype"
   }, {
     "name" : "fmt"
+  }, {
+    "name" : "safetyhook"
   } ],
   "version-string" : "1.0.0",
   "name" : "century"

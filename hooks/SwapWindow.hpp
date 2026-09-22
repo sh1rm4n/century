@@ -131,7 +131,7 @@ void dtSwapWindow(SDL_Window* window) {
                 globals::Hacks::EntityESP::entsToDraw.clear();
                 globals::Hacks::EntityESP::entsToDraw.reserve(maxEntities);
 
-                for (auto i = 0; i < maxEntities; i++) {
+                for (auto i = 0; i < maxEntities; ++i) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
                     if (!entity || entity->IsPlayer())
@@ -252,7 +252,7 @@ void dtSwapWindow(SDL_Window* window) {
             }
 
             if (globals::Hacks::PlayerESP::enabled) {
-                for (auto i = 1; i <= interfaces->globalVars->maxClients; i++) {
+                for (auto i = 1; i <= interfaces->globalVars->maxClients; ++i) {
                     const auto entity = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
                     if (!entity || entity == utils::GetLocalPlayer() || entity->IsDormant() || !entity->IsPlayer() || !entity->IsAlive())
@@ -290,6 +290,7 @@ void dtSwapWindow(SDL_Window* window) {
                             static_cast<float>(interfaces->playerResource->GetArmor(entity->EntIndex())) / entity->GetMaxArmor(), 0.0f, 1.0f);
 
                         const auto weaponName = weapon->GetName();
+                        const auto breakingLC = backTracking->IsBreakingLC(entity);
 
                         const auto color = ImColor{255,255,255};
                         const auto outlineColor = ImColor{10,10,10};
@@ -323,6 +324,7 @@ void dtSwapWindow(SDL_Window* window) {
 
                             utils::DrawOutlinedText(drawList, font, fontSize, {right + 2.f, topOut.y}, outlineColor, healthColor, fmt::format("Health: {}", entity->GetHealth()));
                             utils::DrawOutlinedText(drawList, font, fontSize, {right + 2.f, topOut.y + 12.f}, outlineColor, armorColor, fmt::format("Armor: {}", interfaces->playerResource->GetArmor(i)));
+                            utils::DrawOutlinedText(drawList, font, fontSize, {right + 2.f, topOut.y + 24.f}, outlineColor, breakingLC ? ImColor{0,255,0} : ImColor{255,0,0}, "Breaking LC");
 
                             drawList->AddRect(
                                 {left, topOut.y},
@@ -385,7 +387,7 @@ void dtSwapWindow(SDL_Window* window) {
                 ImGui::TextUnformatted(fmt::format("IP: {}", interfaces->engineClient->GetNetChannelInfo()->GetAddress()).c_str());
                 ImGui::TextColored(globals::Core::sendPacket ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, fmt::format("In sync: {}", globals::Core::sendPacket).c_str());
                 ImGui::TextColored(globals::Hacks::AntiAim::breakingLby ? ImVec4{0,255,0,255} : ImVec4{255,0,0,255}, fmt::format("LBY: {}", globals::Hacks::AntiAim::breakingLby).c_str());
-                ImGui::TextUnformatted(fmt::format("Latency: {}ms", static_cast<int>((interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) + interfaces->engineClient->GetNetChannelInfo()->GetLatency(1)) * 100)).c_str());
+                ImGui::TextUnformatted(fmt::format("Latency: {}ms", static_cast<int>((interfaces->engineClient->GetNetChannelInfo()->GetLatency(0) + interfaces->engineClient->GetNetChannelInfo()->GetLatency(1)) * 1000)).c_str());
                 ImGui::TextUnformatted(fmt::format("Velocity: {}u/s", globals::Core::localPlayer->GetVelocity().Length2D()).c_str());
             }
         }

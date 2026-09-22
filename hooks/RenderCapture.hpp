@@ -11,9 +11,7 @@
 
 inline std::uint64_t ogRenderCapture = 0;
 
-int dtRenderCapture(void* luaState) {
-    static auto ogFunction = PLH::FnCast(ogRenderCapture, dtRenderCapture);
-
+int dtRenderCapture() {
     ImGui::InsertNotification({ImGuiToastType::Warning, "Prevented attempt to screengrab! (Type: 3)"});
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/biohazard_detected.wav");

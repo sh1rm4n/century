@@ -19,7 +19,13 @@ else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
 
-add_library(century SHARED main.cpp)
+add_library(century SHARED main.cpp
+        hacks/HitDispatcher.cpp
+        hacks/HitDispatcher.hpp
+        sourcesdk/interfaces/CPhysicsSurfaceProps.hpp
+        sourcesdk/bitbuf.hpp
+        sourcesdk/bitbuf.cpp
+        sourcesdk/inetmessage.hpp)
 
 if(LINUX)
     target_sources(century PRIVATE
@@ -139,8 +145,8 @@ target_sources(century PRIVATE
         core/pages/friends.hpp
         hacks/AntiAim.cpp
         hacks/AntiAim.hpp
-        hacks/Bruteforce.cpp
-        hacks/Bruteforce.hpp
+        hacks/Resolver.cpp
+        hacks/Resolver.hpp
         sourcesdk/interfaces/CGameEventsManager.hpp
         core/events.hpp
         core/events.cpp
@@ -180,7 +186,6 @@ if(LINUX)
     )
 
     target_link_options(century PRIVATE
-            -fuse-ld=lld
             -flto=thin
     )
 else()
@@ -188,12 +193,6 @@ else()
             /GR-
             /O2
             /arch:AVX2
-            /clang:-flto=thin
-    )
-
-    target_link_options(century PRIVATE
-            /fuse-ld=lld
-            /clang:-flto=thin
     )
 endif()
 
@@ -229,6 +228,7 @@ target_precompile_headers(century PRIVATE
 find_package(polyhook_2 REQUIRED)
 find_package(imgui REQUIRED)
 find_package(fmt REQUIRED)
+find_package(safetyhook REQUIRED)
 
 if(LINUX)
     find_package(SDL2 REQUIRED)
@@ -239,4 +239,5 @@ target_link_libraries(century PRIVATE
         PolyHook_2::PolyHook_2
         imgui::imgui
         fmt::fmt
+        safetyhook::safetyhook
 )

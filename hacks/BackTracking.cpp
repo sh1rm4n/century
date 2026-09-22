@@ -12,26 +12,24 @@
 
 bool BacktrackRecord::IsValid() {
     const auto netChan = interfaces->engineClient->GetNetChannelInfo();
-
-    static auto sv_maxunlag = interfaces->cvar->FindCommandBase("sv_maxunlag");
-    if (!netChan || !sv_maxunlag)
+    if (!netChan)
         return false;
 
-    const auto lerpTime = BackTracking::GetLerpTime();
+    static auto sv_maxunlag = interfaces->cvar->FindCommandBase("sv_maxunlag");
+    if (!sv_maxunlag)
+        return false;
 
-    const auto predictedArrivalTick = TIME_TO_TICKS(netChan->GetLatency(0) + netChan->GetLatency(1)) + (globals::Core::currentCmd->tickCount + 1);
+    const auto correct = std::clamp<float>(netChan->GetLatency(0) + netChan->GetLatency(1), 0, sv_maxunlag->GetFloat());
 
-    const auto correct = std::clamp(netChan->GetLatency(0) + BackTracking::GetLerpTime(), 0.f, sv_maxunlag->GetFloat());
+    utils::Warn("correct: {}", correct);
 
-    const auto deltaTime = correct - TICKS_TO_TIME(predictedArrivalTick + TIME_TO_TICKS(lerpTime) - (TIME_TO_TICKS(this->simulationTime) + TIME_TO_TICKS(lerpTime)));
-
-    return std::fabs(deltaTime) <= 0.2f;
+    return std::abs(correct - (interfaces->globalVars->curTime - this->simulationTime)) <= 0.2f;
 }
 
 void BackTracking::Update() noexcept {
-    for (auto i = 1; i <= interfaces->globalVars->maxClients; i++) {
+    for (auto i = 1; i <= interfaces->globalVars->maxClients; ++i) {
         const auto player = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
-        if (!player || player == globals::Core::localPlayer || player->IsDormant() || !player->IsPlayer() || !player->IsAlive())
+        if (!player || player->IsDormant() || !player->IsPlayer() || !player->IsAlive())
             continue;
 
         const auto simulationTime = player->GetSimulationTime();
@@ -52,8 +50,8 @@ void BackTracking::Update() noexcept {
         record.angles = player->GetNetworkedAngles();
         record.origin = player->GetNetworkedOrigin();
 
-        if (!record.IsValid())
-            continue;
+        //if (!record.IsValid())
+        //    continue;
 
         backtrackRecords[i].emplace_back(record);
 
@@ -73,7 +71,7 @@ float BackTracking::GetLerpTime() noexcept {
     return std::max(clInterp->GetFloat(), clInterpRatio->GetFloat() / clUpdateRate->GetFloat());
 }
 
-bool BackTracking::GetRecordForTime(int playerIndex, float targetTime, BacktrackRecord& out) noexcept {
+bool BackTracking::GetRecordForTime(int playerIndex, double targetTime, BacktrackRecord& out) noexcept {
     auto& records = backtrackRecords[playerIndex];
     if (records.empty())
         return false;
@@ -93,22 +91,62 @@ bool BackTracking::GetRecordForTime(int playerIndex, float targetTime, Backtrack
     const auto prev = std::prev(it);
     out = (std::fabs(it->simulationTime - targetTime) < std::fabs(prev->simulationTime - targetTime))
         ? *it : *prev;
+
     return true;
 }
 
-void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, const BacktrackRecord &record) {
+void BackTracking::Apply(CUserCmd* cmd, C_BaseEntity *player, BacktrackRecord &record) {
     if (!cmd || !player)
         return;
 
-    if (player->GetVelocity().Length2D() < 49.9f)
-        return;
+    //cmd->tickCount = TIME_TO_TICKS(record.simulationTime + GetLerpTime()) - globals::Hacks::BackTracking::ticks;
+    cmd->tickCount = TIME_TO_TICKS(GetBestTime(player));
+}
 
-    player->GetSimulationTime() = record.simulationTime;
-    player->GetFlags() = record.flags;
-    player->GetCollideable()->OBBMins() = record.mins;
-    player->GetCollideable()->OBBMaxs() = record.maxs;
-    player->SetAbsAngles(record.angles);
-    player->SetAbsOrigin(record.origin);
+double BackTracking::GetBestTime(C_BaseEntity* player) noexcept {
+    //return (player->GetSimulationTime() + GetLerpTime()) - TICKS_TO_TIME(globals::Hacks::BackTracking::ticks);
 
-    //cmd->tickCount = TIME_TO_TICKS(record.simulationTime + GetLerpTime());
+    const auto netChan = interfaces->engineClient->GetNetChannelInfo();
+
+    static auto sv_maxunlag = interfaces->cvar->FindCommandBase("sv_maxunlag");
+    if (!netChan || !sv_maxunlag)
+        return false;
+
+    float correct = 0.f;
+
+    correct += netChan->GetLatency(0) + netChan->GetLatency(1);
+
+    int lerpTicks = TIME_TO_TICKS(BackTracking::GetLerpTime());
+
+    correct += lerpTicks;
+
+    correct = std::clamp(correct, 0.f, sv_maxunlag->GetFloat());
+
+    int targetTick = globals::Core::currentCmd->tickCount - lerpTicks;
+
+    float deltaTime = correct - TICKS_TO_TIME(interfaces->globalVars->tickCount - targetTick);
+
+    if (std::fabs(deltaTime) > 0.2f) {
+        targetTick = globals::Core::currentCmd->tickCount - TIME_TO_TICKS(lerpTicks);
+    }
+
+    return TICKS_TO_TIME(targetTick - globals::Hacks::BackTracking::ticks);
+}
+
+bool BackTracking::IsBreakingLC(C_BaseEntity *entity) noexcept {
+    if (!entity || !entity->IsAlive() || entity->IsDormant())
+        return false;
+
+    BacktrackRecord record{};
+    if (!GetRecordForTime(entity->EntIndex(), GetBestTime(entity), record))
+        return false;
+
+    const auto latestOrigin = entity->GetNetworkedOrigin();
+    const auto backtrackedOrigin = record.origin;
+
+    return latestOrigin.DistToSqr(backtrackedOrigin) >= 512.f;
+}
+
+std::deque<BacktrackRecord> BackTracking::GetRecords(C_BaseEntity *entity) noexcept {
+    return backtrackRecords[entity->EntIndex()];
 }

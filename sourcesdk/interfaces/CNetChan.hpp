@@ -4,6 +4,7 @@
 
 #ifndef CENTURY_CNETCHAN_HPP
 #define CENTURY_CNETCHAN_HPP
+#include "../inetmessage.hpp"
 
 class INetMessage;
 
@@ -50,7 +51,7 @@ public:
     virtual int ProcessPlayback(void) = 0; // 38
     virtual int ProcessStream(void) = 0; // 39
     virtual int ProcessPacket(void**,bool) = 0; // 40
-    virtual void SendNetMsg(void* msg, bool forceReliable, bool voice) = 0; // 41
+    virtual void SendNetMsg(CNetMessage& msg, bool forceReliable, bool voice) = 0; // 41
     virtual int SendData(void*&,bool) = 0; // 42
     virtual int SendFile(char const*,std::uint32_t) = 0; // 43
     virtual int DenyFile(std::uint32_t) = 0; // 44

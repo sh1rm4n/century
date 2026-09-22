@@ -95,7 +95,7 @@ namespace memory {
 
             size_t size = end - start;
 
-            for (size_t i = 0; i < size - bytes.size(); i++) {
+            for (size_t i = 0; i < size - bytes.size(); ++i) {
                 bool found = true;
 
                 for (size_t j = 0; j < bytes.size(); j++) {

@@ -19,7 +19,7 @@ namespace menu::pages::friends {
         ImGui::InputText("Search for enemies/friends", &searchFor);
 
         if (ImGui::BeginListBox("Enemies")) {
-            for (auto i = 0; i <= interfaces->globalVars->maxClients; i++) {
+            for (auto i = 0; i <= interfaces->globalVars->maxClients; ++i) {
                 auto player = interfaces->entityList->GetClientEntity<C_BaseEntity>(i);
 
                 if (!player || player == globals::Core::localPlayer || !player->IsPlayer())

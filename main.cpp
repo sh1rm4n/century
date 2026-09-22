@@ -148,7 +148,7 @@ static void mainThread() {
         reinterpret_cast<std::uint64_t>(dtTakeJpeg), &ogTakeJpeg));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
-        memory::FindPattern("client_client.so", "55 48 89 FE 48 89 E5 53 48 83 EC ? 48 8B 5F ? ? ? ? 48 89 DF FF 90 ? ? ? ? 48 83 C4 ? 48 89 DF 5B 5D E9 ? ? ? ? 90 90 90 90 90 90 55 48 89 E5 41 55"),
+        memory::FindPattern("client_client.so", "55 48 89 E5 41 57 41 56 41 55 41 54 53 48 81 EC C8 00 00 00 4C 8B 25 ? ? ? ? 41 8B 94 24 ? ? ? ? 85 D2 41 0F 95 C5"),
         reinterpret_cast<std::uint64_t>(dtRenderCapture), &ogRenderCapture));
 
     hooks.push_back(std::make_unique<PLH::x64Detour>(
@@ -158,6 +158,7 @@ static void mainThread() {
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::FindPattern("client_client.so", "48 8B 05 ? ? ? ? 48 8B 50 ? 48 3B 50 ? 74 ? 48 3B 50 ? 48 8B 48 ? 74 ? 0F B6 42"),
         reinterpret_cast<std::uint64_t>(dtShouldDrawLocalPlayer), &ogShouldDrawLocalPlayer));
+
 #else
     hooks.push_back(std::make_unique<PLH::x64Detour>(
         memory::FindPattern("engine.dll", "48 89 5C 24 ? 48 89 74 24 ? 55 57 41 54 41 56 41 57 48 8B EC 48 83 EC ? 48 8B 05"),
@@ -190,15 +191,30 @@ static void mainThread() {
     name->RemoveFlags(FCVAR_ARCHIVE | FCVAR_PRINTABLEONLY | FCVAR_SERVER_CAN_EXECUTE);
     name->ChangeCallback(dummyCallback);
 
-    const auto fakeloss = interfaces->cvar->FindCommandBase("net_fakeloss");
-    fakeloss->RemoveFlags(0x4000);
+    const auto fakeLag = interfaces->cvar->FindCommandBase("net_fakelag");
+    fakeLag->RemoveFlags(0x4000);
 
-    const auto fakelag = interfaces->cvar->FindCommandBase("net_fakelag");
-    fakelag->RemoveFlags(0x4000);
+    const auto fakeLoss = interfaces->cvar->FindCommandBase("net_fakeloss");
+    fakeLoss->RemoveFlags(0x4000);
+
+    const auto clInterpolate = interfaces->cvar->FindCommandBase("cl_interpolate");
+    clInterpolate->RemoveFlags(FCVAR_DEVELOPMENTONLY | FCVAR_NOT_CONNECTED);
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/morphine_shot.wav");
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    /*const auto resetLatchPatchAddr = memory::FindPattern("client_client.so", "FF 91 ? ? ? ? 83 C3 01 ? ? ? ? ? ? FF 50");
+    if (resetLatchPatchAddr) {
+        mprotect(reinterpret_cast<void*>(resetLatchPatchAddr & ~(sysconf(_SC_PAGESIZE) - 1)),
+             sysconf(_SC_PAGESIZE), PROT_READ | PROT_WRITE | PROT_EXEC);
+
+        const std::uint8_t resetLatchPatch[6] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+        std::memcpy(reinterpret_cast<void*>(resetLatchPatchAddr), resetLatchPatch, sizeof(resetLatchPatch));
+
+        mprotect(reinterpret_cast<void*>(resetLatchPatchAddr & ~(sysconf(_SC_PAGESIZE) - 1)),
+             sysconf(_SC_PAGESIZE), PROT_READ | PROT_EXEC);
+    }*/
 
     utils::Warn("[century] Initialized in {}ms!", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 
@@ -206,7 +222,6 @@ static void mainThread() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         globals::Core::localPlayer = utils::GetLocalPlayer();
-        //utils::Warn("localplayer: 0x{:x}", reinterpret_cast<std::uint64_t>(globals::Core::localPlayer));
     }
 
     interfaces->engineClient->ClientCmd_Unrestricted("play hl1/fvox/deactivated.wav");

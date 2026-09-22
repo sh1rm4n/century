@@ -21,7 +21,7 @@ void NetVars::Prepare() noexcept {
 void NetVars::Dump(const std::string &className, RecvTable *table, std::uint32_t offset) noexcept {
     const auto props = table->props;
 
-    for (auto i = 0; i < table->propsCount; i++) {
+    for (auto i = 0; i < table->propsCount; ++i) {
         const auto prop = &props[i];
 
         if (!prop)

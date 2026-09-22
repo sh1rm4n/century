@@ -24,6 +24,7 @@ public:
     void *studioRender = nullptr;
     void *luaShared = nullptr;
     void *vstdlib = nullptr;
+    void *vphysics = nullptr;
 };
 
 inline auto modules = std::make_shared<Modules>();

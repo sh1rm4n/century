@@ -407,7 +407,7 @@ void TextEditor::renderText() {
 	auto tabSize = document.getTabSize();
 	auto firstRenderableColumn = (firstVisibleColumn / tabSize) * tabSize;
 
-	for (int i = firstVisibleLine; i <= lastVisibleLine; i++) {
+	for (int i = firstVisibleLine; i <= lastVisibleLine; ++i) {
 		auto& line = document[i];
 
 		// draw colored glyphs for current line
@@ -525,7 +525,7 @@ void TextEditor::renderLineNumbers() {
 		auto curserLine = cursors.getCurrent().getInteractiveEnd().line;
 		auto position = ImVec2(ImGui::GetWindowPos().x + lineNumberRightOffset, cursorScreenPos.y);
 
-		for (int i = firstVisibleLine; i <= lastVisibleLine; i++) {
+		for (int i = firstVisibleLine; i <= lastVisibleLine; ++i) {
 			auto width = static_cast<int>(std::log10(i + 1) + 1.0f) * glyphSize.x;
 			auto foreground = (i == curserLine) ? Color::currentLineNumber : Color::lineNumber;
 			auto number = std::to_string(i + 1);
@@ -546,7 +546,7 @@ void TextEditor::renderDecorations() {
 		auto widthInPixels = (decoratorWidth < 0.0f) ? -decoratorWidth * glyphSize.x: decoratorWidth;
 		Decorator decorator{0, widthInPixels, glyphSize.y, glyphSize, nullptr};
 
-		for (int i = firstVisibleLine; i <= lastVisibleLine; i++) {
+		for (int i = firstVisibleLine; i <= lastVisibleLine; ++i) {
 			decorator.line = i;
 			decorator.userData = document.getUserData(i);
 			ImGui::SetCursorScreenPos(position);
@@ -808,7 +808,7 @@ void TextEditor::handleKeyboardInputs() {
 		if (!io.InputQueueCharacters.empty()) {
 	        // ignore Ctrl inputs, but need to allow Alt+Ctrl as some keyboards (e.g. German) use AltGR (which is Alt+Ctrl) to input certain characters
 			if (!(io.KeyCtrl && !io.KeyAlt) && !readOnly) {
-				for (auto i = 0; i < io.InputQueueCharacters.size(); i++) {
+				for (auto i = 0; i < io.InputQueueCharacters.size(); ++i) {
 					auto character = io.InputQueueCharacters[i];
 
 					if (character == '\n' || character >= 32) {
@@ -1838,7 +1838,7 @@ void TextEditor::toggleComments() {
 				}
 
 				while (start + i < document[line].size() && i < comment.size() && document[line][start + i].codepoint == comment[i]) {
-					i++;
+					++i;
 				}
 
 				if (i == comment.size()) {
@@ -1947,7 +1947,7 @@ void TextEditor::stripTrailingWhitespaces() {
 	auto transaction = startTransaction();
 
 	// process all the lines
-	for (int i = 0; i < document.lineCount(); i++) {
+	for (int i = 0; i < document.lineCount(); ++i) {
 		auto& line = document[i];
 		size_t lineSize = line.size();
 		size_t whitespace = std::numeric_limits<std::size_t>::max();
@@ -1992,7 +1992,7 @@ void TextEditor::filterLines(std::function<std::string(std::string_view)> filter
 	auto transaction = startTransaction();
 
 	// process all the lines
-	for (int i = 0; i < document.lineCount(); i++) {
+	for (int i = 0; i < document.lineCount(); ++i) {
 		// get original text and run it through filter
 		auto before = document.getLineText(i);
 		std::string after = filter(before);
@@ -2232,7 +2232,7 @@ void TextEditor::autoIndentAllCursors(std::shared_ptr<Transaction> transaction) 
 		// determine whitespace at start of current line
 		std::string whitespace;
 
-		for (size_t i = 0; i < line.size() && CodePoint::isWhiteSpace(line[i].codepoint); i++) {
+		for (size_t i = 0; i < line.size() && CodePoint::isWhiteSpace(line[i].codepoint); ++i) {
 			char utf8[4];
 			whitespace.append(utf8, CodePoint::write(utf8, line[i].codepoint));
 		}
@@ -2301,7 +2301,7 @@ void TextEditor::updatePalette() {
 	// Update palette with the current alpha from style
 	paletteAlpha = ImGui::GetStyle().Alpha;
 
-	for (size_t i = 0; i < static_cast<size_t>(Color::count); i++) {
+	for (size_t i = 0; i < static_cast<size_t>(Color::count); ++i) {
 		auto color = ImGui::ColorConvertU32ToFloat4(paletteBase[i]);
 		color.w *= paletteAlpha;
 		palette[i] = ImGui::ColorConvertFloat4ToU32(color);
@@ -3301,7 +3301,7 @@ void* TextEditor::Document::getUserData(int line) const {
 //
 
 void TextEditor::Document::iterateUserData(std::function<void(int line, void* data)> callback) const {
-	for (size_t i = 0; i < size(); i++) {
+	for (size_t i = 0; i < size(); ++i) {
 		callback(static_cast<int>(i), at(i).userData);
 	}
 }
@@ -3318,7 +3318,7 @@ static inline bool isIdentifier(TextEditor::Color color) {
 }
 
 void TextEditor::Document::iterateIdentifiers(std::function<void(const std::string&)> callback) const {
-	for (size_t i = 0; i < size(); i++) {
+	for (size_t i = 0; i < size(); ++i) {
 		auto p = at(i).begin();
 		auto end = at(i).end();
 		char utf8[4];
@@ -3547,7 +3547,7 @@ void TextEditor::Document::insertLine(int offsset) {
 
 void TextEditor::Document::deleteLines(int start, int end) {
 	if (deletor) {
-		for (auto i = start; i <= end; i++) {
+		for (auto i = start; i <= end; ++i) {
 			deletor(i, at(i).userData);
 		}
 	}
@@ -3562,7 +3562,7 @@ void TextEditor::Document::deleteLines(int start, int end) {
 
 void TextEditor::Document::clearDocument() {
 	if (deletor) {
-		for (auto i = 0; i <= lineCount(); i++) {
+		for (auto i = 0; i <= lineCount(); ++i) {
 			deletor(i, at(i).userData);
 		}
 	}
@@ -3733,7 +3733,7 @@ TextEditor::State TextEditor::Colorizer::update(Line& line, const Language* lang
 					std::string identifier;
 					color = Color::identifier;
 
-					for (auto i = tokenStart; i < tokenEnd; i++) {
+					for (auto i = tokenStart; i < tokenEnd; ++i) {
 						ImWchar codepoint = *i;
 
 						if (!language->caseSensitive) {
@@ -4008,7 +4008,7 @@ void TextEditor::Bracketeer::update(Document& document) {
 
 	// handle levels left open and mark them as errors
 	if (levels.size()) {
-		for (auto i = levels.rbegin(); i < levels.rend(); i++) {
+		for (auto i = levels.rbegin(); i < levels.rend(); ++i) {
 			auto& start = at(*i).start;
 			document[start.line][document.getIndex(start)].color = Color::matchingBracketError;
 			erase(begin() + *i);
@@ -4025,7 +4025,7 @@ TextEditor::Bracketeer::iterator TextEditor::Bracketeer::getEnclosingBrackets(Co
 	iterator brackets = end();
 	bool done = false;
 
-	for (auto i = begin(); !done && i < end(); i++) {
+	for (auto i = begin(); !done && i < end(); ++i) {
 		// brackets are sorted so no need to go past specified location
 		if (i->isAfter(location)) {
 			done = true;
@@ -4049,7 +4049,7 @@ TextEditor::Bracketeer::iterator TextEditor::Bracketeer::getEnclosingCurlyBracke
 	iterator brackets = end();
 	bool done = false;
 
-	for (auto i = begin(); !done && i < end(); i++) {
+	for (auto i = begin(); !done && i < end(); ++i) {
 		// brackets are sorted so no need to go past specified location
 		if (i->isAfter(first)) {
 			done = true;
@@ -4076,7 +4076,7 @@ TextEditor::Bracketeer::iterator TextEditor::Bracketeer::getInnerCurlyBrackets(C
 	if (outer != end()) {
 		bool done = false;
 
-		for (auto i = outer + 1; i < end() && !done; i++) {
+		for (auto i = outer + 1; i < end() && !done; ++i) {
 			if (i->level <= outer->level) {
 				done = true;
 
@@ -4799,7 +4799,7 @@ bool TextEditor::Autocomplete::render(Document& document, Cursors& cursors, cons
 				}
 
 				// render suggestions
-				for (size_t i = 0; i < items; i++) {
+				for (size_t i = 0; i < items; ++i) {
 					// ensure unique ID
 					ImGui::PushID(static_cast<int>(i));
 
@@ -6097,7 +6097,7 @@ std::string_view::const_iterator TextEditor::CodePoint::read(std::string_view::c
 	// parse a UTF-8 sequence into a unicode codepoint
 	if (i < end && (uch(*i) & 0x80) == 0) {
 		*codepoint = uch(*i);
-		i++;
+		++i;
 
 	} else if (i + 1 < end && (uch(*i) & 0xE0) == 0xC0) {
 		*codepoint = ((uch(*i) & 0x1f) << 6) | (uch(*(i + 1)) & 0x3f);
@@ -6117,7 +6117,7 @@ std::string_view::const_iterator TextEditor::CodePoint::read(std::string_view::c
 
 	} else {
 		*codepoint = IM_UNICODE_CODEPOINT_INVALID;
-		i++;
+		++i;
 	}
 
 	return i;
@@ -6133,35 +6133,35 @@ size_t TextEditor::CodePoint::write(char* start, ImWchar codepoint) {
 	auto i = start;
 
 	if (codepoint < 0x80) {
-		*i++ = sch(codepoint);
+		*++i = sch(codepoint);
 
 	} else if (codepoint < 0x800) {
-		*i++ = sch(0xc0 | ((codepoint >> 6) & 0x1f));
-		*i++ = sch(0x80 | (codepoint & 0x3f));
+		*++i = sch(0xc0 | ((codepoint >> 6) & 0x1f));
+		*++i = sch(0x80 | (codepoint & 0x3f));
 
 #if defined(IMGUI_USE_WCHAR32)
 	} else if (codepoint < 0x10000) {
-		*i++ = sch(0xe0 | ((codepoint >> 12) & 0x0f));
-		*i++ = sch(0x80 | ((codepoint >> 6) & 0x3f));
-		*i++ = sch(0x80 | (codepoint & 0x3f));
+		*++i = sch(0xe0 | ((codepoint >> 12) & 0x0f));
+		*++i = sch(0x80 | ((codepoint >> 6) & 0x3f));
+		*++i = sch(0x80 | (codepoint & 0x3f));
 
 	} else if (codepoint >= 0x110000) {
 		codepoint = IM_UNICODE_CODEPOINT_INVALID;
-		*i++ = sch(0xe0 | ((codepoint >> 12) & 0x0f));
-		*i++ = sch(0x80 | ((codepoint >> 6) & 0x3f));
-		*i++ = sch(0x80 | (codepoint & 0x3f));
+		*++i = sch(0xe0 | ((codepoint >> 12) & 0x0f));
+		*++i = sch(0x80 | ((codepoint >> 6) & 0x3f));
+		*++i = sch(0x80 | (codepoint & 0x3f));
 
 	} else {
-		*i++ = sch(0xf0 | ((codepoint >> 18) & 0x07));
-		*i++ = sch(0x80 | ((codepoint >> 12) & 0x3f));
-		*i++ = sch(0x80 | ((codepoint >> 6) & 0x3f));
-		*i++ = sch(0x80 | (codepoint & 0x3f));
+		*++i = sch(0xf0 | ((codepoint >> 18) & 0x07));
+		*++i = sch(0x80 | ((codepoint >> 12) & 0x3f));
+		*++i = sch(0x80 | ((codepoint >> 6) & 0x3f));
+		*++i = sch(0x80 | (codepoint & 0x3f));
 
 #else
 	} else {
-		*i++ = sch(0xe0 | ((codepoint >> 12) & 0x0f));
-		*i++ = sch(0x80 | ((codepoint >> 6) & 0x3f));
-		*i++ = sch(0x80 | (codepoint & 0x3f));
+		*++i = sch(0xe0 | ((codepoint >> 12) & 0x0f));
+		*++i = sch(0x80 | ((codepoint >> 6) & 0x3f));
+		*++i = sch(0x80 | (codepoint & 0x3f));
 #endif
 	}
 

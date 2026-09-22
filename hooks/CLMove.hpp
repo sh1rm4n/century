@@ -17,10 +17,21 @@ inline std::uint64_t ogCLMove = 0;
 void dtCLMove(float accumulatedExtraSamples, bool finalTick) {
     static auto ogFunction = PLH::FnCast(ogCLMove, dtCLMove);
 
-    if (interfaces->engineClient->IsInGame())
-        return ogFunction(accumulatedExtraSamples, globals::Core::sendPacket);
+    if (!interfaces->engineClient->IsInGame())
+        return ogFunction(accumulatedExtraSamples, finalTick);
 
-    ogFunction(accumulatedExtraSamples, finalTick);
+    if (globals::Hacks::Slowmotion::enabled) {
+        static auto slowmoTicks = 0;
+        if (slowmoTicks >= globals::Hacks::Slowmotion::ticks) {
+            slowmoTicks = 0;
+        }
+        else {
+            slowmoTicks++;
+            return;
+        }
+    }
+
+    ogFunction(accumulatedExtraSamples, globals::Core::sendPacket);
 }
 
 #endif //CENTURY_CLMOVE_HPP

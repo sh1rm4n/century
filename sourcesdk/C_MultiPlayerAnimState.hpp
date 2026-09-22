@@ -2302,6 +2302,10 @@ public:
 	int                             specific_main_sequence;
 	void*                           active_weapon;
 	float                           last_ground_speed_update_time;
+
+	constexpr int& GetSequence() noexcept {
+		return *reinterpret_cast<int*>(std::uint64_t(this) + 0xC8);
+	}
 };
 // 34 virtual functions
 

@@ -1071,7 +1071,7 @@ bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
 #ifdef IMGUI_IMPL_OPENGL_HAS_EXTENSIONS
     GLint num_extensions = 0;
     glGetIntegerv(GL_NUM_EXTENSIONS, &num_extensions);
-    for (GLint i = 0; i < num_extensions; i++)
+    for (GLint i = 0; i < num_extensions; ++i)
     {
         const char* extension = (const char*)glGetStringi(GL_EXTENSIONS, i);
         if (extension != nullptr && strcmp(extension, "GL_ARB_clip_control") == 0)
